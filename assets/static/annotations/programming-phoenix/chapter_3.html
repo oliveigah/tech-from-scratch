@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.6">
+    <meta name="project" content="Programming Phoenix v0.1.0">
+
+    <title>3 - Controllers — Programming Phoenix v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
+
+    <script src="dist/sidebar_items-0d315556d1.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-aaa6eb1824b11a32f32d.js"></script>
+
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix" class="sidebar-projectName">
+Programming Phoenix
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix">
+        <img src="assets/logo.png" alt="Programming Phoenix" class="sidebar-projectImage">
+      </a>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>3 - Controllers</h1><h2 id="3-1-contexts" class="section-heading">
+  <a href="#3-1-contexts" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1 - Contexts
+</h2>
+<ul><li>Contexts are modules that handle the business logic and use cases of our system</li><li>A specific context handle a bunch of functions with a shared purpose (e.g. Account CRUD on Account's context)</li><li>This make contexts very useful to your application as a whole, providing code reuse, easy testing, separation of concerns, etc</li><li>The controller purpose is to call context functions to execute tasks on the system</li><li>The controller handle web related stuffs such as, routing, protocols, headers, status, etc. On the other hand contexts handle business logic</li><li>Controllers do not know about contexts and vice versa</li></ul><h2 id="3-2-views" class="section-heading">
+  <a href="#3-2-views" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.2 - Views
+</h2>
+<ul><li>Views are modules that handle &quot;rendering&quot;, formating the response in a client understandable way, which for instance could be something like HTML,JSON</li><li>This transformation can be something like transform a complex struct such as <code class="inline">User</code> into something simpler as <code class="inline">first_name</code></li><li>Functions inside the view module are no different from any other elixir function</li></ul><h2 id="3-3-templates" class="section-heading">
+  <a href="#3-3-templates" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.3 - Templates
+</h2>
+<ul><li>Template is a special kind of function that lives inside the <code class="inline">view</code>, this function is compiled from a file containing markup language and elixir code (<code class="inline">file_name.html.eex</code>)</li><li>There are 2 ways to inject elixir code inside the template <code class="inline">&lt;%= %&gt;</code> and <code class="inline">&lt;% %&gt;</code>, the former injects the result on the template, and the later don't (useful for side effects, use only when needed)</li><li>You can leverage loops and many other elixir stuffs inside templates</li></ul><pre><code class="nohighlight makeup elixir"><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="w"> </span><span class="nc">Listing</span><span class="w"> </span><span class="nc">Users</span><span class="w"> </span><span class="o">&lt;</span><span class="o">/</span><span class="n">h1</span><span class="o">&gt;</span><span class="w">
+
+</span><span class="o">&lt;</span><span class="n">table</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="na">@users</span><span class="w"> </span><span class="k" data-group-id="8252154250-1">do</span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+        </span><span class="o">&lt;</span><span class="n">tr</span><span class="o">&gt;</span><span class="w">
+            </span><span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="w">
+            </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">render</span><span class="w"> </span><span class="s">&quot;user.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">user</span><span class="p">:</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+            </span><span class="o">&lt;</span><span class="o">/</span><span class="n">td</span><span class="o">&gt;</span><span class="w">
+            </span><span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="w">
+            </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">link</span><span class="w"> </span><span class="s">&quot;View&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="nc">Routes</span><span class="o">.</span><span class="n">user_path</span><span class="p" data-group-id="8252154250-2">(</span><span class="na">@conn</span><span class="p">,</span><span class="w"> </span><span class="ss">:show</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p" data-group-id="8252154250-2">)</span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+            </span><span class="o">&lt;</span><span class="o">/</span><span class="n">td</span><span class="o">&gt;</span><span class="w">
+        </span><span class="o">&lt;</span><span class="o">/</span><span class="n">tr</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="p">%</span><span class="w"> </span><span class="k" data-group-id="8252154250-1">end</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+</span><span class="o">&lt;</span><span class="o">/</span><span class="n">table</span><span class="o">&gt;</span></code></pre><ul><li>Templates are fast because after compilation they are just functions to be called by the code, and no large string copy is needed</li><li>Templates can be nested and reused as independently components using the function <code class="inline">render/2</code></li><li>This <code class="inline">render/2</code> functions is very important, the first argument is always a template and the second a list of parameters to be given to the template</li><li>The tuple pattern containing <code class="inline">:safe</code> is the common way to generate HTML from elixir code, and the text is provided as IO list for performance</li></ul><h2 id="3-4-helpers" class="section-heading">
+  <a href="#3-4-helpers" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.4 - Helpers
+</h2>
+<ul><li>Helpers are conveniance functions write using pure elixir code</li><li>There is a bunch of predefined helpers in phoenix</li><li>These helper functions are defined inside the <code class="inline">#{project_name}_web</code> module, and are injected on view using <code class="inline">use</code></li><li>If you want to write your own helpers, write it elsewhere and teherefore <code class="inline">import</code> it to the <code class="inline">{project_name}_web</code> module inside the proper function. It is because the code will be macro-expanded to each and every correlated modules</li></ul><h2 id="3-5-naming-conventions" class="section-heading">
+  <a href="#3-5-naming-conventions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.5 - Naming Conventions
+</h2>
+<ul><li>Note that anywhere inside the <code class="inline">controller</code> you need to inform the location of <code class="inline">templates</code> neither <code class="inline">views</code> and the render function works just fine</li><li>This happens because phoenix use naming conventions to automatically link <code class="inline">controllers</code> , <code class="inline">views</code> and <code class="inline">templates</code></li><li>If your controller have the name <code class="inline">{module_name}Controller</code> phoenix will automatically import views from <code class="inline">{module_name}View</code> and search for templates on <code class="inline">templates/{module_name}</code></li></ul><h2 id="3-6-layouts" class="section-heading">
+  <a href="#3-6-layouts" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.6 - Layouts
+</h2>
+<ul><li>Layouts are special kind of views that are rendered before the view it self</li><li>When you call the <code class="inline">render/2</code> function, before render the specified view it renders the layout view to provide a consistent markup across all pages without any duplication</li></ul>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.6) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>

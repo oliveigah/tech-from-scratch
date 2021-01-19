@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>1 - Erlang and Elixir — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>1 - Erlang and Elixir</h1><h2 id="1-1-erlang" class="section-heading">
+  <a href="#1-1-erlang" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  1.1 - Erlang
+</h2>
+<p>Erlang is more than a programming language, it is a development platform. It is designed by Ericsson in 1980s to solves the telecom system problems at the time, where properties like reliability, responsiveness, scalability and constant avaiability were imperative.</p><p>Despite this fact, Erlang does not provide any special abstractions for telecom system, it is actually a general purpose platform that solves hard technical problems such as concurrency, scalability, fault-tolerance, distribution and high avaiability in a very unique way.</p><p>Back to 90s these kind of problems just exists on the telecoms world, but today, these are the same problems that almost every large system have to deal with. And solve these kind of problems is the purpose of Erlang. Erlang has been used for decades now, it empowers various types of systems from Whatsapp to RabbitMQ, passing through multiplayer backends and Heroku Cloud System. Its a proven technology that empowers great software since late 80s.</p><h3 id="1-1-1-high-avaiability" class="section-heading">
+  <a href="#1-1-1-high-avaiability" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  1.1.1 - High Avaiability
+</h3>
+<p>Erlang platform is well known by provide to the systems empowered by it the following features:</p><ul><li><p>Fault-tolerance: Unexpect errors happens, that is a fact. But the impact of it can be minimized. A fault tolerant system is a system where an unforeseen failure affects the minimal amount of the system's services. (eg. If Netflix has a problem with the recomendantion service we dont want the streaming service be affected by it, by any means) (eg. If a user send an input that broke the feature, idealy the other users that sent valid inputs should not be affected)</p></li><li><p>Scalability: A scalable system is a system that is able handle any possible load, quicklly and ideally with no down time. It is usually do by scalling horizontally, because the vertical scale has a well defined limit where it caps.</p></li><li><p>Distribution: Since the best way to scale is horizontally, its natural to this kind of system be distributed. That means that a task could be handle by many different machines, this machines are totally separate devices that works together to complete the task. But being a distributed system causes a load of challenges to solve, and thats why Erlang is so helpfull</p></li><li><p>Responsiveness: A responsiveness system should keep it response time low even whith load increases, unexpected errors or occasional lengthy tasks.</p></li></ul><h3 id="1-1-2-erlang-concurrency" class="section-heading">
+  <a href="#1-1-2-erlang-concurrency" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  1.1.2 Erlang Concurrency
+</h3>
+<p>Erlang solves these problems using it's virtual machine called BEAM. Diferent of manny modern languages that relly on threads and OS process, Erlang takes the concurrency into its own hands.</p><p>The BEAM takes control of the OS and uses its own schedulers to distribute the work for each process. <strong>Erlang process are different than OS process, Erlang process are orders of magnitude lighter than OS process, an Erlang sytem can run millions of these processes</strong>.</p><p>With BEAM and process, Erlang is able to solve:</p><ul><li><p>Fault-tolerance: Since the process dont share any kind of memory with each other, an error on a process cant affect the other. Moreover, Erlang provides tools to detect and handle process crashes. Usually starting a new process on its place.</p></li><li><p>Scalability: The no memory share rule of the Erlang process makes typical sync mechanism like, locks, mutexes or semaphores unnecessary. This makes all the interactions between this concurrent process much simpler.</p></li><li><p>Distribution: There is no difference in the communication between two process on the same BEAM instance and two process in different BEAM instances. This way the communication between process in a single machine or distributed along many machines is the same.</p></li><li><p>Responsiveness: BEAM process management is preemptive. It means that each process run for a brief period then it is paused. Since the execution time is small a single demanding task cant block the rest of the system. I/O operations are internally delegated to threads. Even the garbage collector is executed just inside the process when needed.</p></li></ul><h3 id="1-1-3-server-side-systems" class="section-heading">
+  <a href="#1-1-3-server-side-systems" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  1.1.3 - Server-side Systems
+</h3>
+<ul><li>Erlang is usually used to build serve-side systems</li><li>A complex project can be built relying just on Erlang</li><li>Despite this, the Erlang built tools may not be enough for the purpose, then you should move for a mainstream tool for the job</li></ul><h2 id="1-2-elixir" class="section-heading">
+  <a href="#1-2-elixir" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  1.2 - Elixir
+</h2>
+<ul><li>Elixir enables to write more cleaner and compact code that runs on the BEAM</li><li>After compile, there is no efficiency gap between the Elixir and Erlang code</li><li>Pure Erlang modules can be run on Elixir</li><li>There is not you can do in Erlang that cant be done in Elixir</li><li>In summary, Elixir is Erlang with more modern syntax and development tolling</li></ul><h2 id="1-3-disavantages" class="section-heading">
+  <a href="#1-3-disavantages" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  1.3 - Disavantages
+</h2>
+<ul><li>The nature of frequent context switches makes Erlang a not very fast language. It's because the goal is to be reliable, keeps performance predictable and between limits. An Erlang system average response time should not vary much for diffent user load.</li><li>Not prime tecnology for heavy CPU bound operations</li><li>The ecosystem around Elixir and Erlang are yet relatively small</li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

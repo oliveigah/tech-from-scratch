@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>Chapter2.Calculator — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Elixir In Action v0.1.0</small>
+Chapter2.Calculator          <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_2/modules/calculator.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>  Documentation for 'Calculator'.</p><p>  Contains the documentation for calculator modules used in the book Elixir in Action 2nd Edition</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#division/2">division(a, b)</a>
+  </div>
+    <div class="summary-synopsis"><p>Divides a number by the other</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#integer_of_div/2">integer_of_div(a, b)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets the integer part of a division</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#remainder_of_div/2">remainder_of_div(a, b)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets the remainder part of a division</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#sum/2">sum(a, b \\ 0)</a>
+  </div>
+    <div class="summary-synopsis"><p>Sum two numbers</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="division/2">
+  <div class="detail-header">
+    <a href="#division/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">division(a, b)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_2/modules/calculator.ex#L44" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>division(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">float</a>()</pre>
+      </div>
+
+<p>Divides a number by the other</p><p>Book section: 2.4.1</p><p>This exercise explains that the '/' operator always returns a float</p><h2 id="division/2-examples" class="section-heading">
+  <a href="#division/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">division</span><span class="p" data-group-id="5028843881-1">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p" data-group-id="5028843881-1">)</span><span class="w">
+</span><span class="mf">1.0</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">division</span><span class="p" data-group-id="5028843881-2">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p" data-group-id="5028843881-2">)</span><span class="w">
+</span><span class="mf">0.25</span></code></pre>  </section>
+</section>
+<section class="detail" id="integer_of_div/2">
+  <div class="detail-header">
+    <a href="#integer_of_div/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">integer_of_div(a, b)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_2/modules/calculator.ex#L64" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>integer_of_div(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+
+<p>Gets the integer part of a division</p><p>Book section: 2.4.1</p><p>This exercise explains how to use the kernel function div</p><h2 id="integer_of_div/2-examples" class="section-heading">
+  <a href="#integer_of_div/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">integer_of_div</span><span class="p" data-group-id="0917960652-1">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p" data-group-id="0917960652-1">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">integer_of_div</span><span class="p" data-group-id="0917960652-2">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p" data-group-id="0917960652-2">)</span><span class="w">
+</span><span class="mi">2</span></code></pre>  </section>
+</section>
+<section class="detail" id="remainder_of_div/2">
+  <div class="detail-header">
+    <a href="#remainder_of_div/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">remainder_of_div(a, b)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_2/modules/calculator.ex#L84" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>remainder_of_div(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+
+<p>Gets the remainder part of a division</p><p>Book section: 2.4.1</p><p>This exercise explains how to use the kernel function rem</p><h2 id="remainder_of_div/2-examples" class="section-heading">
+  <a href="#remainder_of_div/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">remainder_of_div</span><span class="p" data-group-id="5389290631-1">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p" data-group-id="5389290631-1">)</span><span class="w">
+</span><span class="mi">0</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">remainder_of_div</span><span class="p" data-group-id="5389290631-2">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p" data-group-id="5389290631-2">)</span><span class="w">
+</span><span class="mi">1</span></code></pre>  </section>
+</section>
+<section class="detail" id="sum/2">
+    <span id="sum/1"></span>
+  <div class="detail-header">
+    <a href="#sum/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">sum(a, b \\ 0)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_2/modules/calculator.ex#L24" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>sum(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()</pre>
+      </div>
+
+<p>Sum two numbers</p><p>Book section: 2.3.3</p><p>This exercise explains the usual pattern that low arity delegates to higher arity functions with some default argument values</p><h2 id="sum/2-examples" class="section-heading">
+  <a href="#sum/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">sum</span><span class="p" data-group-id="3048582266-1">(</span><span class="mi">1</span><span class="p" data-group-id="3048582266-1">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter2.Calculator</span><span class="o">.</span><span class="n">sum</span><span class="p" data-group-id="3048582266-2">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p" data-group-id="3048582266-2">)</span><span class="w">
+</span><span class="mi">5</span></code></pre>  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

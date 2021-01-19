@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>5 - Concurrency Primitives — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>5 - Concurrency Primitives</h1><ul><li>Elixir is all about building bighly avaiable systems, which means a system that have 3 important features:<ul><li>Fault-tolerance: Minimize, isolate and recover from unexpected errors</li><li>Scalability: Cappable of handle more trafic by horizontally scalling without redeploys</li><li>Distribution: The system runs on multiple machines, so one machine crash does not impact the whole system</li></ul></li><li>Concurrency vs Parallelism<ul><li>Concurrency means independent execution contexts, but not necessarlly Parallelism</li><li>Parallelism means that two tasks are executed at the same time</li><li>Parallelism can not be done in a single CPU core machine</li><li>All parallelism is congruent but not all concurrency is parallel</li></ul></li></ul><h2 id="5-1-concurrency-in-beam" class="section-heading">
+  <a href="#5-1-concurrency-in-beam" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.1 - Concurrency In BEAM
+</h2>
+<ul><li>The basic building block of concurrency on BEAM is a process</li><li>A BEAM process is different from a OS process, BEAM process is much lighter and cheaper to built and maintain</li><li>All the processes are handle by BEAM schedulers</li><li>By default, BEAM allocates 1 scheduler for each CPU core on the machine it is running</li><li>Each scheduler has it's own thread of execution</li><li>The entire BEAM lives in a single OS process</li><li>Schedulers distributed the computational power equally among all the process handle by it, in an interchangeable and preemptive manner</li><li>Process are REALLY light, the virtual limit imposed by the VM is 134.000.000 processes</li><li>Process do not share any memory with each other, even if they are under the same scheduler</li><li>Process communicate by to each other sending messages</li></ul><h2 id="5-2-working-with-process" class="section-heading">
+  <a href="#5-2-working-with-process" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.2 - Working With Process
+</h2>
+<ul><li>eg. <a href="Chapter5.QueryHelper.html#content">this module</a></li><li>Useful to paralelize work such as database queries or computation when the server machine has multiple cores</li><li>Useful to separate execution contexts to achieve concurrency</li></ul><h3 id="5-2-1-creating-a-process" class="section-heading">
+  <a href="#5-2-1-creating-a-process" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.2.1 - Creating a Process
+</h3>
+<ul><li>New process can be created by the kernel's function <code class="inline">spawn/1</code></li><li><code class="inline">spawn/1</code> receives a function to be executed by the new process and returns it's pid</li><li>A useful technique to pass data between process is by using the closure mechanism on it's creation. eg. <a href="Chapter5.QueryHelper.html#execute_query_on_another_process/1">this function</a></li><li>All the data passed to the process is deep copied</li><li>Because of concurrency, order among multiple processes is not a guarantee</li></ul><h3 id="5-2-2-message-passing" class="section-heading">
+  <a href="#5-2-2-message-passing" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.2.2 - Message Passing
+</h3>
+<ul><li>The only way two process can exchange data is through messages</li><li>The content of a message can be litreally anything that a variable can hold</li><li>Messages are send with the <code class="inline">send/1</code> kernel's function</li><li>All the message data is deep copied to the receiver's inbox</li><li>The process inbox is a FIFO queue limited only by the memory</li><li>Messages are consumed from the inbox in the order received, and can only be removed once it is consumed</li><li>When a new process is spawned it must know the caller pid if the caller need the result value of it computation, to accomplish this the caller must embed his pid, wich can be obtained using <code class="inline">self/0</code>, into the new process. eg. <a href="Chapter5.QueryHelper.html#execute_query_on_another_process/1">this function</a></li><li>Messages are received by using the <code class="inline">receive</code> macro, wich works similar as <code class="inline">case</code>. eg. <a href="Chapter5.QueryHelper.html#get_some_result_from_inbox/0">this function</a></li><li><code class="inline">receive</code> takes multiple patterns and tries to match every message on the queue, from oldest to newest, the first one that matches has his code block executed</li><li>If any message matches, the process waits until the next message arrive, and checks it.</li><li>To set a kind of timeout use the <code class="inline">after</code> macro, this way the process will not wait forever</li><li>Receive messages takes no action from the receiver, so no block or interrupt happens</li><li>Because of concurrency, order among messages is not a guarantee</li></ul><h2 id="5-3-stateful-server-process" class="section-heading">
+  <a href="#5-3-stateful-server-process" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.3 - Stateful Server Process
+</h2>
+<ul><li>Beyond do async work, process can manage CPU bound operations too and being used to manipulate data</li><li>Server process works kind of OO objects. They have a state that could be manipulated overtime</li><li>Since processes are concurrent, multiple objects can run at the &quot;same time&quot;</li></ul><h3 id="5-3-1-server-process" class="section-heading">
+  <a href="#5-3-1-server-process" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.3.1 - Server Process
+</h3>
+<ul><li>It is a process that run indefinitely and can handle messages, kind of an end-point</li><li>Server processes are kept alive indefinitely by a <a href="chapter_3.html#3-4-loops-and-iterations">tail loop recursion</a>. eg. <a href="Chapter5.DatabaseServer.html#start/0">this function</a></li><li>The loop, waits for a message to handle, when received handle it and goes back to wait the next message</li><li>Wait for a message do not consume any CPU</li><li>Server processes have 2 type of functions<ul><li>Interface functions: Functions that are public and are called by the clients, the code inside these functions is executed on the client so functions like <code class="inline">self/0</code> are evaluated with the client pid. These functions are usefull to abstract implementation details and communication protocols away from the client. eg. <a href="Chapter5.Calculator.html#get_result/1">this function</a></li><li>Implementation functions: Functions that are private and always run on the server, these functions are responsible for the implementation details it self. eg. <a href="Chapter5.Calculator.html#loop/1">this function</a></li></ul></li><li>There is no relation between modules and processes, functions from the same module can run in different process, such as the interface x implementation example above</li><li><a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> can be used to simplify the development of server processes</li><li>Server processes are internally sequential, this means that all the messages send to it will be handle in order, one at a time</li><li>Because of this feature, a server process can be considered as a sync point. Use it when multiple actions needs to happen in a sync manner</li><li>This sync feature can be bad sometimes(eg. database server), so to get around it you just have to start multiple servers, kind of a pool, and paralelize everything that you could</li></ul><h3 id="5-3-2-immutable-state" class="section-heading">
+  <a href="#5-3-2-immutable-state" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.3.2 - Immutable State
+</h3>
+<ul><li><a href="Chapter5.DatabaseServer.html#content">this module</a></li><li>The state is passed through the loop function parameters</li></ul><h3 id="5-3-3-mutable-state" class="section-heading">
+  <a href="#5-3-3-mutable-state" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.3.3 - Mutable State
+</h3>
+<ul><li><a href="Chapter5.Calculator.html#content">this module</a></li><li>The state is passed through the loop function parameters and changed by the message handler functions</li><li>This aproach can feels like an mutable data structure, but it is not</li><li>Pure functional abstractions are used inside the server process to handle all the requests</li><li>In this way, the server process is just a controller of a pure functional abstraction that can be manipulated by other processes</li></ul><h3 id="5-3-4-complex-state" class="section-heading">
+  <a href="#5-3-4-complex-state" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.3.4 - Complex State
+</h3>
+<ul><li>Same as mutable state, but the handle functions pass more complex data to the loop</li></ul><h3 id="5-3-5-registered-processes" class="section-heading">
+  <a href="#5-3-5-registered-processes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.3.5 - Registered Processes
+</h3>
+<ul><li>Server process can have a local inside a BEAM instance</li><li>This name enable a simplification of the server process interface by removing the server pid repetition on the interface functions</li><li>This is done by <a href="https://hexdocs.pm/elixir/Process.html#register/2"><code class="inline">Process.register/2</code></a></li></ul><h2 id="5-4-runtime-considerations" class="section-heading">
+  <a href="#5-4-runtime-considerations" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.4 - Runtime Considerations
+</h2>
+<h3 id="5-4-1-process-is-sequential" class="section-heading">
+  <a href="#5-4-1-process-is-sequential" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.4.1 - Process is Sequential
+</h3>
+<ul><li>Although multiple processes can run in paralel, internally a single process is always sequential, handling the incoming messages in the exact order that they arrived</li><li>Because of the sequential nature of a process,it can become a bottle neck if too many processes are sending messages to it, affecting the overall system response time</li><li>To solve this bottle neck problem that are two options:<ul><li>Optimize the code, this option is the main one and should always be the first one</li><li>Split the process in multiple processes (only works on multi core machines), this should be the last resort</li></ul></li></ul><h3 id="5-4-2-process-mailbox" class="section-heading">
+  <a href="#5-4-2-process-mailbox" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.4.2 - Process Mailbox
+</h3>
+<ul><li>Mailboxes are theoretially unlimited, just capped by the system's memory avaiable</li><li>If a process is receiving more messages per second than it can handle, it's mailbox will grow indefinitely</li><li>This indefinitely grow can lead, ultimately, to a system crash by consuming all the system's memory</li><li>Another way of grow the mailbox is when a process receive messages that it can not handle</li><li>This unhandled messages stack up on the mailbox causing the process to iterate over all of them when a new message arrive</li><li>A way to solve the unhandled messages problem is always have a fallback handler:</li></ul><pre><code class="nohighlight makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">loop</span><span class="w">
+  </span><span class="k">receive</span><span class="w">
+  </span><span class="p" data-group-id="0428579688-1">{</span><span class="ss">:message</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p" data-group-id="0428579688-1">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">handle_message</span><span class="p" data-group-id="0428579688-2">(</span><span class="n">data</span><span class="p" data-group-id="0428579688-2">)</span><span class="w">
+  </span><span class="n">other</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">log_unknown_message</span><span class="p" data-group-id="0428579688-3">(</span><span class="n">other</span><span class="p" data-group-id="0428579688-3">)</span></code></pre><ul><li>BEAM provides tools for analyzing processes mailboxes at runtime. Will be discussed in chapter 13</li></ul><h3 id="5-4-3-share-nothing-concurrency" class="section-heading">
+  <a href="#5-4-3-share-nothing-concurrency" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.4.3 - Share Nothing Concurrency
+</h3>
+<ul><li>All the data sent to a process is deep copied to it</li><li>Variables in a function closure too</li><li>Be aware of multiple complex huge data passes between multiple processes</li><li>A special case where deep copy do not occur is with binaries larger than 64 bytes</li><li>These binaries are stored on a special shared binary heap</li><li>The benefits of share nothing are:<ul><li>Simplifies the code: Because processes do not share memor, no complex operations such as mutexes and semaphores are needed</li><li>Overall stability: A process can not compromise the other process data</li><li>Efficient garbage collection: No &quot;stop the world&quot; garbage collector, it runs inside each process when needed</li></ul></li></ul><h3 id="5-4-4-scheduler-inner-workings" class="section-heading">
+  <a href="#5-4-4-scheduler-inner-workings" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.4.4 - Scheduler Inner Workings
+</h3>
+<ul><li>Each BEAM scheduler is a OS thread</li><li>By default, BEAM runs as many schedulers as logical processors avaiable</li><li>Erlang flags can be used to change many behaviours of BEAM</li><li>Each scheduler manages the execution of many processes</li><li>Internally each scheduler keeps a list of processes providing each of these processes a execution time window (~2.000 reductions)</li><li>Because of the preemptive nature of schedulers no long running process can impact the system overall responsiveness</li><li>Some operations make the process yield the process back to the scheduler, such as sleep and IO operations</li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

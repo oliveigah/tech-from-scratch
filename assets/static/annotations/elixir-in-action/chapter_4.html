@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>4 - Data Abstraction — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>4 - Data Abstraction</h1><ul><li>Data abstractions are built as pure elixir modules</li><li>These modules works as an abstraction of the data type. (eg. If you want to work with a list data type, you use the List module)</li><li>This kind of modules have 2 types of functions<ul><li>Modifier: Transform the input data, and return the modified version that is same type of the input. eg. <a href="https://hexdocs.pm/elixir/String.html#upcase/1"><code class="inline">String.upcase/1</code></a> and <a href="https://hexdocs.pm/elixir/List.html#insert_at/3"><code class="inline">List.insert_at/3</code></a></li><li>Query: Analyze the input data and return some piece of information about it in a different data type. eg. <a href="https://hexdocs.pm/elixir/String.html#length/1"><code class="inline">String.length/1</code></a> and <a href="https://hexdocs.pm/elixir/List.html#first/1"><code class="inline">List.first/1</code></a></li></ul></li><li>If <code class="inline">struct</code> is not used, there is no difference between a map and the high level data structure</li></ul><h2 id="4-1-abstracting-with-modules" class="section-heading">
+  <a href="#4-1-abstracting-with-modules" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.1 - Abstracting With Modules
+</h2>
+<ul><li>Higher level abstractions are built with the basic building blocks</li><li>Although the abstractions are in fact some built in types, the user of the module should not rely on it</li><li>These modules free the user of the concerns like implementation or data structures</li><li>The separation of concerns between modules are kind of similar to OO languages</li><li>By convention this kind of modules have a function called <code class="inline">new</code> that create and return a new &quot;instance&quot; abstracted data</li></ul><h3 id="4-1-2-composing-abstractions" class="section-heading">
+  <a href="#4-1-2-composing-abstractions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.1.2 - Composing Abstractions
+</h3>
+<ul><li>Just like in OO languages, a usual pattern in elixir is to separate the concerns in different modules.</li><li><strong>TODO: Add reference to TodoList project</strong></li></ul><h3 id="4-1-3-structuring-data-with-maps" class="section-heading">
+  <a href="#4-1-3-structuring-data-with-maps" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.1.3 - Structuring Data With Maps
+</h3>
+<p>eg. <a href="Chapter4.Fraction.html#content">this module</a></p><ul><li>To avoid changes in functions signatures, it is a usual pattern use a map as a single data structure to all the entries</li><li>Instead of expect something like <code class="inline">module.fun(arg1,arg2,arg3)</code> you expect <code class="inline">module.fun(%{a: arg1, b: arg2, c: arg3})</code></li><li>The entry map must contains the expect keys to be used inside the module's functions</li></ul><h3 id="4-1-4-abstracting-with-structs" class="section-heading">
+  <a href="#4-1-4-abstracting-with-structs" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.1.4 - Abstracting With Structs
+</h3>
+<ul><li>eg. <a href="Chapter4.Fraction.html#content">this module</a></li><li>Structs can be distinguished from any other data types</li><li>The <code class="inline">defstruct</code> macro allow the creation of specific data structures that are bound to a specific module</li><li>One module can only have one struct, and one struct can only exists inside a module</li><li>Patter matching works on structs</li><li>By use pattern matching like <code class="inline">fun(%struct{a: a, b: b})</code> it is enforced the usage of an instance of the struct as the entry data</li><li>Structs are in fact maps, so any <a href="https://hexdocs.pm/elixir/Map.html"><code class="inline">Map</code></a> module's function should work on it</li><li>Despite it, <a href="https://hexdocs.pm/elixir/Enum.html"><code class="inline">Enum</code></a> module's functions do not work, because the struct is an abstraction defined inside the module and should behave as defined inside of it. So you must define inside the module if and how the struct is enumerable or not</li><li>Structs are maps, but always have a special key <code class="inline">__struct__</code></li><li>Because of it a struct pattern can not match a plain object. eg <code class="inline">%struct{} = %{a:1, b:2}</code> raises a match error</li><li>But a plain map pattern can match a struct. eg <code class="inline">%{} = %struct{a: 1, b: 2}</code> succeeds</li><li><code class="inline">Records</code> are an alternative from <code class="inline">structs</code> that uses tuples instead of maps, many pure erlang modules uses records as interfaces</li></ul><h3 id="4-1-5-data-visibility" class="section-heading">
+  <a href="#4-1-5-data-visibility" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.1.5 - Data Visibility
+</h3>
+<ul><li>All the data structure is always visible to the module's user. There is no private data structure</li><li>In this sense, encapsulation work different. Instead of private attributes and methods, elixir module as whole is reponsible for manage that kind of data, although you can see it data structure, you should not work on it from out side the module</li><li>This data transparency is useful for debugs purpose</li><li>Despite this, as a module's client you should not rely on the internal data structure representation</li><li>The only guarantee of these abstraction modules is that the functions will work if an instance of a proper data structure is sent as an entry</li></ul><h2 id="4-2-hierarchical-data" class="section-heading">
+  <a href="#4-2-hierarchical-data" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.2 - Hierarchical Data
+</h2>
+<ul><li>Because of the immutable nature of data the updates on hierarchical data has to be done by update the specific field and then all of the parents recursively</li><li>Usually it is done with several simple functions, wich one responsible for a specific part of the update and the more specific functions delegates to the more general ones</li><li>Instead of doing these several functions, the macro <code class="inline">put_in/2</code> is avaiable for this purpose</li><li>There are similar macros for retrieving data too. eg. <code class="inline">get_in/2</code></li><li>These kind of macros relies on the <a href="https://hexdocs.pm/elixir/Access.html"><code class="inline">Access</code></a> module</li></ul><h2 id="4-3-polymorphism-with-protocols" class="section-heading">
+  <a href="#4-3-polymorphism-with-protocols" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.3 - Polymorphism With Protocols
+</h2>
+<ul><li>The basic way of doing polymorphism in elixir is with protocols</li></ul><h3 id="4-3-1-protocol-basics" class="section-heading">
+  <a href="#4-3-1-protocol-basics" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.3.1 - Protocol Basics
+</h3>
+<ul><li>A protocol is kind of a OO interface</li><li>It is a module where a functions is declared but not implemented</li></ul><pre><code class="nohighlight makeup elixir"><span class="kd">defprotocol</span><span class="w"> </span><span class="nc">String.Chars</span><span class="w"> </span><span class="k" data-group-id="3709195833-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">to_string</span><span class="p" data-group-id="3709195833-2">(</span><span class="n">thing</span><span class="p" data-group-id="3709195833-2">)</span><span class="w">
+</span><span class="k" data-group-id="3709195833-1">end</span></code></pre><ul><li>Data types that implements the protocol can use all the functions defined by it</li><li>If protocol function is called with some data type that does not implement the protocol, an error is raised</li></ul><h3 id="4-3-2-implementing-protocols" class="section-heading">
+  <a href="#4-3-2-implementing-protocols" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.3.2 - Implementing Protocols
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="c1">## Code of the TodoList project</span><span class="w">
+</span><span class="kd">defimpl</span><span class="w"> </span><span class="nc">String.Chars</span><span class="p">,</span><span class="w"> </span><span class="ss">for</span><span class="p">:</span><span class="w"> </span><span class="nc">TodoList</span><span class="w"> </span><span class="k" data-group-id="6500623142-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">to_string</span><span class="p" data-group-id="6500623142-2">(</span><span class="n">todo_list</span><span class="p" data-group-id="6500623142-2">)</span><span class="w"> </span><span class="k" data-group-id="6500623142-3">do</span><span class="w">
+    </span><span class="s">&quot;You have </span><span class="si" data-group-id="6500623142-4">#{</span><span class="n">todo_list</span><span class="o">.</span><span class="n">auto_id</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si" data-group-id="6500623142-4">}</span><span class="s"> tasks to do&quot;</span><span class="w">
+  </span><span class="k" data-group-id="6500623142-3">end</span><span class="w">
+</span><span class="k" data-group-id="6500623142-1">end</span></code></pre><ul><li>Elixir most basic functions relies on protocol</li><li>Each protocol has it's own set of functions that must be implemented</li><li><code class="inline">defimpl</code> macro is used to start the implementation</li><li>In <code class="inline">defimpl</code> you must specify wich protocol will be implemented and the corresponding data type</li><li>On the do-end block are the specific funtions implementations</li><li>Protocols implementations do not need to be part of any specific module</li><li>Because of it, you can implement protocols even for data types that you don't have access to the source code</li></ul><h3 id="built-in-protocols" class="section-heading">
+  <a href="#built-in-protocols" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Built-in Protocols
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="c1">## Code of the TodoList project</span><span class="w">
+</span><span class="kd">defimpl</span><span class="w"> </span><span class="nc">Collectable</span><span class="p">,</span><span class="w"> </span><span class="ss">for</span><span class="p">:</span><span class="w"> </span><span class="nc">TodoList</span><span class="w"> </span><span class="k" data-group-id="0659308027-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">into</span><span class="p" data-group-id="0659308027-2">(</span><span class="n">original</span><span class="p" data-group-id="0659308027-2">)</span><span class="w"> </span><span class="k" data-group-id="0659308027-3">do</span><span class="w">
+    </span><span class="p" data-group-id="0659308027-4">{</span><span class="n">original</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">into_callback</span><span class="o">/</span><span class="mi">2</span><span class="p" data-group-id="0659308027-4">}</span><span class="w">
+  </span><span class="k" data-group-id="0659308027-3">end</span><span class="w">
+
+  </span><span class="kd">defp</span><span class="w"> </span><span class="nf">into_callback</span><span class="p" data-group-id="0659308027-5">(</span><span class="n">todo_list</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0659308027-6">{</span><span class="ss">:cont</span><span class="p">,</span><span class="w"> </span><span class="n">entry</span><span class="p" data-group-id="0659308027-6">}</span><span class="p" data-group-id="0659308027-5">)</span><span class="w"> </span><span class="k" data-group-id="0659308027-7">do</span><span class="w">
+    </span><span class="nc">TodoList</span><span class="o">.</span><span class="n">add_entry</span><span class="p" data-group-id="0659308027-8">(</span><span class="n">todo_list</span><span class="p">,</span><span class="w"> </span><span class="n">entry</span><span class="p" data-group-id="0659308027-8">)</span><span class="w">
+  </span><span class="k" data-group-id="0659308027-7">end</span><span class="w">
+
+  </span><span class="kd">defp</span><span class="w"> </span><span class="nf">into_callback</span><span class="p" data-group-id="0659308027-9">(</span><span class="n">todo_list</span><span class="p">,</span><span class="w"> </span><span class="ss">:done</span><span class="p" data-group-id="0659308027-9">)</span><span class="w"> </span><span class="k" data-group-id="0659308027-10">do</span><span class="w">
+    </span><span class="n">todo_list</span><span class="w">
+  </span><span class="k" data-group-id="0659308027-10">end</span><span class="w">
+
+  </span><span class="kd">defp</span><span class="w"> </span><span class="nf">into_callback</span><span class="p" data-group-id="0659308027-11">(</span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="ss">:halt</span><span class="p" data-group-id="0659308027-11">)</span><span class="w"> </span><span class="k" data-group-id="0659308027-12">do</span><span class="w">
+    </span><span class="ss">:ok</span><span class="w">
+  </span><span class="k" data-group-id="0659308027-12">end</span><span class="w">
+</span><span class="k" data-group-id="0659308027-1">end</span></code></pre><ul><li>Elixir have some built-in protocols that are very useful, check docs for details. eg. <a href="https://hexdocs.pm/elixir/Enumerable.html"><code class="inline">Enumerable</code></a>,<a href="https://hexdocs.pm/elixir/Collectable.html"><code class="inline">Collectable</code></a>,<a href="https://hexdocs.pm/elixir/Stream.html"><code class="inline">Stream</code></a></li><li>By implementing the <a href="https://hexdocs.pm/elixir/Enumerable.html"><code class="inline">Enumerable</code></a> protocol, your high level data structure gain access to all the <a href="https://hexdocs.pm/elixir/Enum.html"><code class="inline">Enum</code></a> functions for free</li><li>Besides built-in protocols you can build your own protocols</li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

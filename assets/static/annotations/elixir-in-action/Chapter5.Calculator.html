@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>Chapter5.Calculator — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Elixir In Action v0.1.0</small>
+Chapter5.Calculator          <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>  This module explains how to build a server process with mutable state and how to interact with it</p><ul><li>Server process contains 2 types of functions, interfaces and implementations</li><li>This module is a calculator server that runs the aritmetic operations in a non blocking manner to the client process</li><li>The current result of the calculation is stored as the process state, and it is mutate by client calls with operations such as <a href="#add/2"><code class="inline">add/2</code></a> and <a href="#sub/2"><code class="inline">sub/2</code></a></li></ul><p>  Book section: 5.3</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#add/2">add(calculator_pid, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Add a value on the current state</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#div/2">div(calculator_pid, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Divides the current state  by a value</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_result/1">get_result(calculator_pid)</a>
+  </div>
+    <div class="summary-synopsis"><p>Get the current calculation result on the server state</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#loop/1">loop(value)</a>
+  </div>
+    <div class="summary-synopsis"><p>This is the tail recursion used to keep the server process runing</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#mul/2">mul(calculator_pid, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Multiply the current state by a value</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start/0">start()</a>
+  </div>
+    <div class="summary-synopsis"><p>Start a new calculator server process</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#sub/2">sub(calculator_pid, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Subtract a value on the current state</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="add/2">
+  <div class="detail-header">
+    <a href="#add/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">add(calculator_pid, value)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L63" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Add a value on the current state</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>On this case the caller does not request a repsonse from the server,so no message is send</li></ul><p>Book section: 5.3.3</p><h2 id="add/2-examples" class="section-heading">
+  <a href="#add/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="6290018014-1">(</span><span class="p" data-group-id="6290018014-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="6290018014-2">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="6290018014-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">get_result</span><span class="p" data-group-id="6290018014-3">(</span><span class="n">server_pid</span><span class="p" data-group-id="6290018014-3">)</span><span class="w">
+</span><span class="mi">5</span></code></pre>  </section>
+</section>
+<section class="detail" id="div/2">
+  <div class="detail-header">
+    <a href="#div/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">div(calculator_pid, value)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L116" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Divides the current state  by a value</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>On this case the caller does not request a repsonse from the server,so no message is send</li></ul><p>Book section: 5.3.3</p><h2 id="div/2-examples" class="section-heading">
+  <a href="#div/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="7532427072-1">(</span><span class="p" data-group-id="7532427072-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="7532427072-2">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="7532427072-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="7532427072-3">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="7532427072-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">get_result</span><span class="p" data-group-id="7532427072-4">(</span><span class="n">server_pid</span><span class="p" data-group-id="7532427072-4">)</span><span class="w">
+</span><span class="mf">2.5</span></code></pre>  </section>
+</section>
+<section class="detail" id="get_result/1">
+  <div class="detail-header">
+    <a href="#get_result/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_result(calculator_pid)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L41" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Get the current calculation result on the server state</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>Interface functions abstract the implementation details to use a server process, in this example the client do not have to know that a message to get the current stat must match <code class="inline">{:val, pid}</code></li><li>The <code class="inline">self()</code> call here is evaluated with the client pid, because this is an interface function</li></ul><p>Book section: 5.3.3</p><h2 id="get_result/1-examples" class="section-heading">
+  <a href="#get_result/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="4096944795-1">(</span><span class="p" data-group-id="4096944795-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">get_result</span><span class="p" data-group-id="4096944795-2">(</span><span class="n">server_pid</span><span class="p" data-group-id="4096944795-2">)</span><span class="w">
+</span><span class="mi">0</span></code></pre>  </section>
+</section>
+<section class="detail" id="loop/1">
+  <div class="detail-header">
+    <a href="#loop/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">loop(value)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L136" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>This is the tail recursion used to keep the server process runing</p><ul><li>This an implementation function, this means that this code runs on the server process side</li><li>Pattern matching is used to filter the incoming messages</li><li>A commom pattern is to separate all the patter matching stuff on a separate function, to avoid a huge switch like construct</li><li>Then a message is sent to the caller with the result of the computation done</li><li>Implementation functions usually are private but for documentation purpose they are pulic here</li><li>The new state is passed as parameter to the next loop iteration</li></ul><p>Book section: 5.3.1 e 5.3.2</p><h2 id="loop/1-examples" class="section-heading">
+  <a href="#loop/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="6075145893-1">(</span><span class="p" data-group-id="6075145893-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">is_pid</span><span class="p" data-group-id="6075145893-2">(</span><span class="n">server_pid</span><span class="p" data-group-id="6075145893-2">)</span><span class="w">
+</span><span class="no">true</span></code></pre>  </section>
+</section>
+<section class="detail" id="mul/2">
+  <div class="detail-header">
+    <a href="#mul/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">mul(calculator_pid, value)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L98" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Multiply the current state by a value</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>On this case the caller does not request a repsonse from the server,so no message is send</li></ul><p>Book section: 5.3.3</p><h2 id="mul/2-examples" class="section-heading">
+  <a href="#mul/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="2533064832-1">(</span><span class="p" data-group-id="2533064832-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="2533064832-2">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="2533064832-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">mul</span><span class="p" data-group-id="2533064832-3">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2533064832-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">get_result</span><span class="p" data-group-id="2533064832-4">(</span><span class="n">server_pid</span><span class="p" data-group-id="2533064832-4">)</span><span class="w">
+</span><span class="mi">15</span></code></pre>  </section>
+</section>
+<section class="detail" id="start/0">
+  <div class="detail-header">
+    <a href="#start/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">start()</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L24" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Start a new calculator server process</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>To keep the process runing a tail recursion is needed</li><li>The initial state is initialized here and passes to the loop function</li></ul><p>Book section: 5.3.3</p><h2 id="start/0-examples" class="section-heading">
+  <a href="#start/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="1793808048-1">(</span><span class="p" data-group-id="1793808048-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">is_pid</span><span class="p" data-group-id="1793808048-2">(</span><span class="n">server_pid</span><span class="p" data-group-id="1793808048-2">)</span><span class="w">
+</span><span class="no">true</span></code></pre>  </section>
+</section>
+<section class="detail" id="sub/2">
+  <div class="detail-header">
+    <a href="#sub/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">sub(calculator_pid, value)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/calculator.ex#L80" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Subtract a value on the current state</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>On this case the caller does not request a repsonse from the server,so no message is send</li></ul><p>Book section: 5.3.3</p><h2 id="sub/2-examples" class="section-heading">
+  <a href="#sub/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="5300161408-1">(</span><span class="p" data-group-id="5300161408-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">sub</span><span class="p" data-group-id="5300161408-2">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="5300161408-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.Calculator</span><span class="o">.</span><span class="n">get_result</span><span class="p" data-group-id="5300161408-3">(</span><span class="n">server_pid</span><span class="p" data-group-id="5300161408-3">)</span><span class="w">
+</span><span class="o">-</span><span class="mi">5</span></code></pre>  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

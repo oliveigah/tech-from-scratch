@@ -17,6 +17,7 @@ defmodule TechFromScratchWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/annotations", AnnotationsController, :index
   end
 
   # Other scopes may use custom stacks.

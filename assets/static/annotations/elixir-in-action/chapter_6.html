@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>6 - Generic Server Process — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>6 - Generic Server Process</h1><h2 id="6-1-building-it" class="section-heading">
+  <a href="#6-1-building-it" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.1 - Building It
+</h2>
+<ul><li>Much of the work and boilerplate involved in the coding of a server process can be implemented as an abstraction</li><li>That is exactlly what <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> and I built my own abstraction on <a href="Chapter6.MyServerProcess.html#content">this module</a> is built for, simplify server process code with an abstraction for functionallities like spawn a new process and run the infinite loop</li><li>The relation between the <a href="Chapter6.MyServerProcess.html#content">generic server implementation</a> and the <a href="Chapter6.MyKeyValueStore.html#content">callback module</a> is something like the generic manage the flow of control (processes spawns, the infinite loop, send and receive messages, keep the process state) and the callback module is responsible for the implementation (define the initial state, define the messages that the processes understand and handle these messages)</li><li>Basically the <a href="Chapter6.MyServerProcess.html#content">generic server implementation</a> manages all the non interface functions of a normal server process and on the other hand the <a href="Chapter6.MyKeyValueStore.html#content">callback module</a> manages all the interface functions</li><li>Because of this, the code of a server process is much more concise and easy to understand when it takes advantage of a generic server abstraction, because it only has to deal with what is relevant to it, the implementation it self and reuse generic abstract functions to run as a server process</li></ul><h2 id="6-2-using-genserver" class="section-heading">
+  <a href="#6-2-using-genserver" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.2 - Using GenServer
+</h2>
+<ul><li><a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> is a built in feature of erlang that enable the creation of generic server process whith rich feature supports</li><li>System that relies on <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> are, by design, ready for work in a distributed envinronment</li><li><a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> relies on OTP Behaviours</li></ul><h3 id="6-2-1-otp-behaviours" class="section-heading">
+  <a href="#6-2-1-otp-behaviours" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.2.1 - OTP Behaviours
+</h3>
+<ul><li>Behaviour is a generic code that implements a common pattern</li><li>Kind of interfaces on OO world</li><li>A behaviour expect a set of functions to be implemented and exported by a callback module</li><li>Behaviours guarantee that if your callback module implements the expected set of functions, your module will be ready to be empowered by all the BEAM and Erlang benefits</li><li>Standard Erlang OTP Behaviours:<ul><li>gen_server: Server processes</li><li>supervisor: Error handling and recovery</li><li>application: Components and libraries</li><li>gen_event: Event handling</li><li>gen_statem: Finite state machine on server processes</li></ul></li><li>Elixir has its own wrappers for the most commom behaviours</li></ul><h3 id="6-2-2-plugging-into" class="section-heading">
+  <a href="#6-2-2-plugging-into" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.2.2 - Plugging Into
+</h3>
+<ul><li>eg. <a href="Chapter6.KeyValueStore.html#content">this module</a></li><li>The macro <code class="inline">use</code> is frequentlly used to get default implementations for required callback functions at compilation time <code class="inline">use GenServer</code></li><li>Then you can overwrite the default implementations with specific ones</li></ul><h3 id="6-2-3-handling-requests" class="section-heading">
+  <a href="#6-2-3-handling-requests" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.2.3 - Handling Requests
+</h3>
+<ul><li>The basic callback functions to work with <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> are:<ul><li><code class="inline">init/1</code>: Used in the server initial state definition</li><li><code class="inline">handle_cast/2</code>: Handle async calls to the server</li><li><code class="inline">handle_call/3</code>: Handle sync calls to the server</li></ul></li><li>The general idea behind it is pretty similar to our <a href="Chapter6.MyServerProcess.html#content">self implemented</a> server process</li><li>In order to work with it perfectly just remember to follow the docs to implement the corrects signatures and responses formats</li><li><a href="https://hexdocs.pm/elixir/GenServer.html#start/2"><code class="inline">GenServer.start/2</code></a> is synchrounously, so the client that initializes it will be blocked until it fully launched</li><li><a href="https://hexdocs.pm/elixir/GenServer.html#call/2"><code class="inline">GenServer.call/2</code></a> does not wait forever, by default it just waits 5 sec</li></ul><h3 id="6-2-4-handling-plain-messages" class="section-heading">
+  <a href="#6-2-4-handling-plain-messages" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.2.4 - Handling Plain Messages
+</h3>
+<ul><li>Messages sent to the server process via <a href="https://hexdocs.pm/elixir/GenServer.html#call/2"><code class="inline">GenServer.call/2</code></a> and <a href="https://hexdocs.pm/elixir/GenServer.html#cast/2"><code class="inline">GenServer.cast/2</code></a> have more data than the simple message data</li><li>It contains a kind of message type identification, such as &quot;call&quot; or &quot;cast&quot;, because of it <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> can handle specific messages in different ways</li><li>Sometimes you need to handle messages that are not specific to <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a>, which means it does not contains a <code class="inline">:call</code> or <code class="inline">:cast</code> attached to it</li><li>For handle this type of messages you must use the <code class="inline">handle_info/2</code> callback function. <a href="Chapter6.KeyValueStore.html#handle_info/2">eg. this function</a></li><li>All the messages that arrive to the server that are not call neither cast are handled by <code class="inline">handle_info/2</code></li></ul><h3 id="6-2-5-other-genserver-features" class="section-heading">
+  <a href="#6-2-5-other-genserver-features" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.2.5 - Other GenServer Features
+</h3>
+<ul><li>eg. <a href="Chapter6.KeyValueStore.html#content">this module</a></li><li>The attribute @impl indicates that the following function must implement a callback function, this enable compile time checking</li><li>Server process can be named and therefore referenced by it's name instead of it's pid, this helps both, simplify the code and patterns of fault tollerance which will be discussed latter</li><li>Each callback function have a set of possible return patterns that will guide the execution of the server process</li><li>The basic sucessfull responses are:<ul><li><code class="inline">{:ok, initial_state}</code> from <code class="inline">init/1</code></li><li><code class="inline">{:reply, response, new_state}</code> from <code class="inline">handle_call/3</code></li><li><code class="inline">{:noreply, new_state}</code> from <code class="inline">handle_cast/2</code> and <code class="inline">handle_info/2</code></li></ul></li><li>Besides the sucessfull responses, are some others possible responses such ass <code class="inline">{:stop, reason}</code> and <code class="inline">{:stop, reason, new_state}</code></li><li>This kind of responses are used to gracefully terminate the server and provides information about it</li><li>Dont forget to check the docs to a complete overview of the possible responses patterns and its uses</li><li>It is important to keep track of where the code will be executed, on the client or in the server. Book page 176 has a nice diagram about it</li></ul><h3 id="6-2-7-otp-compliant-processes" class="section-heading">
+  <a href="#6-2-7-otp-compliant-processes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  6.2.7 - OTP Compliant Processes
+</h3>
+<ul><li>In production system you should avoid use the plain <code class="inline">spawn/1</code> function</li><li>Instead all your processes should be OTP compliants, which means that they follow the OTP conventions so can be used in supervision trees and errors are handled with much more details</li><li>All processes powered by <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> are automatically OTP compliant</li><li>Besides <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> elixir has much more modules that are OTP Compliant and can be used in many different use cases for example the modules <a href="https://hexdocs.pm/elixir/Task.html"><code class="inline">Task</code></a> and <a href="https://hexdocs.pm/elixir/Agent.html"><code class="inline">Agent</code></a></li><li>Some others third-parties libraries implements OTP compliants abstractions too</li><li>Most of these abstractions are built on top of <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> so properly understand of <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> will help you to learn each one of these abstractions</li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

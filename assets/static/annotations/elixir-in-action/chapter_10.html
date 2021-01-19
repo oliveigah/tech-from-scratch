@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>10 - Beyond Genserver — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>10 - Beyond Genserver</h1><h2 id="10-1-tasks" class="section-heading">
+  <a href="#10-1-tasks" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  10.1 - Tasks
+</h2>
+<ul><li>Tasks are used when you need a one off job. A job that executes and terminate it self when done.</li><li>In this sense <a href="https://hexdocs.pm/elixir/Task.html"><code class="inline">Task</code></a> and <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> has 2 different workflows. Tasks does not serve any requests, just execute his job and it's done</li><li>Task can be interpreted as a concurrent function call</li></ul><h3 id="10-1-1-awaited-tasks" class="section-heading">
+  <a href="#10-1-1-awaited-tasks" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  10.1.1 - Awaited Tasks
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="n">long_job</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="0171853251-1">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> 
+    </span><span class="nc">Process</span><span class="o">.</span><span class="n">sleep</span><span class="p" data-group-id="0171853251-2">(</span><span class="mi">2000</span><span class="p" data-group-id="0171853251-2">)</span><span class="w">
+    </span><span class="ss">:some_result</span><span class="w">
+</span><span class="k" data-group-id="0171853251-1">end</span><span class="w">
+
+</span><span class="n">async_task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">async</span><span class="p" data-group-id="0171853251-3">(</span><span class="n">long_job</span><span class="p" data-group-id="0171853251-3">)</span><span class="w">
+
+</span><span class="c1"># No sleep at all is executed. All computation is done by another process</span><span class="w">
+</span><span class="c1"># Waits for the async_task response</span><span class="w">
+</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">await</span><span class="p" data-group-id="0171853251-4">(</span><span class="n">async_task</span><span class="p" data-group-id="0171853251-4">)</span><span class="w"> </span></code></pre><ul><li>Awaited tasks send the result value back to the caller when the computation is done </li><li>Very similar to javascript's async await pattern</li></ul><h3 id="10-1-2-non-awaited-tasks" class="section-heading">
+  <a href="#10-1-2-non-awaited-tasks" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  10.1.2 - Non Awaited Tasks
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">SupervisedTask</span><span class="w"> </span><span class="k" data-group-id="5880883591-1">do</span><span class="w">
+    </span><span class="kn">use</span><span class="w"> </span><span class="nc">Task</span><span class="w">
+
+    </span><span class="kd">def</span><span class="w"> </span><span class="nf">start_link</span><span class="p" data-group-id="5880883591-2">(</span><span class="c">_arg</span><span class="p" data-group-id="5880883591-2">)</span><span class="w"> </span><span class="k" data-group-id="5880883591-3">do</span><span class="w">
+        </span><span class="nc">Task</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="5880883591-4">(</span><span class="o">&amp;</span><span class="n">do_something</span><span class="o">/</span><span class="mi">1</span><span class="p" data-group-id="5880883591-4">)</span><span class="w">
+    </span><span class="k" data-group-id="5880883591-3">end</span><span class="w">
+</span><span class="k" data-group-id="5880883591-1">end</span></code></pre><ul><li>Non awaited taks does not return any value back to the caller, instead it just terminate with <code class="inline">:normal</code> reason</li><li>The main use case of non awaited tasks are to start async jobs under a supervisor, and be able to restart them if anything goes wrong</li></ul><h2 id="10-2-agents" class="section-heading">
+  <a href="#10-2-agents" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  10.2 - Agents
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">AgentPoweredServer</span><span class="w"> </span><span class="k" data-group-id="7634058206-1">do</span><span class="w">
+    </span><span class="kd">def</span><span class="w"> </span><span class="nf">start_link</span><span class="p" data-group-id="7634058206-2">(</span><span class="bp">_</span><span class="p" data-group-id="7634058206-2">)</span><span class="w"> </span><span class="k" data-group-id="7634058206-3">do</span><span class="w">
+        </span><span class="nc">Agent</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="7634058206-4">(</span><span class="k" data-group-id="7634058206-5">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">)</span><span class="w">
+</span><span class="k" data-group-id="7634058206-5">end</span></code></pre><ul><li><a href="https://hexdocs.pm/elixir/Agent.html"><code class="inline">Agent</code></a> are a simple version of <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a>, they require less boilerplate and are more straightforward</li><li><a href="https://hexdocs.pm/elixir/Agent.html"><code class="inline">Agent</code></a> is kind of a <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> that can be manipulated via lambda functions</li><li>Agents holds a state that can only be manipulated via injected functions</li><li>Because of it, it is a best practice always wrap an agent code inside a module</li><li>The down side is that <a href="https://hexdocs.pm/elixir/Agent.html"><code class="inline">Agent</code></a> does not support as many use cases as <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a>, agents can not handle plain messages</li><li>As a rule of thumb, if you dont need <code class="inline">handle_info</code> or <code class="inline">terminate</code> on your <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a>, it probally can be replaced by an <a href="https://hexdocs.pm/elixir/Agent.html"><code class="inline">Agent</code></a> </li></ul><h2 id="10-3-ets-tables" class="section-heading">
+  <a href="#10-3-ets-tables" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  10.3 - ETS Tables
+</h2>
+<p><a href="Chapter10.EtsKeyValue.html#content">Example</a>)</p><ul><li>It is a mechanism that allows share data between multiple processes more efficiently</li><li>Used as an optimization tool, nothing can be done with ETS that can not be done with <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a></li><li>Typical scenario to use an ETS table is shared key/value structures and counters. The usage of other mechanism to solve this problem would probally lead to scalability issues (See: <a href="Chapter10.KeyValueStore.html#content">GenServer Implementation</a> vs <a href="Chapter10.EtsKeyValue.html#content">ETS Implementation</a>)</li><li>The main difference is that on the GenServer implementation, requests to the data structure are limited by the process execution time, while on the ETS version, all the requests have access directly to the data itself.</li><li>ETS features:<ul><li>Mutable</li><li>Writes and Reads are concurrent</li><li>Last write wins</li><li>Any data, in or out, is deep copied</li><li>No pressure on garbage collector, deleted data, is automatic released</li><li>Linked to its owner process</li><li>Other than owner process termination, there is no way to release ETS memory</li><li>Read data with patterns</li></ul></li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

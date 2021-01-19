@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>3 - Control Flow — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>3 - Control Flow</h1><ul><li>Conditionals and loops works diffenrently than expected</li><li>If and cases are often replaced by multiclause functions</li><li>There is no classical loop like whiles</li><li>Athough it is possible to solve problems of any complexity with Elixir</li></ul><h2 id="3-1-pattern-matching" class="section-heading">
+  <a href="#3-1-pattern-matching" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1 - Pattern Matching
+</h2>
+<ul><li><code class="inline">=</code> operator is NOT a assignment, it is a match</li><li>It makes manipulate complex variables a lot easier</li><li>It even enable you to build elegant declarative-like conditionals and loops</li><li>The result of the match expression is always the value of right-side term</li><li>When the term does not match to the pattern expectations on the left an error is raised</li><li>Can be recursivelly nested</li><li>On the left is the pattern and on the right is the term</li><li>Variables on the pattern are bound to term values</li><li>Functions arguments are patterns</li></ul><h3 id="3-1-1-match-operator" class="section-heading">
+  <a href="#3-1-1-match-operator" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.1 - Match Operator
+</h3>
+<ul><li>Assigment like operations is the most basic use of the match operator <code class="inline">=</code></li><li>Although the expression looks like an assignment and can be treated like one, in fact it's something more complex going on</li><li>A variable is a patter that always match with any term</li></ul><h3 id="3-1-2-matching-tuples" class="section-heading">
+  <a href="#3-1-2-matching-tuples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.2 - Matching Tuples
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(14)&gt; </span><span class="p" data-group-id="4494066537-1">{</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p" data-group-id="4494066537-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:calendar</span><span class="o">.</span><span class="n">local_time</span><span class="p" data-group-id="4494066537-2">(</span><span class="p" data-group-id="4494066537-2">)</span><span class="w">
+</span><span class="p" data-group-id="4494066537-3">{</span><span class="p" data-group-id="4494066537-4">{</span><span class="mi">2020</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p" data-group-id="4494066537-4">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4494066537-5">{</span><span class="mi">19</span><span class="p">,</span><span class="w"> </span><span class="mi">27</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p" data-group-id="4494066537-5">}</span><span class="p" data-group-id="4494066537-3">}</span><span class="w">
+</span><span class="gp unselectable">iex(15)&gt; </span><span class="p" data-group-id="4494066537-6">{</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="p" data-group-id="4494066537-6">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="w">
+</span><span class="p" data-group-id="4494066537-7">{</span><span class="mi">2020</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p" data-group-id="4494066537-7">}</span><span class="w">
+</span><span class="gp unselectable">iex(16)&gt; </span><span class="p" data-group-id="4494066537-8">{</span><span class="n">hour</span><span class="p">,</span><span class="w"> </span><span class="n">minute</span><span class="p">,</span><span class="w"> </span><span class="n">second</span><span class="p" data-group-id="4494066537-8">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="w">
+</span><span class="p" data-group-id="4494066537-9">{</span><span class="mi">19</span><span class="p">,</span><span class="w"> </span><span class="mi">27</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p" data-group-id="4494066537-9">}</span></code></pre><ul><li>This kind of match is useful to bind individual tuple elements to separate variables</li><li>When using this match you are saying that the term should be a tuple with 2 elements</li><li>The variable date will be bound to the first element of the tuple and the time to the second</li><li>Kind of JavaScript object destructuring but instead of object attributes the destructure matchers are the position on the tuple</li></ul><h3 id="3-1-3-matching-constants" class="section-heading">
+  <a href="#3-1-3-matching-constants" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.3 - Matching Constants
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(2)&gt; </span><span class="n">person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9497392039-1">{</span><span class="ss">:person</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p" data-group-id="9497392039-1">}</span><span class="w">
+</span><span class="p" data-group-id="9497392039-2">{</span><span class="ss">:person</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p" data-group-id="9497392039-2">}</span><span class="w">
+</span><span class="gp unselectable">iex(3)&gt; </span><span class="p" data-group-id="9497392039-3">{</span><span class="ss">:person</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p" data-group-id="9497392039-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">person</span><span class="w">
+</span><span class="p" data-group-id="9497392039-4">{</span><span class="ss">:person</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p" data-group-id="9497392039-4">}</span></code></pre><ul><li><code class="inline">1 = 1</code> it surprisingly works</li><li>The usage of constants on the pattern is usefull to guarantee that the term is what you expected</li><li>This pattern is very common on Elixir, where the first element of a tuple is a Atom that defines the tuple &quot;&quot;type&quot;&quot; <code class="inline">{:ok, content}</code> | <code class="inline">{:error, reason}</code></li><li>When constants are used on the pattern you are making sure that the specific part of the term contains that value and you can relie on this information later</li></ul><h3 id="3-1-4-matching-variables" class="section-heading">
+  <a href="#3-1-4-matching-variables" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.4 - Matching Variables
+</h3>
+<ul><li>Variables always match with the left side term and are bound to the matched value</li><li>You can skip terms on tuples with the &quot;<em>&quot;. eg. `{</em>, time} = :calendar.local_time()`</li><li>The same variable can be matched multiple times. This enforce all the ocurrences has to be equal.</li></ul><pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(2)&gt; </span><span class="p" data-group-id="9732689858-1">{</span><span class="n">amount</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">amount</span><span class="p" data-group-id="9732689858-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9732689858-2">{</span><span class="mi">123</span><span class="p">,</span><span class="mi">123</span><span class="p">,</span><span class="mi">123</span><span class="p" data-group-id="9732689858-2">}</span><span class="w">
+</span><span class="p" data-group-id="9732689858-3">{</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="mi">123</span><span class="p" data-group-id="9732689858-3">}</span><span class="w">
+</span><span class="gp unselectable">iex(3)&gt; </span><span class="p" data-group-id="9732689858-4">{</span><span class="n">amount</span><span class="p">,</span><span class="n">amount</span><span class="p">,</span><span class="n">amount</span><span class="p" data-group-id="9732689858-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9732689858-5">{</span><span class="mi">123</span><span class="p">,</span><span class="mi">123</span><span class="p">,</span><span class="mi">1</span><span class="p" data-group-id="9732689858-5">}</span><span class="w">
+</span><span class="gt">** (MatchError) no match of right hand side value: {123, 123, 1}</span></code></pre><ul><li>To use the variable value instead of bound it, you can use the pin operator &quot;^&quot;.</li></ul><pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(5)&gt; </span><span class="n">expected_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bob&quot;</span><span class="w">
+</span><span class="s">&quot;bob&quot;</span><span class="w">
+</span><span class="gp unselectable">iex(6)&gt; </span><span class="p" data-group-id="2465766790-1">{</span><span class="o">^</span><span class="n">expected_name</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="2465766790-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="2465766790-2">{</span><span class="s">&quot;bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p" data-group-id="2465766790-2">}</span><span class="w">
+</span><span class="p" data-group-id="2465766790-3">{</span><span class="s">&quot;bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p" data-group-id="2465766790-3">}</span><span class="w">
+</span><span class="gp unselectable">iex(7)&gt; </span><span class="p" data-group-id="2465766790-4">{</span><span class="o">^</span><span class="n">expected_name</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="2465766790-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="2465766790-5">{</span><span class="s">&quot;alice&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p" data-group-id="2465766790-5">}</span><span class="w">
+</span><span class="gt">** (MatchError) no match of right hand side value: {&quot;alice&quot;, 25}</span><span class="w">
+</span></code></pre><ul><li>This is usefull when you need to build a pattern at runtime</li></ul><h3 id="3-1-5-matching-lists" class="section-heading">
+  <a href="#3-1-5-matching-lists" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.5 - Matching Lists
+</h3>
+<ul><li>Works similarly to tuples</li><li>Matching lists is usually done relying on the recursive nature eg. <code class="inline">[head|tail] = [1,2,3]</code></li><li>This pattern is usually useful when matching function arguments</li></ul><h3 id="3-1-6-matching-maps" class="section-heading">
+  <a href="#3-1-6-matching-maps" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.6 - Matching Maps
+</h3>
+<ul><li>eg. (<code class="inline">%{age: age, works_at: works_at} = %{name: &quot;Bob&quot;, age: 25}</code>)</li><li>Worsk similary to JavaScript object destructuring</li></ul><h3 id="3-1-7-matching-binarys" class="section-heading">
+  <a href="#3-1-7-matching-binarys" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.7 - Matching Binarys
+</h3>
+<ul><li>eg. <code class="inline">&lt;&lt;b1,b2,b3&gt;&gt; = binary</code></li><li>You can use the &quot;::&quot; operator to define different sizes eg. <code class="inline">&lt;&lt;a :: 4, b :: 4&gt;&gt; = &lt;&lt;155&gt;&gt;</code></li><li>On binary strings the match works kind of like operations</li></ul><pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(13)&gt; </span><span class="n">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ping www.example.com.br&quot;</span><span class="w">
+</span><span class="s">&quot;ping www.example.com.br&quot;</span><span class="w">
+</span><span class="gp unselectable">iex(14)&gt; </span><span class="s">&quot;ping &quot;</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">command</span><span class="w">
+</span><span class="s">&quot;ping www.example.com.br&quot;</span><span class="w">
+</span><span class="gp unselectable">iex(15)&gt; </span><span class="n">url</span><span class="w">
+</span><span class="s">&quot;www.example.com.br&quot;</span><span class="w">
+</span></code></pre><h3 id="3-1-8-compound-matches" class="section-heading">
+  <a href="#3-1-8-compound-matches" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.1.8 - Compound Matches
+</h3>
+<ul><li>The fact that the result of a match expression is the right term value, enable elegant oneliners</li></ul><pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(20)&gt; </span><span class="p" data-group-id="6933053939-1">{</span><span class="n">date</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6933053939-2">{</span><span class="n">hour</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="6933053939-2">}</span><span class="p" data-group-id="6933053939-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:calendar</span><span class="o">.</span><span class="n">local_time</span><span class="p" data-group-id="6933053939-3">(</span><span class="p" data-group-id="6933053939-3">)</span><span class="w">
+</span><span class="p" data-group-id="6933053939-4">{</span><span class="p" data-group-id="6933053939-5">{</span><span class="mi">2020</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p" data-group-id="6933053939-5">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6933053939-6">{</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p" data-group-id="6933053939-6">}</span><span class="p" data-group-id="6933053939-4">}</span><span class="w">
+</span><span class="gp unselectable">iex(21)&gt; </span><span class="n">date_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6933053939-7">{</span><span class="n">date</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6933053939-8">{</span><span class="n">hour</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="6933053939-8">}</span><span class="p" data-group-id="6933053939-7">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:calendar</span><span class="o">.</span><span class="n">local_time</span><span class="p" data-group-id="6933053939-9">(</span><span class="p" data-group-id="6933053939-9">)</span><span class="w">
+</span><span class="p" data-group-id="6933053939-10">{</span><span class="p" data-group-id="6933053939-11">{</span><span class="mi">2020</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p" data-group-id="6933053939-11">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6933053939-12">{</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p" data-group-id="6933053939-12">}</span><span class="p" data-group-id="6933053939-10">}</span><span class="w">
+</span><span class="gp unselectable">iex(22)&gt; </span><span class="p" data-group-id="6933053939-13">{</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="6933053939-13">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6933053939-14">{</span><span class="bp">_</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6933053939-15">{</span><span class="n">hour</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="p" data-group-id="6933053939-15">}</span><span class="p" data-group-id="6933053939-14">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:calendar</span><span class="o">.</span><span class="n">local_time</span><span class="p" data-group-id="6933053939-16">(</span><span class="p" data-group-id="6933053939-16">)</span><span class="w">
+</span><span class="p" data-group-id="6933053939-17">{</span><span class="p" data-group-id="6933053939-18">{</span><span class="mi">2020</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p" data-group-id="6933053939-18">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6933053939-19">{</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p" data-group-id="6933053939-19">}</span><span class="p" data-group-id="6933053939-17">}</span></code></pre><h2 id="3-2-matching-functions" class="section-heading">
+  <a href="#3-2-matching-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.2 - Matching Functions
+</h2>
+<ul><li>The pattern matching feature is used in the specification of a function arguments</li><li>This enable a input validation at runtime on function calls</li><li>For instance if you want a tuple containing 2 elements and receive just a tuple with 1 element the call will raise an error</li><li>The patter matching feature on function arguments empowers one of the most important Elixir features, multiclause functions</li></ul><h3 id="3-2-1-multiclause-functions" class="section-heading">
+  <a href="#3-2-1-multiclause-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.2.1 - Multiclause functions
+</h3>
+<ul><li>eg. <a href="Chapter3.Geometry.html#area/1">this function</a></li><li>Enable the overload of a function by the specification of multiple clauses</li><li>When you have multiple functions with the same name and arity, you have a multiclause function</li><li>When a multiclause function is called, the runtime tries to match all of the clauses in <strong>source code order</strong>, the first one that succeeds executes</li><li>All the functions are one unique function. Despite the fact that in the source code it appears to be different functions and have completely different implementations, from callers perpespective it is all one unique function.</li><li>Even the capture operator <code class="inline">&amp;</code> captures all the clauses</li><li>Clauses of the same function MUST be always kept together in the source code. Even the compiler emits a warning when it is not</li></ul><h3 id="3-2-2-guards" class="section-heading">
+  <a href="#3-2-2-guards" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.2.2 - Guards
+</h3>
+<ul><li>eg. <a href="Chapter3.CheckNumber.html#check/1">this function</a></li><li>Guards extends the multiclause behaviour by enabling other conditionals on the clause in adition to the patter matching</li><li>Not every function can be called from guards, are allowed:<ul><li>Comparisson operators. eg.<code class="inline">&lt;=</code></li><li>Boolean operators. eg. <code class="inline">and</code></li><li>Arithmetic operators. eg. <code class="inline">+</code></li><li>Type check functions from Kernel module. eg. <code class="inline">is_number/1</code></li></ul></li><li>If an error occurs during a guard validation, the clause returns false, and the runtime proceeds to the next clause</li></ul><h2 id="3-3-conditionals" class="section-heading">
+  <a href="#3-3-conditionals" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.3 - Conditionals
+</h2>
+<h3 id="3-3-1-multiclause-branching" class="section-heading">
+  <a href="#3-3-1-multiclause-branching" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.3.1 - Multiclause branching
+</h3>
+<ul><li>eg. <a href="Chapter3.ListHelper.html#sum/1">this function</a></li><li>As seen, patter matching on multiclause functions can be used to build conditionals that are applied on inputs parameters</li></ul><h3 id="3-3-2-classical-branching" class="section-heading">
+  <a href="#3-3-2-classical-branching" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.3.2 - Classical branching
+</h3>
+<ul><li><p>If</p><pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(1)&gt; </span><span class="k">if</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w">
+</span><span class="n">...</span><span class="p" data-group-id="7330243897-1">(</span><span class="mi">1</span><span class="p" data-group-id="7330243897-1">)</span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;Success&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...(1)&gt; </span><span class="ss">else</span><span class="p">:</span><span class="w">
+</span><span class="n">...</span><span class="p" data-group-id="7330243897-2">(</span><span class="mi">1</span><span class="p" data-group-id="7330243897-2">)</span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;Failure&quot;</span><span class="w">
+        </span><span class="s">&quot;Success&quot;</span></code></pre><ul><li>Works as expected</li><li>One-liners can be done as <code class="inline">if condition, do: somehting_to_do, else: another_thing_to_do</code></li><li>The return value of an if statement is the return valur of the executed block, if no block is executed the result is <code class="inline">nil</code></li></ul></li><li><p>Unless</p><ul><li>same as <code class="inline">if(!condition)</code></li></ul></li><li><p>Cond</p><ul><li>eg. <a href="Chapter3.CheckNumber.html#cond_check/1">this function</a></li><li>Can be explained as if else if</li><li>The first condition that is true has its code executed</li><li>If no condition is valid, raises an error</li></ul></li><li><p>Case</p><ul><li>Similar to switch-case on mainstream languages</li><li>Uses patter matching instead of simple bollean expressions</li><li>The first pattern that is matched has its code executed</li><li>If no pattern is matched, raises an error</li><li>Can serve as a substitute to multiclause functions on simple tasks<h3 id="3-3-3-the-with-special-form" class="section-heading">
+  <a href="#3-3-3-the-with-special-form" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.3.3 - The With Special Form
+</h3>
+</li><li>eg. <a href="Chapter3.MapHelper.html#normalize_user!/1">this function</a></li><li>Useful to chain pattern matching expressions and return the result value of the first one that fails</li><li>If all clauses are matched the do block is executed</li><li>Guards can be used on patterns as well</li><li>All variables declared inside <code class="inline">with</code> are restricted to that scope</li><li>An <code class="inline">else</code> block can be used in case of failures</li></ul></li></ul><h2 id="3-4-loops-and-iterations" class="section-heading">
+  <a href="#3-4-loops-and-iterations" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.4 - Loops and Iterations
+</h2>
+<ul><li>Definitely doesn't work as expected</li><li>The unique looping tool in Elixir is recursion</li><li>Other high-order functions that are usefull to do iterations are built in on top of recursions</li><li>Although recursion is the main loop building block, high-order functions provide abstractions to deal with it for recorrent simple tasks</li></ul><h3 id="3-4-1-iterating-with-recursion" class="section-heading">
+  <a href="#3-4-1-iterating-with-recursion" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.4.1 - Iterating With Recursion
+</h3>
+<ul><li>eg. <a href="Chapter3.ListHelper.html#non_tail_range/2">this function</a></li><li>Usually are built with multi-clause functions. eg. <a href="Chapter3.ListHelper.html#sum/1">this function</a></li><li>First clause is the recursion stop condition and the other clauses the general cases</li><li>The usual memory problem with long recursions is solved in Elixir by tail-call optimization</li></ul><h3 id="3-4-2-tail-function-calls" class="section-heading">
+  <a href="#3-4-2-tail-function-calls" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.4.2 - Tail Function Calls
+</h3>
+<ul><li>eg. <a href="Chapter3.ListHelper.html#tail_len/1">function 1</a> | <a href="Chapter3.ListHelper.html#tail_positives/1">function 2</a> | <a href="Chapter3.ListHelper.html#tail_range/2">function 3</a></li><li>A tail call happens when the last expression of a function (it's return value) is a call to another function(even it self, in case of recursive tail functions)</li><li>A tail calls works with any branching constructs such as <code class="inline">if</code> or <code class="inline">cond</code></li><li>If the last expression is something like <code class="inline">1 + call_to_a_func()</code> this is not a tail</li><li>The optimization consists in instead of make a stack push for new function calls something like a goto occurs</li><li>This is possible because since the function final value is the value of the next function being called, no context needs to be stored for later computation</li><li>This feature is especially good in recursive functions, since recursive calls don't allocate extra memory a recursive tail function can run, virtually, forever</li><li>This kind of function is the appropriate solution for large iterations</li><li>Tail recursions are kind of the substitutes for traditional loops, it have an accumulator, an iteration step on the general cases clauses and the stop condition on the first clause</li><li>The downside is that sometimes the classical recursion is more elegant solution than the tail recursion, so it is a matter of readabillity x performance</li></ul><h3 id="3-4-3-higher-order-functions" class="section-heading">
+  <a href="#3-4-3-higher-order-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.4.3 - Higher Order Functions
+</h3>
+<ul><li>This kind of functions abstract the recursion complexity, but in the end it's all recursion</li><li>By definition, a higher-order function is a function that do at least one of this 2 things:<ul><li>Takes one or more functions as input</li><li>Returns one or more functions</li></ul></li><li><a href="https://hexdocs.pm/elixir/Enum.html"><code class="inline">Enum</code></a> is the goto module to work with enumerables</li><li><a href="https://hexdocs.pm/elixir/Enum.html"><code class="inline">Enum</code></a> has similar functions as JavaScript Array Prototype that works on all enumerable types on elixir</li><li>The capture operador <code class="inline">&amp;</code> is very usefull to declare simple functions as parameters to highorder functions. eg. <a href="Chapter3.FileHelper.html#words_per_line!/1">this function</a></li></ul><h3 id="3-4-4-comprehensions" class="section-heading">
+  <a href="#3-4-4-comprehensions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.4.4 - Comprehensions
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p" data-group-id="0806927166-1">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="0806927166-1">]</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p" data-group-id="0806927166-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0806927166-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w">  </span><span class="p" data-group-id="0806927166-3">{</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p" data-group-id="0806927166-3">}</span><span class="w">
+</span><span class="p" data-group-id="0806927166-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0806927166-4">]</span></code></pre><ul><li>Kind of a python <code class="inline">for</code> but with some different syntax</li><li><code class="inline">i &lt;- [:a, :b, :c]</code> is the generator term</li><li>Multiples generator can be nested to simulate a nested loop</li><li>Some problems has a more elegant solution when written wih comprehension, especially cross-join problems</li></ul><h3 id="3-4-5-streams" class="section-heading">
+  <a href="#3-4-5-streams" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3.4.5 - Streams
+</h3>
+<ul><li><a href="https://hexdocs.pm/elixir/Stream.html"><code class="inline">Stream</code></a> is a special type of enumerable, it is a lazy enumerable</li><li>The functions of <a href="https://hexdocs.pm/elixir/Stream.html"><code class="inline">Stream</code></a> module usually receives any enumerable as an entry and returns a stream</li><li>A stream is kind of a description of the operations that when executed will produce the result</li><li>It means that the values are generated only when requested, and not before hand, this has 2 major benefits:<ul><li>Memory optimization: Since all the operations can be applied 1 element a time, the whole list is never on the memory</li><li>Iterations optimization: Series of transformations can be done with a single iteration over the list instead of many</li></ul></li><li>This laziness property are very usefull when the problem demands multiple transformations on a large list. eg. <a href="Chapter3.FileHelper.html#content">this module</a></li><li>The laziness is so deep that you can even calculate values one by one with the function <a href="https://hexdocs.pm/elixir/Enum.html#take/2"><code class="inline">Enum.take/2</code></a></li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

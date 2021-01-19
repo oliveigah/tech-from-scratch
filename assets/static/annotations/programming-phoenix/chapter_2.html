@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.6">
+    <meta name="project" content="Programming Phoenix v0.1.0">
+
+    <title>2 - First Steps — Programming Phoenix v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
+
+    <script src="dist/sidebar_items-0d315556d1.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-aaa6eb1824b11a32f32d.js"></script>
+
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix" class="sidebar-projectName">
+Programming Phoenix
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix">
+        <img src="assets/logo.png" alt="Programming Phoenix" class="sidebar-projectImage">
+      </a>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>2 - First Steps</h1><ul><li>The philosopy behind phoenix is that every web server can be abstracted to a function. The browser sends a function call to a remote server that takes de request and generate some response. Therefore web server is a natural problem to be solved by a functional language.</li></ul><h2 id="2-1-simple-functions" class="section-heading">
+  <a href="#2-1-simple-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.1 - Simple Functions
+</h2>
+<ul><li>The elixir's pipe syntax is widely used in phoenix, the benefits of pipes are many, from readability to composibility, pipes helps write elegant and expressive code</li><li>The entry data to the phoenix pipe is a struct called <code class="inline">connection</code> that is literally all the universe of things you need to generate your response</li><li>Each layer of phoenix makes transformations over this <code class="inline">connection</code> passing it through the whole pipe, at the end of the pipe the <code class="inline">connection</code> must contains the server's response to client</li><li>All these premises establishes the basic structure of every phoenix layer, a series of piped functions passing the <code class="inline">connection</code> over and over</li><li>The basic layers of phoenix are:</li></ul><pre><code class="nohighlight makeup elixir"><span class="n">connection</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="n">endpoint</span><span class="p" data-group-id="0295214380-1">(</span><span class="p" data-group-id="0295214380-1">)</span><span class="w">   </span><span class="c1"># The first point of contact of phoenix</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="n">router</span><span class="p" data-group-id="0295214380-2">(</span><span class="p" data-group-id="0295214380-2">)</span><span class="w">     </span><span class="c1"># Redirect the request to the proper controller</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="n">pipelines</span><span class="p" data-group-id="0295214380-3">(</span><span class="p" data-group-id="0295214380-3">)</span><span class="w">  </span><span class="c1"># Custom series of transformations that can be related to specific connection&#39;s properties</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="n">controller</span><span class="p" data-group-id="0295214380-4">(</span><span class="p" data-group-id="0295214380-4">)</span><span class="w"> </span><span class="c1"># Execute the proper business logic</span></code></pre><ul><li>Inside the controller the function that execute the proper business logic is commomly called <code class="inline">action</code>, so each contoller must execute an <code class="inline">action</code></li><li>All related business logic must be encapsulated in modules called <code class="inline">contexts</code>, so each <code class="inline">action</code> lives inside a <code class="inline">context</code></li></ul><h2 id="2-2-setup" class="section-heading">
+  <a href="#2-2-setup" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.2 - Setup
+</h2>
+<ul><li>To run the default phoenix implementation you must have: Erlang, Elixir, PostgreSQL, Node.js, inotiffy(linux only)</li><li>Phoenix can be installed using the mix tool from hex <code class="inline">mix archive.install hex phx_new</code></li><li>After all things set, the commom path to init a phoenix app is:<ul><li><code class="inline">mix phx.new project_name</code> to create the projects base structure</li><li><code class="inline">npm install</code> inside the assets folder</li><li><a href="https://hexdocs.pm/ecto/Mix.Tasks.Ecto.Create.html"><code class="inline">mix ecto.create</code></a> to create the project database</li><li><a href="https://hexdocs.pm/phoenix/Mix.Tasks.Phx.Server.html"><code class="inline">mix phx.server</code></a> to run the server</li></ul></li></ul><h2 id="2-3-building-features" class="section-heading">
+  <a href="#2-3-building-features" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3 - Building Features
+</h2>
+<h3 id="2-3-1-router" class="section-heading">
+  <a href="#2-3-1-router" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.1 - Router
+</h3>
+<ul><li>The match between a route and a cotroller function is done inside the routing layer that is defined by default on <code class="inline">lib/#{project}_web/router.ex</code></li></ul><pre><code class="nohighlight makeup elixir"><span class="c1"># Routing layer sample</span><span class="w">
+  </span><span class="n">scope</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb</span><span class="w"> </span><span class="k" data-group-id="1087599733-1">do</span><span class="w">
+    </span><span class="n">pipe_through</span><span class="w"> </span><span class="ss">:browser</span><span class="w">
+
+    </span><span class="n">get</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">PageController</span><span class="p">,</span><span class="w"> </span><span class="ss">:index</span><span class="w">
+    </span><span class="n">get</span><span class="w"> </span><span class="s">&quot;/hello/:name&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">HelloController</span><span class="p">,</span><span class="w"> </span><span class="ss">:world</span><span class="w">
+  </span><span class="k" data-group-id="1087599733-1">end</span></code></pre><ul><li><code class="inline">scope</code> defines a base path to match</li><li><code class="inline">pipe_through</code> make some housekepping commom to all requests of the same type, in this sample this type is <code class="inline">:browser</code></li><li><code class="inline">get</code> will handle get requests that matches /hello/:name and forward them to the <code class="inline">:world</code> action inside <code class="inline">HelloController</code> controller</li></ul><h3 id="2-3-2-controller" class="section-heading">
+  <a href="#2-3-2-controller" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.2 - Controller
+</h3>
+<ul><li>All controllers in phoenix are inside <code class="inline">lib/#{project}_web/controller</code></li></ul><pre><code class="nohighlight makeup elixir"><span class="c1"># Controller sample</span><span class="w">
+</span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb.HelloController</span><span class="w"> </span><span class="k" data-group-id="0785491354-1">do</span><span class="w">
+  </span><span class="kn">use</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb</span><span class="p">,</span><span class="w"> </span><span class="ss">:controller</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">world</span><span class="p" data-group-id="0785491354-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0785491354-3">%{</span><span class="s">&quot;name&quot;</span><span class="w"> </span><span class="o">=</span><span class="o">&gt;</span><span class="w"> </span><span class="n">name</span><span class="p" data-group-id="0785491354-3">}</span><span class="p" data-group-id="0785491354-2">)</span><span class="w"> </span><span class="k" data-group-id="0785491354-4">do</span><span class="w">
+    </span><span class="n">render</span><span class="p" data-group-id="0785491354-5">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;world.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">name</span><span class="p" data-group-id="0785491354-5">)</span><span class="w">
+  </span><span class="k" data-group-id="0785491354-4">end</span><span class="w">
+</span><span class="k" data-group-id="0785491354-1">end</span></code></pre><ul><li>Controller usually <code class="inline">use</code> the <code class="inline">#{project}Web</code> module passing the <code class="inline">:controller</code> atom as option, this will inject code inside the module and enable the usage of the phoenix controller API</li><li>Functions inside the controller that are used by the router are called actions</li></ul><h3 id="2-3-3-view" class="section-heading">
+  <a href="#2-3-3-view" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.3 - View
+</h3>
+<ul><li>Usually views are inside <code class="inline">lib/#{project}_web/views/#{view_name}.ex</code></li></ul><pre><code class="nohighlight makeup elixir"><span class="c1"># View sample</span><span class="w">
+</span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb.HelloView</span><span class="w"> </span><span class="k" data-group-id="3845062315-1">do</span><span class="w">
+  </span><span class="kn">use</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb</span><span class="p">,</span><span class="w"> </span><span class="ss">:view</span><span class="w">
+</span><span class="k" data-group-id="3845062315-1">end</span></code></pre><ul><li>This sample doesnt do much, but it injects some functions to enable a template rendering</li><li>Here we are relying on the defaults, but we can override them anytime</li></ul><h3 id="2-3-4-template" class="section-heading">
+  <a href="#2-3-4-template" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.4 - Template
+</h3>
+<ul><li>Templates are usually defined inside <code class="inline">lib/#{project}_web/templates/#{controller}/#{action}.html.eex</code></li></ul><pre><code class="html">&lt;h1&gt;From Template: Hello &lt;%= String.capitalize(@name)%&gt;&lt;/h1&gt;</code></pre><ul><li>Templates are htmls that will be converted to a function and phoenix will use to render the page</li><li>Besides the normal html behaviour you can inject elixir code inside it by using <code class="inline">&lt;%= CODE %&gt;</code> the code will be evaluated and will be replaced inside the html</li><li>The variables that are visible inside the template must be passed by the controller when it calls the function <code class="inline">render</code></li></ul><h2 id="2-4-request-pipeline" class="section-heading">
+  <a href="#2-4-request-pipeline" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4 - Request Pipeline
+</h2>
+<ul><li>Phoenix is all about pipe small functions that transforms the <code class="inline">connection</code>, using the <a href="https://hexdocs.pm/plug/Plug.html"><code class="inline">Plug</code></a> library to achieve it</li><li>These small functions are very explicity in what they do and you can check it by seing its code</li><li>You can even create your's small functions and pipe the <code class="inline">connection</code> through it making your custom changes, actually this is the standard way to develop with phoenix</li><li>Your's custom functions have the same behaviour than the phoenix ones, takes a <code class="inline">connection</code> modify and return it</li></ul><h3 id="2-4-1-file-structure" class="section-heading">
+  <a href="#2-4-1-file-structure" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.1 - File Structure
+</h3>
+<ul><li>Every phoenix project contains the same structures of a standard mix project</li><li>Beyond the standard mix structure there some others:<ul><li><code class="inline">/assets</code> browser files like CSS and JS</li><li><code class="inline">/lib/#{project}</code> core system (supervision trees, processes and bussiness logic)</li><li><code class="inline">/lib/#{project}_web</code> web related code (controllers, views, templates)</li></ul></li><li>Inside <code class="inline">/config</code> the file <code class="inline">#{env}.secret.exs</code> is responsible to load secrets and other values from the env vars that are usually populated by deployment tasks</li></ul><h3 id="2-4-2-endpoints" class="section-heading">
+  <a href="#2-4-2-endpoints" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.2 - Endpoints
+</h3>
+<ul><li>An endpoint is the begining of our world that means that is there where the web hands off the request and our application assumes</li><li>The configuration of endpoints is done inside the main config file</li></ul><pre><code class="nohighlight makeup elixir"><span class="c1"># Configures the endpoint</span><span class="w">
+</span><span class="n">config</span><span class="w"> </span><span class="ss">:programming_phoenix</span><span class="p">,</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb.Endpoint</span><span class="p">,</span><span class="w">
+  </span><span class="ss">url</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4800732417-1">[</span><span class="ss">host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span><span class="p" data-group-id="4800732417-1">]</span><span class="p">,</span><span class="w">
+  </span><span class="ss">secret_key_base</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;lDbQ/NK3POAxMyU1ainArEHFknqfeoQe/P44tK6qY1z3kc1yEzl1gT8ARVDaelgf&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="ss">render_errors</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4800732417-2">[</span><span class="ss">view</span><span class="p">:</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb.ErrorView</span><span class="p">,</span><span class="w"> </span><span class="ss">accepts</span><span class="p">:</span><span class="w"> </span><span class="sx">~w(html json)</span><span class="p">,</span><span class="w"> </span><span class="ss">layout</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p" data-group-id="4800732417-2">]</span><span class="p">,</span><span class="w">
+  </span><span class="ss">pubsub_server</span><span class="p">:</span><span class="w"> </span><span class="nc">ProgrammingPhoenix.PubSub</span><span class="p">,</span><span class="w">
+  </span><span class="ss">live_view</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4800732417-3">[</span><span class="ss">signing_salt</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wPmMzm1b&quot;</span><span class="p" data-group-id="4800732417-3">]</span><span class="w">
+</span></code></pre><ul><li>The code of endpoint's module is inside <code class="inline">/lib/#{project}_web/endpoint.ex</code></li><li>The endpoint is basically a pipeline of functions over the <code class="inline">connection</code> (as always)</li><li>You can check the code there and replace(or add) exactly the function you need by another custom plug</li><li>The last plug in endpoint's code is router</li><li>You can even have multiple endpoints on the same phoenix project, alternatively you can create all of them in separate applications and them unite it under an unbrella project (will see it later)</li><li>Endpoints are responsible for functions that must be executed for every request</li></ul><h3 id="2-4-3-router" class="section-heading">
+  <a href="#2-4-3-router" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.3 - Router
+</h3>
+<ul><li>The router is made of two parts:<ul><li>Pipelines: set of functions that must be executed to a specific type of request</li><li>Route table: select which controller must handle the incoming request</li></ul></li><li>There are 2 default pipelines inside router <code class="inline">:browser</code> and <code class="inline">:api</code>, each one contains a set of functions that makes some common tasks in web application</li><li>Usually the router is the last plug in the endpoint, it's last job is call the controller which will handle the specific bussiness logic for the incoming request</li></ul><h3 id="2-4-4-controllers-views-and-templates" class="section-heading">
+  <a href="#2-4-4-controllers-views-and-templates" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.4 - Controllers, Views and Templates
+</h3>
+<ul><li>Controllers are the main module that executes the business logic</li><li>Controllers usaully generates data to be consumed by the view</li><li>View uses the data to fulfill a template</li><li>Templates are HTMLs with injected elixir conde inside it</li></ul><h3 id="2-4-5-other-files" class="section-heading">
+  <a href="#2-4-5-other-files" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.5 - Other Files
+</h3>
+<ul><li><code class="inline">/lib/#{project}.ex</code> defines the top-level interface and documentation for the application</li><li><code class="inline">/lib/#{project}_web.ex</code> contains some glue code that defines the base structure of the web-related modules</li><li><code class="inline">/lib/#{project}_web/channels</code> will learn later</li></ul>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.6) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>

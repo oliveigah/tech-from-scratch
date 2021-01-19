@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>2 - Building Blocks — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>2 - Building Blocks</h1><ul><li>Everything in Elixir is an expression that has a return value</li></ul><h2 id="2-1-interactive-shell" class="section-heading">
+  <a href="#2-1-interactive-shell" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.1 - Interactive Shell
+</h2>
+<ul><li>Started by the <code class="inline">iex</code> command on the console</li><li>Starts an instance of the BEAM and a interactive Elixir shell</li><li>You can type almost any elixir code on the shell and it'll work</li><li>For complex multiline operations you just have to break the expression in lines in some way that it does not form a valid expression until the end.</li></ul><pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(1)&gt; </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p" data-group-id="0660371134-1">(</span><span class="w">
+</span><span class="gp unselectable">...(1)&gt; </span><span class="mi">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span><span class="gp unselectable">...(1)&gt; </span><span class="p" data-group-id="0660371134-1">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="w">
+</span><span class="mf">3.0</span></code></pre><ul><li>Documentation can be accessed in the shell with the command <code class="inline">h</code> it works for almost everything</li><li>Almost everything in elixir is an expression with a return value</li></ul><h2 id="2-2-variables" class="section-heading">
+  <a href="#2-2-variables" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.2 - Variables
+</h2>
+<ul><li>Dynamic language, so no explicity types. Types of variables are defined by the data within them</li><li>Variable assigment in Elixir language is called variable binding</li><li>snake_case is the variable names convention</li><li>Variable names can contain '?' or '!' eg. <code class="inline">valid_name? = false</code></li><li>By convention variables with '?' are usually boolean values</li><li>By convention variables with '!' are usually used to variables that can contain exceptions</li><li>Rebinding doesnt mutate the existing memory value. It just allocate the new value on a new memory location and reassing the symbolic to the new location</li><li>Garbage collector exists and works as expected, values in memory that can't be reached any more are eligible to the garbage collector</li></ul><h2 id="2-3-code-organization" class="section-heading">
+  <a href="#2-3-code-organization" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3 - Code Organization
+</h2>
+<ul><li>A typical Elixir program is composed by several small functions</li><li>Organized group of functions are called Modules</li><li>The initial project folder structure can be initiated by running the command <code class="inline">mix new project_name</code></li><li>Mix have it owns code formater that can be integrated with modern text editors</li><li>Comments are done with the '#' character</li></ul><h3 id="2-3-1-modules" class="section-heading">
+  <a href="#2-3-1-modules" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.1 - Modules
+</h3>
+<ul><li>Is a collection of functions. Kind of Java Namespaces.</li><li><code class="inline">defmodule</code> macro creates a module</li><li>Elixir source files use de .ex extension</li><li>A single .ex file can contain multiple modules, but a module must be defined in a single file</li><li>Modules inside modules are accessible by the '.' notation and no special relation is built. Just syntax convenience</li><li>The character '.' is avaiable to name modules but it is just a syntax convenience. No special relation are built between the modules after the compile.</li><li>CamelCase is the module name convention</li></ul><h3 id="2-3-2-functions" class="section-heading">
+  <a href="#2-3-2-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.2 - Functions
+</h3>
+<ul><li>Every elixir function must be defined inside a module</li><li>snake_case is the function name convention</li><li>As variables the characters '?' and '!' are allowed too</li><li>By convention variables with '?' are usually used when it returns a boolean values</li><li>By convention variables with '!' are usually used to fucntions that may rise runtime errors</li><li><code class="inline">def</code> macro is used to create functions</li><li>Functions with no arguments can have their parentheses ommited in the declaration</li><li><strong>There is no explicit return in Elixir, instead the return value of a function is the return value of it last executed expression</strong></li><li>This feature almost force the functions to be simple</li><li>There are some condensed syntax for short functions declarations</li><li>Parentheses in function calls can be omitted but it is not the convention</li><li>If a function resides in the same module that it is being called the module name can be ommited</li></ul><h3 id="2-3-3-function-arity" class="section-heading">
+  <a href="#2-3-3-function-arity" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.3 - Function Arity
+</h3>
+<ul><li>The arity of a function is the number of parameters it receives</li><li>The unique identifier of a function is: Module + Name + Arity</li><li>Functions with the same module and name but different arity are completely different functions, totally independent from one another</li><li>A usual pattern in Elixir is that lower arity function delegates work to higher arity functions. (eg. Implemented on Geometry module)</li><li>Default parameter values can be generated with the <code class="inline">//</code> operator, but remember it generates multiple separate function.</li><li>Because of it, it is not possible to a function receive a variable number of arguments</li><li>It's possible tho to have function overload with multiclauses functions. See <a href="chapter_3.html#3-2-matching-functions">3.2.1</a></li></ul><h3 id="2-3-4-function-visibility" class="section-heading">
+  <a href="#2-3-4-function-visibility" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.4 - Function visibility
+</h3>
+<ul><li>Functions declared using the <code class="inline">def</code> macro are public and can be called anywhere in the code</li><li>To create private functions should use <code class="inline">defp</code> macro, then it'll be accessible only inside the module</li></ul><h3 id="2-3-5-import-and-aliasses" class="section-heading">
+  <a href="#2-3-5-import-and-aliasses" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.5 - Import and Aliasses
+</h3>
+<ul><li>You can always call a public function using the syntax ModuleName.function_name()</li><li>If you want to ommit the ModuleName part you can <code class="inline">import ModuleName</code> on the start</li><li>If you want to &quot;rename&quot; a module you can <code class="inline">alias ModuleName, as: MyModuleName</code> on the start</li></ul><h3 id="2-3-6-module-attributes" class="section-heading">
+  <a href="#2-3-6-module-attributes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.3.6 - Module Attributes
+</h3>
+<ul><li>Used usually as module constants eg. <code class="inline">@pi 3.14</code> or registered as metadata about the code</li><li>Constants just exists in compile time, replacing all the references for its value</li><li>Registered attributes such as <code class="inline">@moduledoc</code> are kept in the binary and can be accessed at runtime</li><li>Many Elixir tools knows how to interpret such registered attributes to generate usefull stuffs like intelisense, documentation and type specifications</li></ul><h2 id="2-4-type-system" class="section-heading">
+  <a href="#2-4-type-system" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4 - Type System
+</h2>
+<ul><li>Elixir types can always be compared with the <code class="inline">&gt;</code> and <code class="inline">&lt;</code> operators, even when they are of different types</li><li>number &lt; atom &lt; reference &lt; fun &lt; port &lt; pid &lt; tuple &lt; map &lt; list &lt; binary</li></ul><h3 id="2-4-5-data-immutability" class="section-heading">
+  <a href="#2-4-5-data-immutability" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.5 - Data Immutability
+</h3>
+<p>The general idea of data immutability leads to a thought that this could be inneficient memory wise, but actually in most of the cases most of the data is shared by the old and the new version.</p><p>This is easily demonstrate with lists modification, where the tail of the modificated element can be shared without any problems.</p><p>Worth to mention that some data copy is always be present, but the benefits of the immutabillity largelly surpass this downside. The two main benefits of it are:</p><ol><li>Side efect free functions that are easier to analyze, predict and test</li><li>Data consistency that leads to the ability to perform atomic in-memory operations</li></ol><h3 id="2-4-1-numbers" class="section-heading">
+  <a href="#2-4-1-numbers" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.1 - Numbers
+</h3>
+<ul><li>Usually works as expected.</li><li>'/' operator always returns a Float</li></ul><h3 id="2-4-2-atoms" class="section-heading">
+  <a href="#2-4-2-atoms" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.2 - Atoms
+</h3>
+<ul><li>Named constants. (eg. <code class="inline">[:an_atom , :another_atom, :&quot;an atom with spaces&quot;]</code>)</li><li>Compose of two parts text and value</li><li>Efficient memory and performance wise because it is a link to the value and no the value it self</li><li>Enables repeat constants without overload memory neither the code readability</li><li>Aliases are syntax sugar for Atoms</li><li>Booleans are Atoms</li></ul><h3 id="2-4-2-nil-and-truthy" class="section-heading">
+  <a href="#2-4-2-nil-and-truthy" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.2 - Nil and truthy
+</h3>
+<ul><li>Nil is an Atom</li><li>Nil and false are falsy and all the rest truthy</li><li>Short circuits are avaiable</li></ul><h3 id="2-4-3-tuples" class="section-heading">
+  <a href="#2-4-3-tuples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.3 - Tuples
+</h3>
+<ul><li>Eg. <code class="inline">person = {&quot;bob&quot;, 25}</code> | <code class="inline">age = elem(person,1)</code> | <code class="inline">put_elem(person, 1, 26)</code></li><li>Tuples are untyped structures</li><li>Usually used to group a fixed amount of elements together</li><li>Tuples can be manipulated by the Kernel module</li><li>Changes on the tuple does not affect the original data just the references. (Data is always immutable)</li></ul><h3 id="2-4-4-lists" class="section-heading">
+  <a href="#2-4-4-lists" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.4 - Lists
+</h3>
+<ul><li>Eg. <code class="inline">prime_number = [2,3,4,7]</code></li><li>Used to manage dynamic, variable-sized collections of data</li><li>Looks like an array but in fact are singly linked lists</li><li>Because of this, most of the operations on lists are O(n), length(list) included</li><li>Can check if some element is on a list with the operator in (eg. <code class="inline">6 in list</code>)</li><li>Can concatenate two lists with the <code class="inline">++</code> operator (eg. <code class="inline">[1,2,3] ++ [4,5,6]</code>)</li><li>Lists can be manipulated with List module functions</li><li>Changes on the tuple does not affect the original data just the references. (Data is always immutable)</li><li>Lists are recursively composed by head and tail structure</li><li>This recursive structure are useful in many real use cases. eg. <a href="Chapter3.ListHelper.html#sum/1">this function</a></li><li>Because of this, insert a new element on the begining of a list is O(1) while insert on the end is always O(n)</li></ul><h3 id="2-4-6-maps" class="section-heading">
+  <a href="#2-4-6-maps" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.6 - Maps
+</h3>
+<ul><li>eg. <code class="inline">empty_map = %{}</code> | <code class="inline">squares = %{1 =&gt; 1, 2 =&gt; 4, 3 =&gt; 9}</code> | <code class="inline">squares = Map.new([{1,1},{2,4},{3,9}])</code></li><li>It is a key/value store</li><li>Used to manage dynamically sized key/value structures</li><li>Used to manage simple records with a couple well-defined named fields</li><li>Dynamically sized maps are managed by the Map module of the kernel (eg. <code class="inline">Map.fetch(squares,2)</code> | <code class="inline">Map.get(squares, 2)</code>)</li><li>Structured data are usually managed by a notation similar to normal OO objects. (except for updates!)</li><li>For structured data is a common pattern provide all fields of the object as Atoms on the initialization and therefore just use the update syntax</li><li>When keys are Atoms some syntax sugar is avaiable. eg. <code class="inline">bob = %{name: &quot;bob&quot;, age: 25}</code>|<code class="inline">bob.name</code></li></ul><h3 id="2-4-7-binaries-and-bitstrings" class="section-heading">
+  <a href="#2-4-7-binaries-and-bitstrings" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.7 - Binaries and bitstrings
+</h3>
+<ul><li>eg. <code class="inline">&lt;&lt; 1,2,3 &gt;&gt;</code></li><li>Are chunks of bytes</li><li>Don't need to be a multipler of 16. But the representantion will still be in a 8bit normalized form</li><li>When it is not a multiple of 8 it is called a bitstring</li></ul><h3 id="2-4-8-strings" class="section-heading">
+  <a href="#2-4-8-strings" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.8 - Strings
+</h3>
+<ul><li>Elixir does NOT have a dedicated String type. Instead it is represented either as a binary or a list type</li><li>Interpolation syntax is #{<code class="inline">CODE HERE</code>}</li><li>Binary strings uses &quot;</li><li>Binary strings can be concatenated same way as binaries with the <code class="inline">&lt;&gt;</code> operator</li><li>Usually binary strings are managed by the String module of the kernel</li><li>Char lists uses '</li><li>Char lists are a list of integers <code class="inline">[65,66,67] == 'ABC'</code> results <code class="inline">true</code></li><li>Most operations of the String module will NOT work with char list</li><li>Some operations only works with char list, usually the pure erlang ones</li><li>In general its better to endorse the use of binary strings over char lists, except when some third-party library requires the use of char lists</li><li>It's possible to convert one type into another one</li></ul><h3 id="2-4-9-functions" class="section-heading">
+  <a href="#2-4-9-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.9 - Functions
+</h3>
+<ul><li>Anonymous functions are allowed, but the convention to write is different from the named functions. Their parameters dont have parentheses.</li><li>This is important because on multiclauses lambdas all the clauses are listed below it, so it is cleaner to do so</li><li>For code clarity purpose when an anonymous function is called it need to be called with a <code class="inline">.</code> (eg. <code class="inline">anonymous_func.(param1, param2)</code>)</li><li>The fact that functions can be stored in variables allow to them be passed as arguments to parameterize generic logic. Similar to Javascript callback functions on methods like Array.forEach</li><li>The capture operator <code class="inline">&amp;</code> is used to simplify the code, diminishing the noisy, because with it there is no need to create a trivial function that just foward values to another function without any real logic</li><li>The capture operator can also be used to shorten lambda definitions for simple functions. <code class="inline">lambda = &amp;(&amp;1 * &amp;2 + &amp;3)</code></li><li>Anonymous functions have access to all variables from the outside scope. Once the function is created, the function points to the outside variable values on the moment of the creation (it does not change even if these variables change are reassigned later), and hold its value until the variable that contains the anonymous function is reassigned wich makes the outside variables value used inside the function NOT eligible for garbage collection</li></ul><pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex(1)&gt; </span><span class="n">mut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="gp unselectable">iex(2)&gt; </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="9456185322-1">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">IO</span><span class="o">.</span><span class="n">puts</span><span class="p" data-group-id="9456185322-2">(</span><span class="n">mut</span><span class="p" data-group-id="9456185322-2">)</span><span class="w"> </span><span class="k" data-group-id="9456185322-1">end</span><span class="w">
+</span><span class="p" data-group-id="9456185322-3">#</span><span class="nc" data-group-id="9456185322-3">Function</span><span class="p" data-group-id="9456185322-3">&lt;</span><span class="mf">45.97283095</span><span class="o">/</span><span class="mi">0</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="ss">:erl_eval</span><span class="o">.</span><span class="n">expr</span><span class="o">/</span><span class="mi">5</span><span class="p" data-group-id="9456185322-3">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex(3)&gt; </span><span class="n">lambda</span><span class="o">.</span><span class="p" data-group-id="9456185322-4">(</span><span class="p" data-group-id="9456185322-4">)</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex(4)&gt; </span><span class="n">mut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w">
+</span><span class="mi">4</span><span class="w">
+</span><span class="gp unselectable">iex(5)&gt; </span><span class="n">mut</span><span class="w">
+</span><span class="mi">4</span><span class="w">
+</span><span class="gp unselectable">iex(6)&gt; </span><span class="n">lambda</span><span class="o">.</span><span class="p" data-group-id="9456185322-5">(</span><span class="p" data-group-id="9456185322-5">)</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex(7)&gt; </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="9456185322-6">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">IO</span><span class="o">.</span><span class="n">puts</span><span class="p" data-group-id="9456185322-7">(</span><span class="n">mut</span><span class="p" data-group-id="9456185322-7">)</span><span class="w"> </span><span class="k" data-group-id="9456185322-6">end</span><span class="w">
+</span><span class="p" data-group-id="9456185322-8">#</span><span class="nc" data-group-id="9456185322-8">Function</span><span class="p" data-group-id="9456185322-8">&lt;</span><span class="mf">45.97283095</span><span class="o">/</span><span class="mi">0</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="ss">:erl_eval</span><span class="o">.</span><span class="n">expr</span><span class="o">/</span><span class="mi">5</span><span class="p" data-group-id="9456185322-8">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex(8)&gt; </span><span class="n">lambda</span><span class="o">.</span><span class="p" data-group-id="9456185322-9">(</span><span class="p" data-group-id="9456185322-9">)</span><span class="w">
+</span><span class="mi">4</span></code></pre><h3 id="2-4-10-other-built-in-types" class="section-heading">
+  <a href="#2-4-10-other-built-in-types" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.10 - Other built-in types
+</h3>
+<ul><li>Reference: Unique values genereated inside a BEAM instance</li><li>Pid (process identifier): Used to idenfiy erlang process ans cooperate between concurrent tasks</li><li>Port Identifier: All the communication with the outside world is doing through it</li></ul><h3 id="2-4-11-high-level-types" class="section-heading">
+  <a href="#2-4-11-high-level-types" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.11 - High level types
+</h3>
+<ul><li>Range: An enumerable for simple integer ranges, similar to python's range. (eg. <code class="inline">range = 1 .. 33</code>)</li><li>Keyword lists: A special case of list, when all its elements are a two-element tuple and the first element of the tuple is an Atom and have a usage similar to Maps but can have multiple values for the same key and the order could be defined by the user. Mostly used in functions with optional parameters. (eg. <code class="inline">[{:monday, 1}, {:tuesday. 2}]</code>)</li><li>MapSet: The goto structure when dealing with sets. Managed by the MapSet module.</li><li>Date and Time: Composed by 4 modules (Date, Time, DateTime, NaiveDateTime) and can be created by sigils (~D for date, ~T form time, ~N for naive date time)</li></ul><h3 id="2-4-12-io-lists" class="section-heading">
+  <a href="#2-4-12-io-lists" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.4.12 - IO Lists
+</h3>
+<ul><li>Special kind of lists.</li><li>Usually used to incrementally build stream of bytes and forwarded it to an I/O device</li><li>Each element is either an integer between 0 and 255, a binary or an IO List</li><li>This list is usually build as a recursive structs like this:</li></ul><pre><code class="nohighlight makeup elixir"><span class="n">iolist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3574944457-1">[</span><span class="p" data-group-id="3574944457-1">]</span><span class="w">
+</span><span class="n">iolist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3574944457-2">[</span><span class="n">iolist</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This&quot;</span><span class="p" data-group-id="3574944457-2">]</span><span class="w">
+</span><span class="n">iolist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3574944457-3">[</span><span class="n">iolist</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; is&quot;</span><span class="p" data-group-id="3574944457-3">]</span><span class="w">
+</span><span class="n">iolist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3574944457-4">[</span><span class="n">iolist</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; Sparta!&quot;</span><span class="p" data-group-id="3574944457-4">]</span></code></pre><ul><li>This recursive build method makes all the insertion operations on the list O(1)</li></ul><h2 id="2-5-operators" class="section-heading">
+  <a href="#2-5-operators" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.5 - Operators
+</h2>
+<ul><li>Logical operators works as expected. (eg. <code class="inline">==</code> | <code class="inline">!=</code> | <code class="inline">&gt;=</code> | <code class="inline">||</code> | <code class="inline">&amp;&amp;</code>)</li><li>Strict equality are avaiable just like in JavaScript (eg. <code class="inline">===</code> | <code class="inline">!==</code>)</li><li>Short circtuit operators works as expect. (eg. <code class="inline">||</code> | <code class="inline">&amp;&amp;</code>)</li><li>Unary operator <code class="inline">!</code> is avaiable and works as expected</li><li>The pipeline operator <code class="inline">|&gt;</code> takes the value on the left and passes it as the first argument of the function on the right.</li><li>Pipeline operator is usefull when dealing with a serie of function transformations on data</li><li>Most operator are actually functions (eg. <code class="inline">1 + 2</code> is the same as <code class="inline">Kernel.+(1,2)</code>)</li><li>Although anyone should right <code class="inline">Kernel.+(1,2)</code> but this enable the usage of operator functions in anonymous function using the capture operator <code class="inline">&amp;</code> and use them on the enumeration and stream functions</li></ul><h2 id="2-6-macros" class="section-heading">
+  <a href="#2-6-macros" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.6 - Macros
+</h2>
+<ul><li>Too advanced for now. Let's learn it later. <strong>TODO: Learn more about macros and read the book: Metaprogramming Elixir</strong></li><li>One of the most important features in elixir</li><li>Although it's importance, macros should not be over used. Actually it's considered a bad practice use macros when it is not necessary.</li><li>From Official Elixir Docs<blockquote><p>Macros should only be used as a last resort. Remember that explicit is better than implicit. Clear code is better than concise code</p></blockquote></li><li>Enable the creation of compile-time code transformers</li><li>Relies on the quote unquote mechanism describe on <a href="https://elixir-lang.org/getting-started/meta/quote-and-unquote.html">https://elixir-lang.org/getting-started/meta/quote-and-unquote.html</a></li><li>Macros parameters are not resolved as normal function parameters, they actually are quoted, and the result of the macro is a quote too</li><li>Quote and unquote mechanism works because almost every elixir command can be decomposed as a commom standarzied list structure</li></ul><h2 id="2-7-elixir-runtime" class="section-heading">
+  <a href="#2-7-elixir-runtime" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.7 - Elixir Runtime
+</h2>
+<ul><li>Elixir runtime is a BEAM instance</li><li>After the compile and the system's start, Erlang takes full control</li><li>BEAM is a VM, so like JVM it takes control of the system resources and acts as a middleman between the code and the machine</li></ul><h3 id="2-7-1-modules-and-functions" class="section-heading">
+  <a href="#2-7-1-modules-and-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.7.1 - Modules and Functions
+</h3>
+<ul><li>VM keeps track of all modules loaded in memory</li><li>When a function is called from a module, first it checks wheter the module is loaded. If not load it. Then, execute the function</li><li>Although you can write many modules on the same file, when it is compiled each module has it's own Elixir.name_of_the_module.beam file</li><li>Modules are always compiled even if it is defined on IEX. Just its binary will be sotred on memory instead disk.</li><li>Manual compiled modules <code class="inline">elixirc source.ex</code> can be used by elixir tools if they are in the same folder, some code path (defined with <code class="inline">iex -pa my/code/path</code>)</li><li>Pure Erlang compiled modules have pretty much the same behavior</li><li>Pure Erlang modules are Atoms, and because of this have a different naming system. <code class="inline">pure_erlang_module.beam</code> instead the elixir version <code class="inline">Elixir.elixir_module.beam</code></li><li>At runtime module names are atoms and somewhere on the disk is a module_name.beam file where module_name is the alias of Elixir.module_name</li><li>Functions can be called dynamically in runtime using the kernel function apply. (eg. <code class="inline">apply(IO, :puts, [&quot;Dynamic call&quot;])</code>)</li></ul><h3 id="2-7-2-how-to-start-the-runtime" class="section-heading">
+  <a href="#2-7-2-how-to-start-the-runtime" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2.7.2 - How to start the runtime
+</h3>
+<ul><li>IEX:<ul><li>Used most for casual tests and interact with a on going Elixir system</li><li>When the interactive shell is started, the BEAM instance is started underneath too. THe elixir shell takes the input interprets it and show to use the result of the expression that ran on BEAM.</li><li>Because of the &quot;interprets&quot; part of the IEX, its important to say that it's not a good idea makes performance tests on the IEX. The production code will always be compiled.</li></ul></li><li>Scripts<ul><li>The <code class="inline">elixir</code> command can be used to run a single elixir file</li><li>All modules are compiled and stored on the memory all other code is interpreted and run on the BEAM that is stopped once is nothing more to run</li><li>You can prevent the BEAM to stopped after there is no more code to run with the option <code class="inline">elixir --no-halt script.exs</code></li><li>This is usefull when your script just load the modules and forward the real work to concurrent tasks</li></ul></li><li>Mix tool<ul><li>Used to manage projects that are composed by multiple source file</li><li>Best tool for production ready systems</li><li>Have several commands that helps build production ready systems. Such as <a href="https://hexdocs.pm/mix/Mix.Tasks.Test.html"><code class="inline">mix test</code></a> , <a href="https://hexdocs.pm/mix/Mix.Tasks.Run.html"><code class="inline">mix run</code></a>, <a href="https://hexdocs.pm/ex_doc/Mix.Tasks.Docs.html"><code class="inline">mix docs</code></a>, <a href="https://hexdocs.pm/mix/Mix.Tasks.Compile.html"><code class="inline">mix compile</code></a>, and much more.</li></ul></li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

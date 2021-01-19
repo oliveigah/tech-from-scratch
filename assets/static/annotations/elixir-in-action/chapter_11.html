@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>11- Working With Components — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>11- Working With Components</h1><h2 id="11-1-otp-applications" class="section-heading">
+  <a href="#11-1-otp-applications" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  11.1 - OTP Applications
+</h2>
+<ul><li>It is a way to keep together multiple modules and resources as a unique executable system</li><li>It is defined by the application resource file, writen in pure erlang</li><li>Mix tool provides shortcuts to define it inside mix.exs file</li><li>OTP application are not equivalente to Mix projects, the former is a runtime construct and the later a compile-time construct, the OTP application is derived from the Mix project</li><li>The callback module is the main module that starts the application</li><li>Library applications do not have a callback module</li></ul><h2 id="11-2-dependencies" class="section-heading">
+  <a href="#11-2-dependencies" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  11.2 - Dependencies
+</h2>
+<ul><li>Dependencies must be specified in mix.exs file</li><li>Dependencies are specified as tuples like: <code class="inline">{:dependency_name, &quot;version requiriments&quot;}</code></li><li>Version synstax can be found on hexdocs documentation</li><li>After specified you must run <a href="https://hexdocs.pm/mix/Mix.Tasks.Deps.Get.html"><code class="inline">mix deps.get</code></a> to acquire the dependencies from a remote repository</li><li>This command will generate the mix.lock file which contains the references to each dependency</li><li>mix.lock file is used by the <a href="https://hexdocs.pm/mix/Mix.Tasks.Compile.html"><code class="inline">mix compile</code></a> command</li></ul><h2 id="11-3-web-server" class="section-heading">
+  <a href="#11-3-web-server" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  11.3 - Web Server
+</h2>
+<ul><li>Web servers can be implemented from scratch but it is pointless. Instead you coul use some battle tested libraries such ass cowboy and plug. Or even a really powerfull framework like phoenix</li><li>The integration of the HTTP server wit the system is flawless. The &quot;Phoenix is not your application&quot; approach correlates strongly with the best architecturals practices of the modern software development</li></ul><h2 id="11-4-configuration" class="section-heading">
+  <a href="#11-4-configuration" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  11.4 - Configuration
+</h2>
+<ul><li>Application envioronment is a key/value struct that holds data that is accessible from any module</li><li>The definition of this struct is done by the config.exs file, usually locate inside the config folder</li><li>Inside it you can write elixir code to define the variables</li><li>The configuration can vary accordingly to the environment, by default: prod, dev and test</li><li>Config scripts are evaluated before the compilation, so you cant use any custom module</li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

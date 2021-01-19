@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>Chapter5.DatabaseServer — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Elixir In Action v0.1.0</small>
+Chapter5.DatabaseServer          <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/database_server.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>  This module explains how to build a server process with immutable state and how to interact with it</p><ul><li>Server process contains 2 types of functions, interfaces and implementations</li><li>This moule emulate a database server that handle queries executions through a connection established on the process start</li></ul><p>  Book section: 5.3</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_result/0">get_result()</a>
+  </div>
+    <div class="summary-synopsis"><p>Get the oldest query result that was executed by a <a href="#content"><code class="inline">Chapter5.DatabaseServer</code></a> server process</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#loop/1">loop(connection)</a>
+  </div>
+    <div class="summary-synopsis"><p>This is the tail recursion used to keep the server process runing</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#run_async/2">run_async(server_pid, query_def)</a>
+  </div>
+    <div class="summary-synopsis"><p>Run a query on a specific database server process</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start/0">start()</a>
+  </div>
+    <div class="summary-synopsis"><p>Start a new server process to execute a queries</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="get_result/0">
+  <div class="detail-header">
+    <a href="#get_result/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_result()</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/database_server.ex#L67" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>get_result() :: {:error, :timeout} | {:ok, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}</pre>
+      </div>
+
+<p>Get the oldest query result that was executed by a <a href="#content"><code class="inline">Chapter5.DatabaseServer</code></a> server process</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>The <code class="inline">self()</code> call here is evaluated with the client pid, because this is an interface function</li><li>Interface functions abstract the implementation details to use a server process, like here the client do not have to know that messages from the server process are sent matching this pattern <code class="inline">{:query_result, result}</code></li></ul><p>Book section: 5.3.1 e 5.3.2</p><h2 id="get_result/0-examples" class="section-heading">
+  <a href="#get_result/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="9253724224-1">(</span><span class="p" data-group-id="9253724224-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">run_async</span><span class="p" data-group-id="9253724224-2">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;query 1&quot;</span><span class="p" data-group-id="9253724224-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">get_result</span><span class="p" data-group-id="9253724224-3">(</span><span class="p" data-group-id="9253724224-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">compare_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">String</span><span class="o">.</span><span class="n">split</span><span class="p" data-group-id="9253724224-4">(</span><span class="n">result</span><span class="p">,</span><span class="s">&quot;:&quot;</span><span class="p" data-group-id="9253724224-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">last</span><span class="p" data-group-id="9253724224-5">(</span><span class="n">compare_result</span><span class="p" data-group-id="9253724224-5">)</span><span class="w">
+</span><span class="s">&quot;query 1 result&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="loop/1">
+  <div class="detail-header">
+    <a href="#loop/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">loop(connection)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/database_server.ex#L96" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>This is the tail recursion used to keep the server process runing</p><ul><li>This an implementation function, this means that this code runs on the server process side</li><li>Pattern matching is used to filter the incoming messages</li><li>Then a message is sent to the caller with the result of the computation done</li><li>Implementation functions usually are private but for documentation purpose they are pulic here</li><li>The initial state is passed as parameter to the next loop iteration</li></ul><p>Book section: 5.3.1 e 5.3.2</p><h2 id="loop/1-examples" class="section-heading">
+  <a href="#loop/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="0660842473-1">(</span><span class="p" data-group-id="0660842473-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">is_pid</span><span class="p" data-group-id="0660842473-2">(</span><span class="n">server_pid</span><span class="p" data-group-id="0660842473-2">)</span><span class="w">
+</span><span class="no">true</span></code></pre>  </section>
+</section>
+<section class="detail" id="run_async/2">
+  <div class="detail-header">
+    <a href="#run_async/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">run_async(server_pid, query_def)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/database_server.ex#L46" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>run_async(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()</pre>
+      </div>
+
+<p>Run a query on a specific database server process</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>The <code class="inline">self()</code> call here is evaluated with the client pid, because this is an interface function</li><li>Interface functions abstract the implementation details to use a server process, like here the client do not have to know that to run a query it must send a message taht matchs with it <code class="inline">{:run_query, self(), query_def}</code></li><li>Although the client may know the internal representation of the method, it should not rely on it
+Book section: 5.3.1 e 5.3.2</li></ul><h2 id="run_async/2-examples" class="section-heading">
+  <a href="#run_async/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="9082097617-1">(</span><span class="p" data-group-id="9082097617-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">client_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p" data-group-id="9082097617-2">(</span><span class="p" data-group-id="9082097617-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">run_async</span><span class="p" data-group-id="9082097617-3">(</span><span class="n">server_pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;query 1&quot;</span><span class="p" data-group-id="9082097617-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9082097617-4">{</span><span class="ss">:run_query</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="n">client_pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;query 1&quot;</span><span class="p" data-group-id="9082097617-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span></code></pre>  </section>
+</section>
+<section class="detail" id="start/0">
+  <div class="detail-header">
+    <a href="#start/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">start()</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/database_server.ex#L23" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>start() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()</pre>
+      </div>
+
+<p>Start a new server process to execute a queries</p><ul><li>This an interface function, this means that this code runs on the client process side</li><li>To keep the process runing a tail recursion is needed</li><li>The initial state is initialized here and passes to the loop function</li></ul><p>Book section: 5.3.1 e 5.3.2</p><h2 id="start/0-examples" class="section-heading">
+  <a href="#start/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">server_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter5.DatabaseServer</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="0001641725-1">(</span><span class="p" data-group-id="0001641725-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">is_pid</span><span class="p" data-group-id="0001641725-2">(</span><span class="n">server_pid</span><span class="p" data-group-id="0001641725-2">)</span><span class="w">
+</span><span class="no">true</span></code></pre>  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

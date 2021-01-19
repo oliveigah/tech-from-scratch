@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>Chapter5.QueryHelper — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Elixir In Action v0.1.0</small>
+Chapter5.QueryHelper          <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/query_helper.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>  This module explains how to spawn a new process and receive messages from it</p><p>  Book section: 5.2</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#execute_query/1">execute_query(query_text)</a>
+  </div>
+    <div class="summary-synopsis"><p>Simulate a database call with 2 seconds delay</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#execute_query_on_another_process/1">execute_query_on_another_process(query_text)</a>
+  </div>
+    <div class="summary-synopsis"><p>Spawn a new process to executes a query</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_some_result_from_inbox/0">get_some_result_from_inbox()</a>
+  </div>
+    <div class="summary-synopsis"><p>Get the first query result from the process inbox</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#run_queries_async/1">run_queries_async(queries_list)</a>
+  </div>
+    <div class="summary-synopsis"><p>Run a list of queries asynchronously</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#run_queries_sync/1">run_queries_sync(queries_list)</a>
+  </div>
+    <div class="summary-synopsis"><p>Run a list of queries synchronously</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="execute_query/1">
+  <div class="detail-header">
+    <a href="#execute_query/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">execute_query(query_text)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/query_helper.ex#L28" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>execute_query(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <<_::56, _::_*8>></pre>
+      </div>
+
+<p>Simulate a database call with 2 seconds delay</p><p>Book section: 5.2.1</p>  </section>
+</section>
+<section class="detail" id="execute_query_on_another_process/1">
+  <div class="detail-header">
+    <a href="#execute_query_on_another_process/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">execute_query_on_another_process(query_text)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/query_helper.ex#L17" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>execute_query_on_another_process(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()</pre>
+      </div>
+
+<p>Spawn a new process to executes a query</p><ul><li><code class="inline">self/1</code> is used to get the caller pid wich will be send to the new process</li><li><code class="inline">self/1</code> can should not be called inside the <code class="inline">spawn/1</code> function</li><li>A deep copy of every data passed to <code class="inline">spawn/1</code> is send to the new process</li></ul><p>Book section: 5.2.1</p>  </section>
+</section>
+<section class="detail" id="get_some_result_from_inbox/0">
+  <div class="detail-header">
+    <a href="#get_some_result_from_inbox/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_some_result_from_inbox()</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/query_helper.ex#L64" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Get the first query result from the process inbox</p><ul><li>This function relies on patten matching to distinguish between query result messages and other possible messages on the inbox</li><li>To prevent being stuck if no message has arrived, the clause <code class="inline">after</code> is used. Kind of a timeout</li></ul><p>Book section: 5.2.2</p>  </section>
+</section>
+<section class="detail" id="run_queries_async/1">
+  <div class="detail-header">
+    <a href="#run_queries_async/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">run_queries_async(queries_list)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/query_helper.ex#L52" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>run_queries_async(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()) :: [<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()]</pre>
+      </div>
+
+<p>Run a list of queries asynchronously</p><ul><li>This function always takes 2 seconds to execute</li><li>Although, it does not return the queries results, it returns a list of pids</li></ul><p>Book section: 5.2.2</p>  </section>
+</section>
+<section class="detail" id="run_queries_sync/1">
+  <div class="detail-header">
+    <a href="#run_queries_sync/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">run_queries_sync(queries_list)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_5/modules/query_helper.ex#L40" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+      <h2>Specs</h2>
+      <div class="specs">
+          <pre>run_queries_sync(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+
+<p>Run a list of queries synchronously</p><ul><li>This function takes <code class="inline">2 * length(list)</code> seconds to execute</li></ul><p>Book section: 5.2.1</p>  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

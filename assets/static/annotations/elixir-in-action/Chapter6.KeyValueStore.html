@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>Chapter6.KeyValueStore — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Elixir In Action v0.1.0</small>
+Chapter6.KeyValueStore          <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_6/modules/key_value_store.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>  This module explains how to build a module that relies on <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a></p><ul><li>The basic approach is similiar to the <a href="Chapter6.MyKeyValueStore.html"><code class="inline">Chapter6.MyKeyValueStore</code></a></li><li>This callback module must implement a set of functions in order to be compatible with <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a></li></ul><p>  Book section: 6.2</p>        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#child_spec/1">child_spec(init_arg)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a specification to start this module under a supervisor.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/2">get(server_pid, key)</a>
+  </div>
+    <div class="summary-synopsis"><p>Get the value referenced by a specific key synchronously</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_info/2">handle_info(msg, state)</a>
+  </div>
+    <div class="summary-synopsis"><p>Handle generic custom calls to the server</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#init/1">init(args)</a>
+  </div>
+    <div class="summary-synopsis"><p>Initialize the server</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put/3">put(server_pid, key, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Add a key/value pair asynchronously</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start/0">start()</a>
+  </div>
+    <div class="summary-synopsis"><p>Starts the server process</p></div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="child_spec/1">
+  <div class="detail-header">
+    <a href="#child_spec/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">child_spec(init_arg)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_6/modules/key_value_store.ex#L9" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Returns a specification to start this module under a supervisor.</p><p>See <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a>.</p>  </section>
+</section>
+<section class="detail" id="get/2">
+  <div class="detail-header">
+    <a href="#get/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get(server_pid, key)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_6/modules/key_value_store.ex#L61" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Get the value referenced by a specific key synchronously</p><ul><li>If a function should be running synchronously, it must use the <a href="https://hexdocs.pm/elixir/GenServer.html#call/2"><code class="inline">GenServer.call/2</code></a> function</li></ul><p>Book section: 6.2.3</p><h2 id="get/2-examples" class="section-heading">
+  <a href="#get/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4370101832-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="4370101832-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="4370101832-2">(</span><span class="p" data-group-id="4370101832-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">put</span><span class="p" data-group-id="4370101832-3">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="ss">:first</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p" data-group-id="4370101832-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="4370101832-4">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="ss">:first</span><span class="p" data-group-id="4370101832-4">)</span><span class="w">
+</span><span class="s">&quot;value&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4370101832-5">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="4370101832-5">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="4370101832-6">(</span><span class="p" data-group-id="4370101832-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="4370101832-7">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="ss">:first</span><span class="p" data-group-id="4370101832-7">)</span><span class="w">
+</span><span class="no">nil</span></code></pre>  </section>
+</section>
+<section class="detail" id="handle_info/2">
+  <div class="detail-header">
+    <a href="#handle_info/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_info(msg, state)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_6/modules/key_value_store.ex#L100" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Handle generic custom calls to the server</p><ul><li>Any message that arrives to the server that do not fall into one of the 2 categories, cast or call will be handled by this function</li></ul><p>Book section: 6.2.4</p>  </section>
+</section>
+<section class="detail" id="init/1">
+  <div class="detail-header">
+    <a href="#init/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">init(args)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_6/modules/key_value_store.ex#L73" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Initialize the server</p><ul><li>The function <code class="inline">:timer.send_interval</code> is used to send a periodically request to the server</li></ul><p>Book section: 6.2.4</p>  </section>
+</section>
+<section class="detail" id="put/3">
+  <div class="detail-header">
+    <a href="#put/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">put(server_pid, key, value)</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_6/modules/key_value_store.ex#L40" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Add a key/value pair asynchronously</p><ul><li>If a function should be running asynchronously, it must use the <a href="https://hexdocs.pm/elixir/GenServer.html#cast/2"><code class="inline">GenServer.cast/2</code></a> function</li></ul><p>Book section: 6.2.3</p><h2 id="put/3-examples" class="section-heading">
+  <a href="#put/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1508097841-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="1508097841-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="1508097841-2">(</span><span class="p" data-group-id="1508097841-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">put</span><span class="p" data-group-id="1508097841-3">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="ss">:first</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p" data-group-id="1508097841-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="1508097841-4">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="ss">:first</span><span class="p" data-group-id="1508097841-4">)</span><span class="w">
+</span><span class="s">&quot;value&quot;</span></code></pre>  </section>
+</section>
+<section class="detail" id="start/0">
+  <div class="detail-header">
+    <a href="#start/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">start()</h1>
+      <a href="https://github.com/oliveigah/BN-elixir-in-action/blob/master/lib/chapters/chapter_6/modules/key_value_store.ex#L23" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+
+  <section class="docstring">
+
+<p>Starts the server process</p><ul><li>This function relies in <a href="https://hexdocs.pm/elixir/GenServer.html#start/3"><code class="inline">GenServer.start/3</code></a></li></ul><p>Book section: 6.2.2</p><h2 id="start/0-examples" class="section-heading">
+  <a href="#start/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7641325868-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="7641325868-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Chapter6.KeyValueStore</span><span class="o">.</span><span class="n">start</span><span class="p" data-group-id="7641325868-2">(</span><span class="p" data-group-id="7641325868-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">is_pid</span><span class="p" data-group-id="7641325868-3">(</span><span class="n">pid</span><span class="p" data-group-id="7641325868-3">)</span><span class="w">
+</span><span class="no">true</span></code></pre>  </section>
+</section>
+          </div>
+        </section>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>9 - Isolating Error Effects — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>9 - Isolating Error Effects</h1><h2 id="9-1-supervision-trees" class="section-heading">
+  <a href="#9-1-supervision-trees" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.1 - Supervision Trees
+</h2>
+<h3 id="9-1-1-loosely-dependent-parts" class="section-heading">
+  <a href="#9-1-1-loosely-dependent-parts" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.1.1 - Loosely Dependent Parts
+</h3>
+<ul><li>Starting workers processes within other workers can lead to a coarse-grained error recovery, because exit signals will be send to all linked processes</li><li>The usual approach is to have all independent or loosely dependent processes directly linked to supervisors</li><li>All childs initialization is synchronously, and in order as specified. If a child process need more complex initialization, use the self message trick</li></ul><h3 id="9-1-2-rich-process-discovery" class="section-heading">
+  <a href="#9-1-2-rich-process-discovery" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.1.2 - Rich Process Discovery
+</h3>
+<ul><li>Since processes can be restarted by supervisors, the system can not relie on processes pids. Because a certain process can be restarted and has a different pid now</li><li>To solve this problem we need a mechanism that allow processes to be registered with a symbolic name, which could be an arbitrary term instead of just atoms that registered names</li><li>Such mechanism would make possible every time a process is restarted, it be registered under the same name, and all reference to it would be via this symbolic name instead of pid</li><li>This mechanism in elixir is the <a href="https://hexdocs.pm/elixir/Registry.html"><code class="inline">Registry</code></a> module, which works as an key/value pair between arbitrary terms and pids</li><li>Internally <a href="https://hexdocs.pm/elixir/Registry.html"><code class="inline">Registry</code></a> is powered by ETS which make it much more powerfull than a simple map</li><li>A process can register it self to a <a href="https://hexdocs.pm/elixir/Registry.html"><code class="inline">Registry</code></a> using the function <a href="https://hexdocs.pm/elixir/Registry.html#register/3"><code class="inline">Registry.register/3</code></a></li><li>Registered processes can be discovered using the function <a href="https://hexdocs.pm/elixir/Registry.html#lookup/2"><code class="inline">Registry.lookup/2</code></a></li><li>One usefull property of registries is that it links to all registered processes, so it can automatically remove a process from the register when the process terminate</li></ul><h3 id="9-1-3-via-tuples" class="section-heading">
+  <a href="#9-1-3-via-tuples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.1.3 - Via Tuples
+</h3>
+<ul><li><a href="Chapter9.EchoServer.html#content">Example</a></li><li>Until now, the only way you have to identify processes was pid, which is the raw process address on BEAM</li><li>An alternative to pids are via tuples, they identifie a process not with raw pid, but providing a way of discover it</li><li>A via tuple format is something like this <code class="inline">{:via, some_module, some_arg}</code>, and it provides information about how to discover the process pid, because at the end of the day, the pid is what you want</li><li><code class="inline">:via</code> atom just informs that the via tuple method is being used</li><li><code class="inline">some_module</code> holds the module by how the discover will happen, this module that has all the behaviour &quot;knowledge&quot;, which is a set of well defined functions</li><li><code class="inline">some_arg</code> holds the data that will be passed to some_module's well defined functions that enable it to find the pid</li><li>Using via tuples processes can be registered under arbitrary complex terms as keys</li></ul><h3 id="9-1-4-regisitry-process" class="section-heading">
+  <a href="#9-1-4-regisitry-process" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.1.4 - Regisitry Process
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">Account.ProcessRegistry</span><span class="w"> </span><span class="k" data-group-id="2310612096-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">start_link</span><span class="p" data-group-id="2310612096-2">(</span><span class="p" data-group-id="2310612096-2">)</span><span class="w"> </span><span class="k" data-group-id="2310612096-3">do</span><span class="w">
+    </span><span class="nc">Registry</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="2310612096-4">(</span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="bp">__MODULE__</span><span class="p">,</span><span class="w"> </span><span class="ss">keys</span><span class="p">:</span><span class="w"> </span><span class="ss">:unique</span><span class="p" data-group-id="2310612096-4">)</span><span class="w">
+  </span><span class="k" data-group-id="2310612096-3">end</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">via_tuple</span><span class="p" data-group-id="2310612096-5">(</span><span class="n">key</span><span class="p" data-group-id="2310612096-5">)</span><span class="w"> </span><span class="k" data-group-id="2310612096-6">do</span><span class="w">
+    </span><span class="p" data-group-id="2310612096-7">{</span><span class="ss">:via</span><span class="p">,</span><span class="w"> </span><span class="nc">Registry</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2310612096-8">{</span><span class="bp">__MODULE__</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p" data-group-id="2310612096-8">}</span><span class="p" data-group-id="2310612096-7">}</span><span class="w">
+  </span><span class="k" data-group-id="2310612096-6">end</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">child_spec</span><span class="p" data-group-id="2310612096-9">(</span><span class="bp">_</span><span class="p" data-group-id="2310612096-9">)</span><span class="w"> </span><span class="k" data-group-id="2310612096-10">do</span><span class="w">
+    </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">child_spec</span><span class="p" data-group-id="2310612096-11">(</span><span class="w">
+      </span><span class="nc">Registry</span><span class="p">,</span><span class="w">
+      </span><span class="ss">id</span><span class="p">:</span><span class="w"> </span><span class="bp">__MODULE__</span><span class="p">,</span><span class="w">
+      </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2310612096-12">{</span><span class="bp">__MODULE__</span><span class="p">,</span><span class="w"> </span><span class="ss">:start_link</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2310612096-13">[</span><span class="p" data-group-id="2310612096-13">]</span><span class="p" data-group-id="2310612096-12">}</span><span class="w">
+    </span><span class="p" data-group-id="2310612096-11">)</span><span class="w">
+  </span><span class="k" data-group-id="2310612096-10">end</span><span class="w">
+</span><span class="k" data-group-id="2310612096-1">end</span><span class="w">
+</span></code></pre><ul><li>Registries are processes as well, so they must be supervisioned, that is why you need the <code class="inline">clid_spec(_)</code> function</li><li>The <code class="inline">via_tuple/1</code> function will be used by any process that wants to register it self under this registry</li><li>An usual approach to define processes keys under a registry is using a tuple like this <code class="inline">{module_name, id}</code>, this reduce the chance of a name conflict between 2 processes</li><li>The <code class="inline">via_tuple/1</code> function is also used when a process need to discover the pid</li></ul><h3 id="9-1-5-supervising-supervisors" class="section-heading">
+  <a href="#9-1-5-supervising-supervisors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.1.5 - Supervising Supervisors
+</h3>
+<ul><li>Due to <a href="chapter_8.html#8-3-supervisors">restart frequency</a>, its not ideal to a supervisor handle too many children</li><li>Therefore is a usual approach to split children between other supervisors that will be supervised by another supervisor</li><li>Supervisors treats other supervisors different than workers, it means that they have different specifications</li><li>This concept of supervised supervisors is what origins the supervision tree</li></ul><h3 id="9-1-6-organizing-supervision-tree" class="section-heading">
+  <a href="#9-1-6-organizing-supervision-tree" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.1.6 - Organizing Supervision Tree
+</h3>
+<ul><li>Although supervision tree play an important role on fault-tolerance topic, it most important role is to provide a proper start order for the system</li><li>If processes are kind of services, supervisors are service managers, kind of a built in systemd</li><li>By holding the knowlodge of how system should be started, supervisors provide a way to stop/restart specific parts of the system without have to worry about side effects, because all children will be taken down and restarted correctly</li><li>This allows to reasoning about errors on the system much easier</li><li>All processes that are started under a supervisor must be OTP compliant</li><li>Plain <code class="inline">spawn_link</code> processes should not be handled by supervisors directly, although it can be used on workers</li><li>Another important feature is the ability to shutdown the system (or parts of it) without leave dangling processes behind</li><li>Workers that traps exits have a chance to perform some action before being terminated by the supervisor in a system terminate scenario</li><li>Supervisors can be informed of how treat workers termination individually, if it waits, for how long, etc</li><li>Workers can inform the supervisor how to treat their faliures:<ul><li>Restart the process is the default one</li><li>:temporary workers are not restarted when terminated</li><li>:transient workers are restarted only if it terminates abnormally</li></ul></li><li>Supervisors can have different restart strategies<ul><li>:one_for_one restart only the crashed process</li><li>:one_for_all restart all children</li><li>:rest_for_one restart only younger siblings of the crashed worker, as specified on initialization</li></ul></li></ul><h2 id="9-2-dynamic-supervisors" class="section-heading">
+  <a href="#9-2-dynamic-supervisors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.2 - Dynamic Supervisors
+</h2>
+<ul><li>In some cases, the default implementation of providing before hand all the children to supervisor are not what you need</li><li>When children can come and go by demand a <a href="https://hexdocs.pm/elixir/DynamicSupervisor.html"><code class="inline">DynamicSupervisor</code></a> is needed</li><li>Children can be added dynamically using the <a href="https://hexdocs.pm/elixir/DynamicSupervisor.html#start_child/2"><code class="inline">DynamicSupervisor.start_child/2</code></a> function</li><li>All initialization is synchronously</li></ul><h2 id="9-3-let-it-crash" class="section-heading">
+  <a href="#9-3-let-it-crash" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.3 - Let It Crash
+</h2>
+<ul><li>The supervision tree concept allows a very elegant and eficient way to handle unexpected errors</li><li>Because of it the code is way clearer, without any defensive constructs noise</li><li>This style of programming is described by Joe Armstrong in his <a href="http://erlang.org/download/armstrong_thesis_2003.pdf">PhD thesis</a></li><li>When a process crash it is restarted with a clean state, some requests will fail, but the entire system functionality will be back to normal soon, because all the things are starting fresh</li><li>Although &quot;Let it crash&quot; is different from &quot;Let everything crash&quot;, some processes and errors must be handled explicitly<ul><li>Critical processes</li><li>Erros that can be meaningful handled</li></ul></li></ul><h3 id="9-3-1-critial-processes" class="section-heading">
+  <a href="#9-3-1-critial-processes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.3.1 - Critial Processes
+</h3>
+<ul><li>Critical processes, informally called error-kernel processes are:<ul><li>Processes the entire system relies on</li><li>Processes which the state can not be restored in a simple and consistent way</li></ul></li><li>This kind of code must be as simple as possible, a usual pattern to simplify error-kernel processes is to split it into two processes, one handle the logic and other handle the state, this way the logic one can be easily restarted because it has no state and the state one is hard to crash because it just handle state</li><li>Try catch mechanism can be used in every message handler function, and if something goes wrong, just keep the previous state</li></ul><h3 id="9-3-2-meaningful-errors" class="section-heading">
+  <a href="#9-3-2-meaningful-errors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.3.2 - Meaningful Errors
+</h3>
+<ul><li>The point of supervisors is to handle unexpected errors</li><li>In general, if you know what to do with an error you must handle it</li><li>For instance, an access denied error on an archive must be treated asking for the users password</li></ul><h3 id="9-3-3-preserving-state" class="section-heading">
+  <a href="#9-3-3-preserving-state" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  9.3.3 - Preserving State
+</h3>
+<ul><li>By default, state is not preserved on process crash, so you have to implement it if you need it</li><li>The usual approach is to have the state being saved outside the process, a database or another process for instance, and restore this state when the process restart, the previous state is restored</li><li>Be careful when preserving state, if a corrupted state is preserved, the process will be crash rapidly everytime it is restarted, ultimately taking down his supervisor</li><li>As a rule, the state should be persisted just after all transformation is done, and consistency is guarantee</li><li>Ideally, restart clean always it is possible</li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>

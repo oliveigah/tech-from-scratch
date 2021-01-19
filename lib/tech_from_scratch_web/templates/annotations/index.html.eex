@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+  <%= for annotation <- @annotations do%>
+    <div class="col-md-4">
+      <div class="card mb-4 box-shadow annotations-thumbnail">
+        <img class="card-img-top" src="<%= Routes.static_path(@conn, annotation.thumbnail) %>" data-holder-rendered="true">
+      </div>
+      <div>
+          <div class="d-flex justify-content-center align-items-center">
+            <h4> <%= annotation.name %></h4>
+          </div>
+          <div class="d-flex justify-content-center align-items-center">
+            <small class="text-muted fas fa-eye"> <%=annotation.views%> </small>
+          </div>
+          </br>
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="btn-group">
+              <a href="<%= Routes.static_path(@conn, annotation.docs_link) %>" type="button" class="btn btn-sm btn-outline-secondary">View Notes</a>
+            </div>
+          </div>
+      </div>
+      </br>
+    </div>
+  <% end %>
+  </div>
+</div>

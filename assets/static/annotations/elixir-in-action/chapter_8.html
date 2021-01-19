@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.1">
+    <meta name="project" content="Elixir In Action v0.1.0">
+    <title>8 - Fault Tolerance Basics — Elixir In Action v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-e589b8fad3dab6230c65.css" />
+    <script src="dist/sidebar_items-4877e53eb1.js"></script>
+      <script src="docs_config.js"></script>
+    <script async src="dist/app-5c0c23dfec2d63ae33a2.js"></script>
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action" class="sidebar-projectName">
+Elixir In Action      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+      <a href="https://techfromscratch.com.br/book_notes/elixir_in_action">
+        <img src="assets/logo.png" alt="Elixir In Action" class="sidebar-projectImage">
+      </a>
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>8 - Fault Tolerance Basics</h1><ul><li>Fault tolerance in the BEAM ecossytem is acknowledge the existence of failures, minimizing their impact and ultimately recover from them without human interaction</li><li>Since it is impossible to predict everything that may go wrong, we assume that everything can fail, and no matter how important is a component that fail, it can not take down the entire system</li><li>BEAM powered systems are usually self-healing systems that can recover themselves from some kind of failures</li><li>This property is again achieved by the concurrent nature of BEAM, since two processes are completly independent agents failures are never propagated except if the developer explicitly want it</li></ul><h2 id="8-1-runtime-errors" class="section-heading">
+  <a href="#8-1-runtime-errors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.1 - Runtime Errors
+</h2>
+<ul><li>There are several ways that a runtime error can be raised, wrong aritmetics, call unknow functions and many others</li><li>When a runtime error happens the execution control is transfered to some kind of error-handling code, if it does not exist, the process that raised the error is terminated</li><li>Errors can be handled with <code class="inline">try-catch</code> constructs similar to other main stream languages</li></ul><h3 id="8-1-1-error-types" class="section-heading">
+  <a href="#8-1-1-error-types" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.1.1 - Error Types
+</h3>
+<ul><li>There is 3 types of errors in BEAM<ul><li>errors: The classical error, used when a unexpected thing happen</li><li>exits: A signal emited by processes that are terminating</li><li>throws: Stop the execution flow throwing a value to be catched later</li></ul></li><li><code class="inline">raise/1</code> is used to raise custom errors</li><li>There are 2 approachs of working with a function that can fail<ul><li>Raising an error: In this case the execution will fail and an error will be raised</li><li>Matching the result: Informing a failure with pattern matching of the function response</li></ul></li><li>The raising error approach is usefull when the code is really unexpected to fail, if all the system functionality relies on the existance of a file that is not there, you probally wants to raise an error</li><li>The matching result is more usefull when the code eventually can fail and it is expected</li><li><code class="inline">exit/1</code> is used to terminating a process and inform the reasons to do so</li><li><code class="inline">throw/1</code> is used to change the execution flow somewhat similat to a goto expression</li></ul><h3 id="8-1-2-handling-errors" class="section-heading">
+  <a href="#8-1-2-handling-errors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.1.2 - Handling Errors
+</h3>
+<ul><li>The main way to intercept errors(error, exit or throw) is by try-catch constructs</li><li>The catch clause can use pattern matching to match errors, exactly like <code class="inline">case</code></li><li>The return valure of the try-catch expression is the value of the last executed statement</li><li>The clause <code class="inline">after</code> specifies a code that will always be executed, no matter what happens</li><li>The <code class="inline">after</code> result do not change the try-catch result value, and some syntax sugar is avaiable for it, see <a href="https://elixir-lang.org/getting-started/try-catch-and-rescue.html">the docs</a></li><li>Tail-call optimization do not work with try catch operations as it's last expression</li><li>In comparison to main stream languages the try-catch is way less used in elixir</li><li>Usually elixir systems let the process crash and them handle it later, starting the process again for instance</li><li>This works perfectly with bugs that happens randonly and are hard to reproduce, because they occur due to hardware failures and stuffs like that</li></ul><h2 id="8-2-concurrent-system-s-errors" class="section-heading">
+  <a href="#8-2-concurrent-system-s-errors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.2 - Concurrent System's Errors
+</h2>
+<ul><li>Although the processes are completly isolated, sometimes it's necessary to create somekind of link between them</li><li>It may be because of a processes heavily relies on another process service or would be counter productive continuouly running the processes without the others</li></ul><h3 id="8-2-1-linking-processes" class="section-heading">
+  <a href="#8-2-1-linking-processes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.2.1 - Linking Processes
+</h3>
+<ul><li>Link is a concept that two processes that are linked when one of them terminated the other one will receive an exit signal containing some information about the terminated process and reasons of the crash and if the exit signal is not <code class="inline">:normal</code> the recipient process will be terminated as well</li><li>Instead of just terminate, recipient processes can trap exits signal and handling them in some way. This can be done with <code class="inline">Process.flag(:trap_exit, true)</code></li><li>This makes all the exit signals to be received as mesages in the process mailbox that has a spcific pattern that could be matched on the <code class="inline">receive</code> macro</li><li>All links are bidirectional, this means that both processes will send messages to each other in case of failures</li></ul><h3 id="8-2-2-monitors" class="section-heading">
+  <a href="#8-2-2-monitors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.2.2 - Monitors
+</h3>
+<ul><li>Monitors are kind of unidirectional links, one process is notified about the others failures but not the other way around</li><li>To monitor a process use <code class="inline">Process.monitor(target_pid)</code></li><li>When a monitored process dies, the monitor will receive a message on it's mailbox</li><li>There are 2 main differences between monitors and links<ul><li>Links are bidirectional always while monitor are unidirectional</li><li>Links (without traps) will always terminate both processes while on monitor it's just a message, which can be handled or ignored</li></ul></li></ul><h2 id="8-3-supervisors" class="section-heading">
+  <a href="#8-3-supervisors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.3 - Supervisors
+</h2>
+<ul><li>With links, exit traps and monitors, a process can detect errors in a concurrent system and act upon it based on the information that is passed to it on the error messages</li><li>A processes that is responsible for just doing it is called a <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a></li><li>Supervisors are generic processes that manages the lifecycle of other processes in a concurrent system</li><li>It can start new processes, these processes there fore are called <code class="inline">children</code> of it's supervisor</li><li>The supervisor is responsible for all its children, and receive the exit messages act upon them in a proper way</li><li>Process that are not supervisors are called workers</li><li>If a worker dies due to a bug, this part of the system will be gone forever</li><li>Supervisors can be useful to restart these workers in this case</li><li>The <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a> module is used to create supervisors</li><li>A supervisor works like this:
+1 - Traps exits
+2 - Starts all the children
+3 - At any given point in time that a child terminate, handle its exit message and perform corrective actions
+4 - If a supervisor terminates, all its children are terminated as well</li><li>There are two main ways to start a supervisor:<ul><li>Passing a list: Invoke <a href="https://hexdocs.pm/elixir/Supervisor.html#start_link/2"><code class="inline">Supervisor.start_link/2</code></a> providing a list with modules to be initialized as its children together with some aditional options</li><li>Callback module: Implement a callback module, similar to <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> approach, that return all these information about children and options</li></ul></li><li>A different start function must be used: <a href="https://hexdocs.pm/elixir/GenServer.html#start_link/3"><code class="inline">GenServer.start_link/3</code></a> this function must be used when you want to create a link between caller and server on the server start execution</li><li>Options given to supervisor will dictate several aspects of the supervisor behaviour, for instance the option <code class="inline">:strategy</code> defines how children exits will be handled</li><li>Registered processes names are important to supervisors because they provide a reliable way to finding a process and communicate to it</li><li>Usually supervisors are wrapped inside a module</li></ul><pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">Todo.System</span><span class="w"> </span><span class="k" data-group-id="1895535617-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">start_link</span><span class="w"> </span><span class="k" data-group-id="1895535617-2">do</span><span class="w">
+    </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="1895535617-3">(</span><span class="w">
+      </span><span class="p" data-group-id="1895535617-4">[</span><span class="nc">Todo.Cache</span><span class="p" data-group-id="1895535617-4">]</span><span class="p">,</span><span class="w">
+      </span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="w">
+    </span><span class="p" data-group-id="1895535617-3">)</span><span class="w">
+  </span><span class="k" data-group-id="1895535617-2">end</span><span class="w">
+</span><span class="k" data-group-id="1895535617-1">end</span><span class="w">
+</span></code></pre><ul><li>Although this simple approach of passing the children list to the <a href="https://hexdocs.pm/elixir/Supervisor.html#start_link/2"><code class="inline">Supervisor.start_link/2</code></a> works, sometimes you need a bit more of control about what happens before and after the creation of the supervisor, for it you can build the supervisor module a bit different</li><li>Supervisors do not try to restart children indefinetely, if a process crashes too much in predetermined period of time, the supervisor will give up and terminate it self</li><li>The boundaries limits of this restart task can be customized inside de supervisor</li><li>This restart frequency feature is helpful on how supervision trees works</li></ul><h3 id="8-3-1-child-specification" class="section-heading">
+  <a href="#8-3-1-child-specification" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  8.3.1 - Child Specification
+</h3>
+<ul><li><p>In order to know how to work with each child the supervisor must know 3 things:</p><ul><li>How should child be initialized</li><li>What should be dont if the child terminates</li><li>How to uniquely distinguish each child</li></ul></li><li><p>All these information is the child specification. eg:</p></li></ul><pre><code class="nohighlight makeup elixir"><span class="w">  </span><span class="p" data-group-id="3740007171-1">%{</span><span class="w">
+  </span><span class="ss">id</span><span class="p">:</span><span class="w"> </span><span class="n">arbitray_term_that_unique_idenfiy</span><span class="p">,</span><span class="w">
+  </span><span class="ss">start</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3740007171-2">{</span><span class="n">module</span><span class="p">,</span><span class="w"> </span><span class="ss">:start_function_name</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3740007171-3">[</span><span class="n">start_function_args</span><span class="p" data-group-id="3740007171-3">]</span><span class="p" data-group-id="3740007171-2">}</span><span class="w">
+  </span><span class="p" data-group-id="3740007171-1">}</span><span class="w">
+</span></code></pre><ul><li>To avoid passing child specification hard coded, a default function call is implemented by <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a> and used by <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a> this function is <code class="inline">child_spec/1</code> that return the correct child specification for the module, and can be override in case you need more control about it</li></ul>      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  </body>
+</html>
