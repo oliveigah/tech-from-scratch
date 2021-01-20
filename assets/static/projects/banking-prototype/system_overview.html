@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.2">
+    <meta name="project" content="Banking Prototype v0.1.0">
+
+    <title>System Overview — Banking Prototype v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-d678dad126d82ddc061f.css" />
+
+    <script src="dist/sidebar_items-c029b3c32b.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-0103364119015b97e56c.js"></script>
+
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://oliveigah.github.io/banking-prototype" class="sidebar-projectName">
+Banking Prototype
+      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+
+      <a href="https://oliveigah.github.io/banking-prototype">
+        <img src="assets/logo.png" alt="Banking Prototype" class="sidebar-projectImage">
+      </a>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>System Overview</h1><p>The goal of the system is to be a prototype of how to build a complete banking account management system that allows users to keep track of operations that happen over their account's and make operations like transfers, deposits and refunds.</p><p>The system is made of 2 basic entities:</p><ul><li><a href="Account.html"><code class="inline">Account</code></a>: The basic structure of the system, responsible for hold operations data, balances and the business rules to make everything work properley</li><li><a href="Account.Operation.html"><code class="inline">Account.Operation</code></a>: Basic structure that holds data of an operation such as type, status and custom data like amount and currency, is responsible for the operation's creation rules</li></ul><p><img src="./assets/exdocs_assets/diagrams/system_entities.png" alt="System Entities"></img></p><p>An account has N operations, each one of them has data that identifies what happened in that operation.</p><h2 id="running-the-system" class="section-heading">
+  <a href="#running-the-system" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Running the system
+</h2>
+<p>Requirements: Elixir version &gt;= 1.10</p><p>Steps:</p><p>1 - Clone the repository: <a href="https://github.com/oliveigah/banking_prototype">https://github.com/oliveigah/banking_prototype</a></p><p>2 - On terminal, inside repository folder use the following commands:
+mix deps.get
+mix test
+iex -S mix
+3 - You are good to go! :D</p><h2 id="interacting" class="section-heading">
+  <a href="#interacting" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Interacting
+</h2>
+<p>You can interact with the system in 2 different ways.</p><p>The first one is directly via the interactive shell. To do this you can check out the documentarion over the modules section. There you will find a set of examples of how to interact with the system via interactive shell and manage accounts on it.</p><p>The main functions to start are <a href="Account.Cache.html#server_process/2"><code class="inline">Account.Cache.server_process/2</code></a> which will be used to get the <code class="inline">pid</code> of the server you will interact with, and all functions of the <a href="Account.Server.html"><code class="inline">Account.Server</code></a> which will be used to execute all the operations over the account!</p><p>The second way to interact with the system is by using HTTP requests, this is described on the HTTP page.</p><h2 id="account-features" class="section-heading">
+  <a href="#account-features" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Account Features
+</h2>
+<ul><li>Accounts can hold balances on multiple currencies</li><li>Exchange currencies based on the exchange rate</li><li>Make operations over his own account:<ul><li>Deposit</li><li>Withdraw</li><li>Transfer to another account</li><li>Card transaction</li><li>Refunds</li><li>Exchange two different currencies balances</li></ul></li><li>All these operations works with all currencies avaiable on the system, but the exchange has to happen before the operation it self, otherwise it will return &quot;no {currency} funds&quot;</li><li>A &quot;syntax sugar&quot; that enable multiple transfer being done with a single request</li><li>Allows users to give metadata information about the operations</li><li>Filter operations over an account by occurrence date time and id</li><li>Special limit that allow account balances go below 0 until a predefined threshold, this feature only works for account's default currency</li></ul><h2 id="system-design" class="section-heading">
+  <a href="#system-design" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  System Design
+</h2>
+<p>The system has a very simple design that relies on key abstractions of the elixir language such as <a href="https://hexdocs.pm/elixir/GenServer.html"><code class="inline">GenServer</code></a>, <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a> and <a href="https://hexdocs.pm/elixir/Registry.html"><code class="inline">Registry</code></a>.</p><p>Some of the technical solutions are admittedly not optimal, but these non optimal parts are usually on side systems like the database and authentication and not part of the core implementation.</p><p>Below you can see a high level diagram that explain the system component's relations in a non rigorous manner:</p><p><img src="./assets/exdocs_assets/diagrams/system_overview.png" alt="System Overview"></img></p><h2 id="data-representation" class="section-heading">
+  <a href="#data-representation" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Data Representation
+</h2>
+<p>The account data is composed by a simple struct as explained in <a href="Account.html"><code class="inline">Account</code></a> module documentation.</p><pre><code class="nohighlight makeup elixir"><span class="w">  </span><span class="na">@type</span><span class="w"> </span><span class="n">t</span><span class="p" data-group-id="3598741441-1">(</span><span class="p" data-group-id="3598741441-1">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="p">%</span><span class="bp">__MODULE__</span><span class="p" data-group-id="3598741441-2">{</span><span class="w">
+          </span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="n">map</span><span class="p" data-group-id="3598741441-3">(</span><span class="p" data-group-id="3598741441-3">)</span><span class="p">,</span><span class="w">
+          </span><span class="ss">limit</span><span class="p">:</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="3598741441-4">(</span><span class="p" data-group-id="3598741441-4">)</span><span class="p">,</span><span class="w">
+          </span><span class="ss">operations</span><span class="p">:</span><span class="w"> </span><span class="n">map</span><span class="p" data-group-id="3598741441-5">(</span><span class="p" data-group-id="3598741441-5">)</span><span class="p">,</span><span class="w">
+          </span><span class="ss">operations_auto_id</span><span class="p">:</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="3598741441-6">(</span><span class="p" data-group-id="3598741441-6">)</span><span class="p">,</span><span class="w">
+          </span><span class="ss">default_currency</span><span class="p">:</span><span class="w"> </span><span class="n">atom</span><span class="p" data-group-id="3598741441-7">(</span><span class="p" data-group-id="3598741441-7">)</span><span class="w">
+        </span><span class="p" data-group-id="3598741441-2">}</span></code></pre><p>All mapipulations over an account data structure, has to be done as a function call to a predifened function inside <a href="Account.html"><code class="inline">Account</code></a> module. This rule helps to keep the business rules well defined inside a single module that can be read and verified easily, either by new programmers arriving at the project and business experts.</p><p>This rule enables business experts verify the correctness of the system easier and automated tests being done faster and with less dependencies, for instance look at the code below:</p><pre><code class="nohighlight makeup elixir"><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="nf">withdraw</span><span class="p" data-group-id="5346072198-1">(</span><span class="p" data-group-id="5346072198-2">%</span><span class="nc" data-group-id="5346072198-2">Account</span><span class="p" data-group-id="5346072198-2">{</span><span class="p" data-group-id="5346072198-2">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5346072198-3">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="n">amount</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="n">currency</span><span class="p" data-group-id="5346072198-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p" data-group-id="5346072198-1">)</span><span class="w"> </span><span class="k" data-group-id="5346072198-4">do</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="n">remove_balance</span><span class="p" data-group-id="5346072198-5">(</span><span class="n">account</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">,</span><span class="w"> </span><span class="n">currency</span><span class="p" data-group-id="5346072198-5">)</span><span class="w"> </span><span class="k" data-group-id="5346072198-6">do</span><span class="w">
+      </span><span class="p" data-group-id="5346072198-7">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p" data-group-id="5346072198-7">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account.Operation</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="5346072198-8">(</span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p" data-group-id="5346072198-8">)</span><span class="w">
+        </span><span class="p" data-group-id="5346072198-9">{</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="n">operation_data</span><span class="p" data-group-id="5346072198-9">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">register_operation</span><span class="p" data-group-id="5346072198-10">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="n">operation</span><span class="p" data-group-id="5346072198-10">)</span><span class="w">
+        </span><span class="p" data-group-id="5346072198-11">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="n">operation_data</span><span class="p" data-group-id="5346072198-11">}</span><span class="w">
+
+      </span><span class="p" data-group-id="5346072198-12">{</span><span class="ss">:denied</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="p" data-group-id="5346072198-12">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">operation_custom_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Map</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="5346072198-13">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5346072198-14">%{</span><span class="ss">message</span><span class="p">:</span><span class="w"> </span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="ss">:denied</span><span class="p" data-group-id="5346072198-14">}</span><span class="p" data-group-id="5346072198-13">)</span><span class="w">
+        </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account.Operation</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="5346072198-15">(</span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="n">operation_custom_data</span><span class="p" data-group-id="5346072198-15">)</span><span class="w">
+        </span><span class="p" data-group-id="5346072198-16">{</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="n">operation_data</span><span class="p" data-group-id="5346072198-16">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">register_operation</span><span class="p" data-group-id="5346072198-17">(</span><span class="n">account</span><span class="p">,</span><span class="w"> </span><span class="n">operation</span><span class="p" data-group-id="5346072198-17">)</span><span class="w">
+        </span><span class="p" data-group-id="5346072198-18">{</span><span class="ss">:denied</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="n">operation_data</span><span class="p" data-group-id="5346072198-18">}</span><span class="w">
+    </span><span class="k" data-group-id="5346072198-6">end</span><span class="w">
+  </span><span class="k" data-group-id="5346072198-4">end</span><span class="w">
+
+  </span><span class="kd">defp</span><span class="w"> </span><span class="nf">remove_balance</span><span class="p" data-group-id="5346072198-19">(</span><span class="p" data-group-id="5346072198-20">%</span><span class="nc" data-group-id="5346072198-20">Account</span><span class="p" data-group-id="5346072198-20">{</span><span class="p" data-group-id="5346072198-20">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">account</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">,</span><span class="w"> </span><span class="n">currency</span><span class="p" data-group-id="5346072198-19">)</span><span class="w"> </span><span class="k" data-group-id="5346072198-21">do</span><span class="w">
+    </span><span class="n">current_balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Map</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="5346072198-22">(</span><span class="n">account</span><span class="o">.</span><span class="n">balances</span><span class="p">,</span><span class="w"> </span><span class="n">currency</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5346072198-22">)</span><span class="w">
+    </span><span class="n">new_balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">amount</span><span class="w">
+
+    </span><span class="n">is_default_currency?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currency</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">Map</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="5346072198-23">(</span><span class="n">account</span><span class="p">,</span><span class="w"> </span><span class="ss">:default_currency</span><span class="p" data-group-id="5346072198-23">)</span><span class="w">
+
+    </span><span class="n">limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">is_default_currency?</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="n">account</span><span class="o">.</span><span class="n">limit</span><span class="p">,</span><span class="w"> </span><span class="ss">else</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+
+    </span><span class="k">case</span><span class="w"> </span><span class="n">new_balance</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="k" data-group-id="5346072198-24">do</span><span class="w">
+      </span><span class="no">true</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">new_balances</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Map</span><span class="o">.</span><span class="n">put</span><span class="p" data-group-id="5346072198-25">(</span><span class="n">account</span><span class="o">.</span><span class="n">balances</span><span class="p">,</span><span class="w"> </span><span class="n">currency</span><span class="p">,</span><span class="w"> </span><span class="n">new_balance</span><span class="p" data-group-id="5346072198-25">)</span><span class="w">
+        </span><span class="p" data-group-id="5346072198-26">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="nc">Map</span><span class="o">.</span><span class="n">put</span><span class="p" data-group-id="5346072198-27">(</span><span class="n">account</span><span class="p">,</span><span class="w"> </span><span class="ss">:balances</span><span class="p">,</span><span class="w"> </span><span class="n">new_balances</span><span class="p" data-group-id="5346072198-27">)</span><span class="p" data-group-id="5346072198-26">}</span><span class="w">
+
+      </span><span class="no">false</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="p" data-group-id="5346072198-28">{</span><span class="ss">:denied</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;No </span><span class="si" data-group-id="5346072198-29">#{</span><span class="n">to_string</span><span class="p" data-group-id="5346072198-30">(</span><span class="n">currency</span><span class="p" data-group-id="5346072198-30">)</span><span class="si" data-group-id="5346072198-29">}</span><span class="s"> funds&quot;</span><span class="p" data-group-id="5346072198-28">}</span><span class="w">
+    </span><span class="k" data-group-id="5346072198-24">end</span><span class="w">
+  </span><span class="k" data-group-id="5346072198-21">end</span></code></pre><p>All the code that validates if a withdraw operation can be done or not (business rules) is inside this well defined function with no external dependencies or exoteric programming concepts such as databases, data serialization, pids, etc. All the rules are writen in a very high level code, that uses the account data abstraction that a busniess expert can understand and reason about.</p><p>Beyond being &quot;business/test friendly&quot; this patten enable all business rules being reusable by any communication platform. For instance, the HTTP platform implemented on this project is just a mean to an end that is interact with the system. Nothing can be done with a HTTP request and not inside the system interactive shell.</p><p>This design is based on the famous uncle bob's &quot;Clean Architecture&quot; and it's known for decoupling business rules (<a href="Account.html"><code class="inline">Account</code></a>), use cases (<a href="Account.Server.html"><code class="inline">Account.Server</code></a>) and external systems (<a href="Database.html"><code class="inline">Database</code></a>, HTTP).</p><h2 id="account-server" class="section-heading">
+  <a href="#account-server" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Account Server
+</h2>
+<p>With it we can understand the system as an API to create operations over an account, the module <a href="Account.html"><code class="inline">Account</code></a> is a pure functional module used by server process <a href="Account.Server.html"><code class="inline">Account.Server</code></a> to manipulate its own internal state that is an account.</p><p>Note that the <a href="Account.Server.html"><code class="inline">Account.Server</code></a> is just a representation of a specific account while the <a href="Account.html"><code class="inline">Account</code></a> is a module that is used to handle all specific servers accounts, applying the business rules with the given data.</p><p><a href="Account.Server.html"><code class="inline">Account.Server</code></a> implements the interaction between multiple accounts, for instance when a transfer operations happens, the <a href="Account.Server.html"><code class="inline">Account.Server</code></a> that holds the data of the sender account, calls the <a href="Account.Server.html"><code class="inline">Account.Server</code></a> that holds the data of the recipient account.</p><h2 id="load-test" class="section-heading">
+  <a href="#load-test" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Load Test
+</h2>
+<p>To verify the system performance I've built a simple load test script to test the system. It is based on several assumptions as follows:</p><ul><li>Premise: 10.000.000 active clients</li><li>Hypothese 1: Each client make 5 financial operations per day =&gt; 50.000.000 operations per day</li><li>Hypothese 2: The operations are distributed in a normal fashion, 80% of the operations happens in 20% of the time =&gt; 50M x 0.8 / (24 x 60 x 60 x 0.2) ≈ 2.300 rps</li><li>Hypothese 3: Just 20% of the clients make a new operation earlier than the cache expire time (240 seconds)</li></ul><p>To run this test, just execute the following command on terminal inside the project folder:
+elixir --erl &quot;+P 1000000&quot; -S mix run -e Account.LoadTest.run</p><p>The result of this test on my machine is something like this:</p><p><img src="./assets/exdocs_assets/images/account_load_test_example.png" alt="Account Load Test"></img></p><p>My machine specs:</p><ul><li>Intel® Core™ i7-10750H Comet Lake, 12MB Cache</li><li>RAM 32GB [2x 16GB - Dual Channel] DDR4 (2666 MHZ)</li><li>SSD M.2 NVME 500GB - [ 2.000 MB/s ]</li><li>KDE Neon 5.19</li></ul><p>The test will run in batches of 10.000 requests, the numbers on the left represents the current batch being processed. For each batch a set of metrics will be printed on the terminal:</p><ul><li>Cache miss time: Average time to execute an operation on a account server that is not already running</li><li>Cache miss rq/s: Average requests per second if all requests are on account servers that are not already running</li><li>Cache hit time: Average time to execute an operation on a server that is already running</li><li>Cache miss rq/s: Average requests per second if all requests are on account servers that are already running</li><li>Average rps: System's requests per second weighted by the hypothese 3</li><li>Approved: Boolean that verify if the average rps is above the minimal defined on hypothese 2</li></ul><h2 id="distribution" class="section-heading">
+  <a href="#distribution" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Distribution
+</h2>
+<p>The system is built to be distributed! The distribution implementation is quite naive and conviniently</p><h2 id="bottlenecks" class="section-heading">
+  <a href="#bottlenecks" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Bottlenecks
+</h2>
+<p>The biggest bottleneck of the system is the database. Due to the naive file system implementation, the database is not good on a concurrent scenario. In a simple test I've verified that the database operations are responsible for more than 60% of the system latency.</p><p>Beyond that, this conversion to binary implementation will never work on scale because it is copying and reading full data all the time. Instead of just add the new data, each new operation on an account forces a rewrite of all account on the database, and every read has to be a full account data read. This will never work in a scenario when all accounts have 1000+ operations registered.</p><p>The good news are that both of this problems can be solved with a simple reimplementation of the <a href="Database.html"><code class="inline">Database</code></a> module. Making it use some robust database such as postgres or mongodb, and thanks of how the system is architected, this change should be almost frictionless.</p><h2 id="next-steps" class="section-heading">
+  <a href="#next-steps" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Next Steps
+</h2>
+<p>Although this system would work great once the new database solution is implemented, it is still only functional on a single BEAM instance scenario. The next step of this project is to bring this system to be able to run on several BEAM clusters, using global registration instead of the built in <a href="https://hexdocs.pm/elixir/Registry.html"><code class="inline">Registry</code></a> abstraction.</p>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.2),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>

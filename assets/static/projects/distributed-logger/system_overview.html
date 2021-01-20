@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.23.0">
+    <meta name="project" content="Distributed Logger v0.1.0">
+
+    <title>System Overview — Distributed Logger v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
+
+    <script src="dist/sidebar_items-ff8cd08a91.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-60a0c9f10e9e52eae31f.js"></script>
+
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/distributed-logger" class="sidebar-projectName">
+Distributed Logger
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+      <a href="https://techfromscratch.com.br/distributed-logger">
+        <img src="assets/logo.png" alt="Distributed Logger" class="sidebar-projectImage">
+      </a>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>System Overview</h1><h2 id="running-the-system" class="section-heading">
+  <a href="#running-the-system" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Running the system
+</h2>
+<h3 id="requirements" class="section-heading">
+  <a href="#requirements" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Requirements
+</h3>
+<ul><li>Elixir 1.11.1</li><li>Erlang OTP 23</li></ul><h3 id="testing" class="section-heading">
+  <a href="#testing" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Testing
+</h3>
+<p>1 - Inside terminal, go to the project's folder</p><p>2 - <a href="https://hexdocs.pm/mix/Mix.Tasks.Deps.Get.html"><code class="inline">mix deps.get</code></a></p><p>3 - <code class="inline">bash ./scripts/test.sh</code></p><p>4 - Good to go! :)</p><p>After the first run of the <code class="inline">test.sh</code> you can run the tests normally using <a href="https://hexdocs.pm/mix/Mix.Tasks.Test.html"><code class="inline">mix test</code></a></p><h3 id="running" class="section-heading">
+  <a href="#running" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Running
+</h3>
+<p>You have 2 ways to run the system:</p><p>1 - Interactive shell in which you can add a custom number of servers and interact with the system in real time via IEX</p><p>2 - <code class="inline">bash ./scripts/run.sh</code> script inside the project's folder to start 3 fully connected nodes running on the ports 5555, 5556 and 5557</p><h3 id="iex" class="section-heading">
+  <a href="#iex" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Iex
+</h3>
+<p>If you want to run the system via iex you can run the following command (#{xxx} must be replaced):</p><p><code class="inline">iex --name #{name}@127.0.0.1 --erl &quot;-distributed_logger port #{http_port} -distributed_logger nodes #{nodes_to_connect}&quot; -S mix</code></p><p>There are 3 values you need to replace here, lets break it down:</p><ul><li><p>#{name}: Node's name (eg: node1)</p></li><li><p>#{http_port}: HTTP port that the node will listem (eg: 5556)</p></li><li><p>#{node_to_connect}: List of node's names that this node will connect on initialization (eg: [node2, node3])</p></li></ul><p>After running this command you already have a fully functional instance of the system and you can add nodes by running this command on other terminals, just change the node name and port, and if you want to connect them pass the node name using nodes_to_connect.</p><p>For instance if you want 3 nodes connected you must run on 3 different terminals the following commands (in order):</p><ul><li><p><code class="inline">iex --name node1@127.0.0.1 --erl &quot;-distributed_logger port 5555 -distributed_logger nodes&quot; -S mix</code></p></li><li><p><code class="inline">iex --name node2@127.0.0.1 --erl &quot;-distributed_logger port 5556 -distributed_logger nodes [node1]&quot; -S mix</code></p></li><li><p><code class="inline">iex --name node3@127.0.0.1 --erl &quot;-distributed_logger port 5557 -distributed_logger nodes [node1,node2]&quot; -S mix</code></p></li></ul><p>With this you have a cluster with 3 fully connected nodes. Each one listening on different ports and saving event data on different files.</p><h3 id="shell-script" class="section-heading">
+  <a href="#shell-script" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Shell Script
+</h3>
+<p>If you dont want to run with iex you can run the shell script inside the project's folder using <code class="inline">bash ./scripts/run.sh</code> that will start a cluster with 3 nodes as daemons. Which you can kill using the <code class="inline">kill.sh</code> script with sudo privileges.</p><h2 id="interacting" class="section-heading">
+  <a href="#interacting" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Interacting
+</h2>
+<p>To interact with the system you can go either by terminal (only if you have chosen the IEX approach on the previous section) using the <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> module or using http requests (avaiable for both, IEX and shell script) to the listening ports of the nodes.</p><h3 id="iex-1" class="section-heading">
+  <a href="#iex-1" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Iex
+</h3>
+<p>Via terminal you have 3 main functions to interact with:</p><p><a href="DistributedLogger.html#write_global/1"><code class="inline">DistributedLogger.write_global/1</code></a>: Receives event data (eg: &quot;This is event 1&quot;) it's save the event data globally</p><p><a href="DistributedLogger.html#write_local/1"><code class="inline">DistributedLogger.write_local/1</code></a> : Receives event data (eg: &quot;This is event 1&quot;) it's save the event data locally</p><p><a href="DistributedLogger.html#read_local/2"><code class="inline">DistributedLogger.read_local/2</code></a> : Receives initial line and final line, returning a list containing all the lines requested from the local file</p><p><a href="DistributedLogger.html#generate_consolidated_file/2"><code class="inline">DistributedLogger.generate_consolidated_file/2</code></a> : Receives initial line and final line, guarantee consistency over all nodes only if inital_line &lt;= 0 and final_line &gt;= biggest log file line number, returns a tuple containing the file path to the generated file, file will be generated inside the node folder</p><p>The docs for all these functions can be accessed via terminal running the <code class="inline">h</code> command. (eg: <code class="inline">h DistributedLogger.write_global/1</code>)</p><h3 id="http" class="section-heading">
+  <a href="#http" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  HTTP
+</h3>
+<p>Alternatively you can run interact using a http request such as:</p><p><code class="inline">curl -X POST -H &quot;Content-Type: text/plain&quot; --data &quot;This is event 1&quot; http://127.0.0.1:5555/event</code></p><p><code class="inline">curl -X POST -H &quot;Content-Type: text/plain&quot; --data &quot;This is event 2&quot; http://127.0.0.1:5556/event</code></p><p><code class="inline">curl -X POST -H &quot;Content-Type: text/plain&quot; --data &quot;This is event 3&quot; http://127.0.0.1:5557/event</code></p><p>A post to the <code class="inline">/event</code> route is equivalent to run <a href="DistributedLogger.html#write_global/1"><code class="inline">DistributedLogger.write_global/1</code></a> inside some terminal, actually the route just call this same function.</p><h3 id="log-files" class="section-heading">
+  <a href="#log-files" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Log Files
+</h3>
+<p>If you want to see the logs that are being generated you can check inside the persist folder:</p><p><code class="inline">project/persist/dev/nodes/#{node}/data/event.log</code></p><p>Each event is in one line and the unix timestamp is added to the data</p><h3 id="consolidate-file" class="section-heading">
+  <a href="#consolidate-file" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Consolidate File
+</h3>
+<p>Since the system is distributed errors may occur leading to inconsistency between nodes. Because of this you have the <a href="DistributedLogger.html#generate_consolidated_file/2"><code class="inline">DistributedLogger.generate_consolidated_file/2</code></a> function.</p><p>You can run this function either in a already running system using the terminal or if you started the application as daemons via the shell script you can connect a new iex terminal to your already running daemon nodes using the following code inside the project's folder:</p><p><code class="inline">iex --name node4@127.0.0.1 --erl &quot;-distributed_logger port 5558 -distributed_logger nodes [node1,node2,node3]&quot; -S mix</code></p><p>And run the <a href="DistributedLogger.html#generate_consolidated_file/2"><code class="inline">DistributedLogger.generate_consolidated_file/2</code></a> to generate the file!</p><h2 id="system-overview" class="section-heading">
+  <a href="#system-overview" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  System Overview
+</h2>
+<p>The system is quite simple, the main module is <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> which runs the gen_server, makes multicasts to other nodes and generate the consolidated version of the logs. Http requests are handled by the Cowboy library using Plug!</p><p><img src="./assets/exdocs_assets/node-diagram.png" alt=""></img></p><h3 id="genserver" class="section-heading">
+  <a href="#genserver" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  GenServer
+</h3>
+<p>The <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> genserver holds a <a href="https://hexdocs.pm/elixir/File.Stream.html"><code class="inline">File.Stream</code></a> as its state, which is used on the message callbacks to read and write data on the file!</p><p>The server acepts basicallly 2 types of requests, read local and write local. Note that the server only handles local file management, it do not know about other nodes running different logs.</p><ul><li><p>init: Creates the file if it dont exists and open the stream</p></li><li><p>write_local: Uses the file stream to append on the file</p></li><li><p>read_local: Uses the file stream to read lines from the file</p></li></ul><h3 id="multicast" class="section-heading">
+  <a href="#multicast" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Multicast
+</h3>
+<p>To save the data on multiple nodes the node from where you are calling <a href="DistributedLogger.html#write_global/1"><code class="inline">DistributedLogger.write_global/1</code></a> sends a message to all other nodes.</p><p>Note that this code did not run inside the server, it actually runs on the client process, which is cowboy processes if tou are interacting via http or the iex process itself if you are interacting via terminal.</p><p>To achieve this goal the system uses the <a href="http://www.erlang.org/doc/man/erpc.html#multicast-4"><code class="inline">:erpc.multicast/4</code></a> function from the erlang library!</p><p><img src="./assets/exdocs_assets/cluster-diagram.png" alt=""></img></p><p>Note that the multicast function call in the exact same way all nodes (even the node where the multicast is running).</p><h3 id="consolidate-file-1" class="section-heading">
+  <a href="#consolidate-file-1" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Consolidate File
+</h3>
+<p>This functionality is implemented inside <a href="DistributedLogger.html#generate_consolidated_file/2"><code class="inline">DistributedLogger.generate_consolidated_file/2</code></a>, it receives initial and final line as parameter so you can select a chunk of the files to consolidate, but remenber this isn't safe, which means that when you use a <code class="inline">initial_line &gt; 0</code> or a <code class="inline">final_line &lt; last line</code> the algorithm can not guarantee the consistency. It guarantees consistency only on full file consolidations.</p><p>It implements a very simple algorithm to consolidate multiple log files. It relies on the fact that each log starts with a utc unix timestamp and that each server will at least be able to save the log on it's own file.</p><p>The algorithm steps are as following:</p><pre><code class="nohighlight makeup elixir"><span class="n">retrieve_lines_from_each_node</span><span class="p" data-group-id="8381656947-1">(</span><span class="p" data-group-id="8381656947-1">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="n">select_only_unique_lines</span><span class="p" data-group-id="8381656947-2">(</span><span class="p" data-group-id="8381656947-2">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="n">sort</span><span class="p" data-group-id="8381656947-3">(</span><span class="p" data-group-id="8381656947-3">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="n">save_on_consolidate_file</span><span class="p" data-group-id="8381656947-4">(</span><span class="p" data-group-id="8381656947-4">)</span></code></pre><h2 id="design-choices" class="section-heading">
+  <a href="#design-choices" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Design Choices
+</h2>
+<h3 id="http-is-not-the-system" class="section-heading">
+  <a href="#http-is-not-the-system" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Http is not the system
+</h3>
+<p>The system was designed to be a self contained application, which means it does not need the HTTP interface to exists, you could interact and have fully functional system without using any http interface! This reflects in the code when you see something like this:</p><pre><code class="nohighlight makeup elixir"><span class="n">post</span><span class="p" data-group-id="5689741322-1">(</span><span class="s">&quot;event&quot;</span><span class="p" data-group-id="5689741322-1">)</span><span class="w"> </span><span class="k" data-group-id="5689741322-2">do</span><span class="w">
+    </span><span class="p" data-group-id="5689741322-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">event_data</span><span class="p">,</span><span class="w"> </span><span class="n">conn</span><span class="p" data-group-id="5689741322-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Plug.Conn</span><span class="o">.</span><span class="n">read_body</span><span class="p" data-group-id="5689741322-4">(</span><span class="n">conn</span><span class="p" data-group-id="5689741322-4">)</span><span class="w">
+
+    </span><span class="n">event_data</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">DistributedLogger</span><span class="o">.</span><span class="n">write_global</span><span class="p" data-group-id="5689741322-5">(</span><span class="p" data-group-id="5689741322-5">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">send_http_response</span><span class="p" data-group-id="5689741322-6">(</span><span class="n">conn</span><span class="p" data-group-id="5689741322-6">)</span><span class="w">
+  </span><span class="k" data-group-id="5689741322-2">end</span></code></pre><p>As the code above shows, the Http turns out to be just an interface to the system, responsible for parsing the data into something understandable by the bussiness modules.</p><p>This kind of design is inpired on the famous &quot;Clean Architecture&quot; from Robert Martin. With this we achieve not just decoupling from the interface and business rules, but also achieve reusability, since the same system could be pluged into another interface, like a CLI!</p><h3 id="genserver-only-local" class="section-heading">
+  <a href="#genserver-only-local" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  GenServer only local
+</h3>
+<p>As described earlier the <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> gen_server only handles with local file management and doing simple operations like read and write from the stream. This is done on purpose so the system can be more responsive under load, because the main process (responsible for the core bussiness) will never be overwhelmed by others non-core and sometimes expensive tasks such as consolidate the file or calling other nodes.</p><p>We could extend this approach and maintain only <code class="inline">write_local/1</code> inside the server, and move <code class="inline">read_local/2</code> to the client too.</p><h3 id="cast-vs-call" class="section-heading">
+  <a href="#cast-vs-call" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Cast vs Call
+</h3>
+<p>The <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> gen_server has 2 functions, <code class="inline">write_local/1</code> which is a cast and <code class="inline">read_local/2</code> which is a call. This is done again by performance reasons. Tradeoffs are clear, when using cast your client process is unbounded from the actual computation of saving an event on the file, because it doest not care about the respose, so it could serves more requests.</p><p>This benefit do not make much sense in this application as it is right now because http process has only one function implemented post event, which uses the <code class="inline">write_local/1</code> function, and since this <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> is a unique locally named process , does not help much unbound the http process from the bussiness process, because although the http process is free to do anything else, the only thing it can do righ now is ask to the bussiness process which may be processing the last request any way.</p><p>Although it does not make much sense in the way the system is right now a next step to improve this system would be transforming the unique named process <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> into a dynamically generated process, running one process for each file.</p><p>For instance if your logging system serves 3 apps (app1,app2 and app3) the system would ran 3 instances of <a href="DistributedLogger.html"><code class="inline">DistributedLogger</code></a> one streaming data to <code class="inline">app1.log</code> other to <code class="inline">app2.log</code> and the last to <code class="inline">app3.log</code>.</p><p>With this natural improvement, the cast choice will be much more efficient and make a http process serves many more requests.</p><h3 id="multicasting-it-self" class="section-heading">
+  <a href="#multicasting-it-self" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Multicasting it self
+</h3>
+<pre><code class="nohighlight makeup elixir"><span class="ss">:erpc</span><span class="o">.</span><span class="n">multicast</span><span class="p" data-group-id="1230663766-1">(</span><span class="w">
+      </span><span class="nc">Node</span><span class="o">.</span><span class="n">list</span><span class="p" data-group-id="1230663766-2">(</span><span class="p" data-group-id="1230663766-3">[</span><span class="ss">:this</span><span class="p">,</span><span class="w"> </span><span class="ss">:visible</span><span class="p" data-group-id="1230663766-3">]</span><span class="p" data-group-id="1230663766-2">)</span><span class="p">,</span><span class="w">
+      </span><span class="bp">__MODULE__</span><span class="p">,</span><span class="w">
+      </span><span class="ss">:write_local</span><span class="p">,</span><span class="w">
+      </span><span class="p" data-group-id="1230663766-4">[</span><span class="n">parse_event_data</span><span class="p" data-group-id="1230663766-5">(</span><span class="n">event_data</span><span class="p" data-group-id="1230663766-5">)</span><span class="p" data-group-id="1230663766-4">]</span><span class="w">
+    </span><span class="p" data-group-id="1230663766-1">)</span></code></pre><p>When you run <code class="inline">write_global/1</code> the code above is executed on the client process. Note that the node issues a message to itself. This is done to try reduce inconsistency.</p><p>Since <a href="http://www.erlang.org/doc/man/erpc.html#multicast-4"><code class="inline">:erpc.multicast/4</code></a> issues all the requests at the same time there is no chance to programatically saves data in one node and not on the other, this will happens only in case of network partions.</p><p>Beyond that it improves avaiability because even if the local <code class="inline">write_local/1</code> function breaks, all other nodes will be called and the data comming from the http port of this node will be replicated on other nodes, keeping part of the system (http) running, even though the logging is not working on this particular node.</p>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.23.0) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>

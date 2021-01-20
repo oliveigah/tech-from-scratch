@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.2">
+    <meta name="project" content="Banking Prototype v0.1.0">
+
+    <title>Account — Banking Prototype v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-d678dad126d82ddc061f.css" />
+
+    <script src="dist/sidebar_items-c029b3c32b.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-0103364119015b97e56c.js"></script>
+
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button">
+      <span class="icon-cross" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Search" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://oliveigah.github.io/banking-prototype" class="sidebar-projectName">
+Banking Prototype
+      </a>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+
+      <a href="https://oliveigah.github.io/banking-prototype">
+        <img src="assets/logo.png" alt="Banking Prototype" class="sidebar-projectImage">
+      </a>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+        <small class="app-vsn">Banking Prototype v0.1.0</small>
+Account
+
+          <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+
+      </h1>
+
+
+        <section id="moduledoc">
+<p>  Pure functional module that manages <a href="#content"><code class="inline">Account</code></a> data structures</p><ul><li>Operations are always registered on account's operations either if it is <code class="inline">:denied</code> or <code class="inline">:ok</code></li></ul>
+        </section>
+
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Basic struct that represents an <a href="#content"><code class="inline">Account</code></a></p></div>
+
+</div>
+
+  </div>
+
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#balance/2">balance(account, currency)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Get the current balance of the account for the given currency</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#balances/1">balances(account)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Get all the current balances of the account</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#card_transaction/2">card_transaction(account, data)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Register an event of card transaction and update the balance</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#deposit/2">deposit(account, data)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Register an event of deposit and update the balance</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#exchange_balances/2">exchange_balances(account, data)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Register an event of exchange, update the balances based on exchange rates</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/0">new()</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Create a new <a href="#content"><code class="inline">Account</code></a> data structure</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/1">new(args)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Create a new <a href="#content"><code class="inline">Account</code></a> data strucure with modified data</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#operation/2">operation(account, operation_id)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Get the account's operation under the given id</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#operations/2">operations(account, date)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Get a ordered list of all the operations that happen on a given date, ordered by occurence date time</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#operations/3">operations(account, ini_date, fin_date)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Get a ordered list of all the operations that happen between 2 dates, ordered by occurence date time</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#refund/2">refund(account, data)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Register an event of refund, update de balance and update the refunded operation status</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#transfer_in/2">transfer_in(account, data)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Register an event of transfer in and update the balance</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#transfer_out/2">transfer_out(account, data)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Register an event of transfer_out for each data received on the list and update the balance</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#withdraw/2">withdraw(account, data)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Register an event of withdraw and update account's balance</p></div>
+
+</div>
+
+  </div>
+
+        </section>
+
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types
+          </h1>
+          <div class="types-list">
+<section class="detail" id="t:t/0">
+
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">t()</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L18" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>t() :: %Account{
+  balances: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
+  default_currency: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(),
+  limit: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>(),
+  operations: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>(),
+  operations_auto_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()
+}</pre>
+
+      </div>
+
+<p>Basic struct that represents an <a href="#content"><code class="inline">Account</code></a></p><p>The <code class="inline">Account.t()</code> data structure is composed by 5 values:</p><ul><li>balances: map containing <code class="inline">%{currecy =&gt; balance}</code> eg: <code class="inline">%{BRL: 2500}</code></li><li>limit: The minimal balance required to make operations, this feature only works for account's default currency other currencies are always 0</li><li>operations: A map containing all the operations of a specific Account. eg <code class="inline">%{1 =&gt; Account.Operation.t(), 2 =&gt; Account.Operation.t()}</code></li><li>default_currency: Account's default currency used on limit feature</li><li>operations_auto_id: Used internally to generate operations ids</li></ul>
+  </section>
+</section>
+
+          </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions
+          </h1>
+          <div class="functions-list">
+<section class="detail" id="balance/2">
+
+  <div class="detail-header">
+    <a href="#balance/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">balance(account, currency)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L380" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>balance(<a href="#t:t/0">t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()</pre>
+
+      </div>
+
+<p>Get the current balance of the account for the given currency</p><h2 id="balance/2-examples" class="section-heading">
+  <a href="#balance/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="7629350266-1">(</span><span class="p" data-group-id="7629350266-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7629350266-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="7629350266-3">}</span><span class="p" data-group-id="7629350266-2">}</span><span class="p" data-group-id="7629350266-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Account</span><span class="o">.</span><span class="n">balance</span><span class="p" data-group-id="7629350266-4">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="7629350266-4">)</span><span class="w">
+</span><span class="mi">1000</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="balances/1">
+
+  <div class="detail-header">
+    <a href="#balances/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">balances(account)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L393" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>balances(<a href="#t:t/0">t</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()</pre>
+
+      </div>
+
+<p>Get all the current balances of the account</p><h2 id="balances/1-examples" class="section-heading">
+  <a href="#balances/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9646211427-1">(</span><span class="p" data-group-id="9646211427-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9646211427-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="ss">USD</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">EUR</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p" data-group-id="9646211427-3">}</span><span class="p" data-group-id="9646211427-2">}</span><span class="p" data-group-id="9646211427-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Account</span><span class="o">.</span><span class="n">balances</span><span class="p" data-group-id="9646211427-4">(</span><span class="n">init_account</span><span class="p" data-group-id="9646211427-4">)</span><span class="w">
+</span><span class="p" data-group-id="9646211427-5">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="ss">USD</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">EUR</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p" data-group-id="9646211427-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="card_transaction/2">
+
+  <div class="detail-header">
+    <a href="#card_transaction/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">card_transaction(account, data)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L263" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>card_transaction(<a href="#t:t/0">t</a>(), %{
+  amount: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(),
+  currency: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(),
+  card_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()
+}) ::
+  {:ok, <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}
+  | {:denied, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}</pre>
+
+      </div>
+
+<p>Register an event of card transaction and update the balance</p><h2 id="card_transaction/2-examples" class="section-heading">
+  <a href="#card_transaction/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="6272304669-1">(</span><span class="p" data-group-id="6272304669-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6272304669-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="6272304669-3">}</span><span class="p" data-group-id="6272304669-2">}</span><span class="p" data-group-id="6272304669-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6272304669-4">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="6272304669-5">%</span><span class="nc" data-group-id="6272304669-5">Account</span><span class="p" data-group-id="6272304669-5">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6272304669-6">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p" data-group-id="6272304669-6">}</span><span class="p" data-group-id="6272304669-5">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="6272304669-7">%</span><span class="nc" data-group-id="6272304669-7">Account.Operation</span><span class="p" data-group-id="6272304669-7">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:card_transaction</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6272304669-8">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="6272304669-8">}</span><span class="p" data-group-id="6272304669-7">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="6272304669-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">card_transaction</span><span class="p" data-group-id="6272304669-9">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6272304669-10">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">card_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6272304669-10">}</span><span class="p" data-group-id="6272304669-9">)</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="6272304669-11">(</span><span class="p" data-group-id="6272304669-12">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6272304669-13">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p" data-group-id="6272304669-13">}</span><span class="p" data-group-id="6272304669-12">}</span><span class="p" data-group-id="6272304669-11">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6272304669-14">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:denied</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="n">reason</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="6272304669-15">%</span><span class="nc" data-group-id="6272304669-15">Account</span><span class="p" data-group-id="6272304669-15">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6272304669-16">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p" data-group-id="6272304669-16">}</span><span class="p" data-group-id="6272304669-15">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="6272304669-17">%</span><span class="nc" data-group-id="6272304669-17">Account.Operation</span><span class="p" data-group-id="6272304669-17">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:card_transaction</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6272304669-18">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="6272304669-18">}</span><span class="p" data-group-id="6272304669-17">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="6272304669-14">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">card_transaction</span><span class="p" data-group-id="6272304669-19">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6272304669-20">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">card_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6272304669-20">}</span><span class="p" data-group-id="6272304669-19">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="deposit/2">
+
+  <div class="detail-header">
+    <a href="#deposit/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">deposit(account, data)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L113" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>deposit(<a href="#t:t/0">t</a>(), %{amount: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>(), currency: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()}) ::
+  {:ok, <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}</pre>
+
+      </div>
+
+<p>Register an event of deposit and update the balance</p><h2 id="deposit/2-examples" class="section-heading">
+  <a href="#deposit/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9919123463-1">(</span><span class="p" data-group-id="9919123463-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9919123463-2">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="9919123463-3">%</span><span class="nc" data-group-id="9919123463-3">Account</span><span class="p" data-group-id="9919123463-3">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9919123463-4">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p" data-group-id="9919123463-4">}</span><span class="p" data-group-id="9919123463-3">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="9919123463-5">%</span><span class="nc" data-group-id="9919123463-5">Account.Operation</span><span class="p" data-group-id="9919123463-5">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:deposit</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9919123463-6">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="9919123463-6">}</span><span class="p" data-group-id="9919123463-5">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="9919123463-2">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">deposit</span><span class="p" data-group-id="9919123463-7">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9919123463-8">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="9919123463-8">}</span><span class="p" data-group-id="9919123463-7">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="exchange_balances/2">
+
+  <div class="detail-header">
+    <a href="#exchange_balances/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">exchange_balances(account, data)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L340" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Register an event of exchange, update the balances based on exchange rates</p><h2 id="exchange_balances/2-examples" class="section-heading">
+  <a href="#exchange_balances/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="4000849617-1">(</span><span class="p" data-group-id="4000849617-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4000849617-3">%{</span><span class="ss">USD</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="4000849617-3">}</span><span class="p" data-group-id="4000849617-2">}</span><span class="p" data-group-id="4000849617-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4000849617-4">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="4000849617-5">%</span><span class="nc" data-group-id="4000849617-5">Account</span><span class="p" data-group-id="4000849617-5">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4000849617-6">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">545</span><span class="p">,</span><span class="w"> </span><span class="ss">USD</span><span class="p">:</span><span class="w"> </span><span class="mi">900</span><span class="p" data-group-id="4000849617-6">}</span><span class="p" data-group-id="4000849617-5">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="4000849617-7">%</span><span class="nc" data-group-id="4000849617-7">Account.Operation</span><span class="p" data-group-id="4000849617-7">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:exchange</span><span class="p">,</span><span class="w"> </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="ss">:done</span><span class="p" data-group-id="4000849617-7">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="4000849617-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">exchange_balances</span><span class="p" data-group-id="4000849617-8">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4000849617-9">%{</span><span class="ss">current_amount</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="ss">current_currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:USD</span><span class="p">,</span><span class="w"> </span><span class="ss">new_currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="4000849617-9">}</span><span class="p" data-group-id="4000849617-8">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="new/0">
+
+  <div class="detail-header">
+    <a href="#new/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">new()</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L41" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>new() :: <a href="#t:t/0">t</a>()</pre>
+
+      </div>
+
+<p>Create a new <a href="#content"><code class="inline">Account</code></a> data structure</p><h2 id="new/0-examples" class="section-heading">
+  <a href="#new/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="4093376639-1">(</span><span class="p" data-group-id="4093376639-1">)</span><span class="w">
+</span><span class="p" data-group-id="4093376639-2">%</span><span class="nc" data-group-id="4093376639-2">Account</span><span class="p" data-group-id="4093376639-2">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4093376639-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4093376639-3">}</span><span class="p">,</span><span class="w"> </span><span class="ss">limit</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="ss">operations</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4093376639-4">%{</span><span class="p" data-group-id="4093376639-4">}</span><span class="p">,</span><span class="w"> </span><span class="ss">operations_auto_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4093376639-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="new/1">
+
+  <div class="detail-header">
+    <a href="#new/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">new(args)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L54" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>new(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="#t:t/0">t</a>()</pre>
+
+      </div>
+
+<p>Create a new <a href="#content"><code class="inline">Account</code></a> data strucure with modified data</p><h2 id="new/1-examples" class="section-heading">
+  <a href="#new/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">entry_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="1883002112-1">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1883002112-2">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="1883002112-2">}</span><span class="p">,</span><span class="w"> </span><span class="ss">limit</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">999</span><span class="p" data-group-id="1883002112-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="1883002112-3">(</span><span class="n">entry_map</span><span class="p" data-group-id="1883002112-3">)</span><span class="w">
+</span><span class="p" data-group-id="1883002112-4">%</span><span class="nc" data-group-id="1883002112-4">Account</span><span class="p" data-group-id="1883002112-4">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1883002112-5">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="1883002112-5">}</span><span class="p">,</span><span class="w"> </span><span class="ss">limit</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">999</span><span class="p">,</span><span class="w"> </span><span class="ss">operations</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1883002112-6">%{</span><span class="p" data-group-id="1883002112-6">}</span><span class="p">,</span><span class="w"> </span><span class="ss">operations_auto_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1883002112-4">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="operation/2">
+
+  <div class="detail-header">
+    <a href="#operation/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">operation(account, operation_id)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L450" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+<p>Get the account's operation under the given id</p><h2 id="operation/2-examples" class="section-heading">
+  <a href="#operation/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="7772842746-1">(</span><span class="p" data-group-id="7772842746-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7772842746-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="7772842746-3">}</span><span class="p" data-group-id="7772842746-2">}</span><span class="p" data-group-id="7772842746-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7772842746-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="7772842746-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">withdraw</span><span class="p" data-group-id="7772842746-5">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7772842746-6">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="7772842746-6">}</span><span class="p" data-group-id="7772842746-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7772842746-7">%</span><span class="nc" data-group-id="7772842746-7">Account.Operation</span><span class="p" data-group-id="7772842746-7">{</span><span class="p" data-group-id="7772842746-7">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">operation</span><span class="p" data-group-id="7772842746-8">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7772842746-8">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="operations/2">
+
+  <div class="detail-header">
+    <a href="#operations/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">operations(account, date)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L411" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>operations(<a href="#t:t/0">t</a>(), <a href="https://hexdocs.pm/elixir/Date.html#t:t/0">Date.t</a>()) :: [<a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()]</pre>
+
+      </div>
+
+<p>Get a ordered list of all the operations that happen on a given date, ordered by occurence date time</p><h2 id="operations/2-examples" class="section-heading">
+  <a href="#operations/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="4898393674-1">(</span><span class="p" data-group-id="4898393674-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4898393674-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="4898393674-3">}</span><span class="p" data-group-id="4898393674-2">}</span><span class="p" data-group-id="4898393674-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4898393674-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="4898393674-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">withdraw</span><span class="p" data-group-id="4898393674-5">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4898393674-6">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">date_time</span><span class="p">:</span><span class="w"> </span><span class="sx">~U[2020-07-24 11:00:00Z]</span><span class="p" data-group-id="4898393674-6">}</span><span class="p" data-group-id="4898393674-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4898393674-7">{</span><span class="ss">:denied</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="4898393674-7">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">withdraw</span><span class="p" data-group-id="4898393674-8">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4898393674-9">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">1300</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">date_time</span><span class="p">:</span><span class="w"> </span><span class="sx">~U[2020-07-24 12:00:00Z]</span><span class="p" data-group-id="4898393674-9">}</span><span class="p" data-group-id="4898393674-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4898393674-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="4898393674-10">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">deposit</span><span class="p" data-group-id="4898393674-11">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4898393674-12">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">date_time</span><span class="p">:</span><span class="w"> </span><span class="sx">~U[2020-07-25 11:00:00Z]</span><span class="p" data-group-id="4898393674-12">}</span><span class="p" data-group-id="4898393674-11">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4898393674-13">[</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="4898393674-14">%</span><span class="nc" data-group-id="4898393674-14">Account.Operation</span><span class="p" data-group-id="4898393674-14">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4898393674-15">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">1300</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="4898393674-15">}</span><span class="p">,</span><span class="w"> </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="ss">:denied</span><span class="p" data-group-id="4898393674-14">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="4898393674-16">%</span><span class="nc" data-group-id="4898393674-16">Account.Operation</span><span class="p" data-group-id="4898393674-16">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4898393674-17">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="4898393674-17">}</span><span class="p">,</span><span class="w"> </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="ss">:done</span><span class="p" data-group-id="4898393674-16">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="4898393674-13">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">operations</span><span class="p" data-group-id="4898393674-18">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-07-24]</span><span class="p" data-group-id="4898393674-18">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="operations/3">
+
+  <div class="detail-header">
+    <a href="#operations/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">operations(account, ini_date, fin_date)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L434" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>operations(<a href="#t:t/0">t</a>(), <a href="https://hexdocs.pm/elixir/Date.html#t:t/0">Date.t</a>(), <a href="https://hexdocs.pm/elixir/Date.html#t:t/0">Date.t</a>()) :: [<a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()]</pre>
+
+      </div>
+
+<p>Get a ordered list of all the operations that happen between 2 dates, ordered by occurence date time</p><h2 id="operations/3-examples" class="section-heading">
+  <a href="#operations/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="8987175076-1">(</span><span class="p" data-group-id="8987175076-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8987175076-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="8987175076-3">}</span><span class="p" data-group-id="8987175076-2">}</span><span class="p" data-group-id="8987175076-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8987175076-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="8987175076-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">withdraw</span><span class="p" data-group-id="8987175076-5">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8987175076-6">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">date_time</span><span class="p">:</span><span class="w"> </span><span class="sx">~U[2020-07-24 11:00:00Z]</span><span class="p" data-group-id="8987175076-6">}</span><span class="p" data-group-id="8987175076-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8987175076-7">{</span><span class="ss">:denied</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="8987175076-7">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">withdraw</span><span class="p" data-group-id="8987175076-8">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8987175076-9">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">1300</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">date_time</span><span class="p">:</span><span class="w"> </span><span class="sx">~U[2020-07-24 12:00:00Z]</span><span class="p" data-group-id="8987175076-9">}</span><span class="p" data-group-id="8987175076-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8987175076-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="8987175076-10">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">deposit</span><span class="p" data-group-id="8987175076-11">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8987175076-12">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">date_time</span><span class="p">:</span><span class="w"> </span><span class="sx">~U[2020-07-25 11:00:00Z]</span><span class="p" data-group-id="8987175076-12">}</span><span class="p" data-group-id="8987175076-11">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8987175076-13">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="8987175076-13">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">deposit</span><span class="p" data-group-id="8987175076-14">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8987175076-15">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">1800</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">date_time</span><span class="p">:</span><span class="w"> </span><span class="sx">~U[2020-07-26 11:00:00Z]</span><span class="p" data-group-id="8987175076-15">}</span><span class="p" data-group-id="8987175076-14">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8987175076-16">[</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="8987175076-17">%</span><span class="nc" data-group-id="8987175076-17">Account.Operation</span><span class="p" data-group-id="8987175076-17">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:deposit</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8987175076-18">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="8987175076-18">}</span><span class="p">,</span><span class="w"> </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="ss">:done</span><span class="p" data-group-id="8987175076-17">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="8987175076-19">%</span><span class="nc" data-group-id="8987175076-19">Account.Operation</span><span class="p" data-group-id="8987175076-19">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8987175076-20">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">1300</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="8987175076-20">}</span><span class="p">,</span><span class="w"> </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="ss">:denied</span><span class="p" data-group-id="8987175076-19">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="8987175076-21">%</span><span class="nc" data-group-id="8987175076-21">Account.Operation</span><span class="p" data-group-id="8987175076-21">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8987175076-22">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="8987175076-22">}</span><span class="p">,</span><span class="w"> </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="ss">:done</span><span class="p" data-group-id="8987175076-21">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="8987175076-16">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">operations</span><span class="p" data-group-id="8987175076-23">(</span><span class="n">new_account</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-07-24]</span><span class="p">,</span><span class="w"> </span><span class="ld">~D[2020-07-25]</span><span class="p" data-group-id="8987175076-23">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="refund/2">
+
+  <div class="detail-header">
+    <a href="#refund/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">refund(account, data)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L299" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>refund(<a href="#t:t/0">t</a>(), %{operation_to_refund_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}) ::
+  {:ok, <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="#t:t/0">t</a>()}</pre>
+
+      </div>
+
+<p>Register an event of refund, update de balance and update the refunded operation status</p><ul><li>Only card operations are refundable, all other operations will return <code class="inline">{:error, reason, account_data}</code></li></ul><h2 id="refund/2-examples" class="section-heading">
+  <a href="#refund/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="8760285434-1">(</span><span class="p" data-group-id="8760285434-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8760285434-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="8760285434-3">}</span><span class="p" data-group-id="8760285434-2">}</span><span class="p" data-group-id="8760285434-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8760285434-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8760285434-5">%{</span><span class="ss">id</span><span class="p">:</span><span class="w"> </span><span class="n">op_id</span><span class="p" data-group-id="8760285434-5">}</span><span class="p" data-group-id="8760285434-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">card_transaction</span><span class="p" data-group-id="8760285434-6">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8760285434-7">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">card_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8760285434-7">}</span><span class="p" data-group-id="8760285434-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8760285434-8">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="8760285434-9">%</span><span class="nc" data-group-id="8760285434-9">Account</span><span class="p" data-group-id="8760285434-9">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8760285434-10">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="8760285434-10">}</span><span class="p" data-group-id="8760285434-9">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="8760285434-11">%</span><span class="nc" data-group-id="8760285434-11">Account.Operation</span><span class="p" data-group-id="8760285434-11">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:refund</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8760285434-12">%{</span><span class="ss">operation_to_refund_id</span><span class="p">:</span><span class="w"> </span><span class="o">^</span><span class="n">op_id</span><span class="p" data-group-id="8760285434-12">}</span><span class="p" data-group-id="8760285434-11">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="8760285434-8">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">refund</span><span class="p" data-group-id="8760285434-13">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8760285434-14">%{</span><span class="ss">operation_to_refund_id</span><span class="p">:</span><span class="w"> </span><span class="n">op_id</span><span class="p" data-group-id="8760285434-14">}</span><span class="p" data-group-id="8760285434-13">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="transfer_in/2">
+
+  <div class="detail-header">
+    <a href="#transfer_in/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">transfer_in(account, data)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L228" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>transfer_in(<a href="#t:t/0">t</a>(), %{
+  amount: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>(),
+  currency: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(),
+  sender_account_id: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()
+}) :: {:ok, <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}</pre>
+
+      </div>
+
+<p>Register an event of transfer in and update the balance</p><h2 id="transfer_in/2-examples" class="section-heading">
+  <a href="#transfer_in/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="1623433384-1">(</span><span class="p" data-group-id="1623433384-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1623433384-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p" data-group-id="1623433384-3">}</span><span class="p" data-group-id="1623433384-2">}</span><span class="p" data-group-id="1623433384-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1623433384-4">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1623433384-5">%</span><span class="nc" data-group-id="1623433384-5">Account</span><span class="p" data-group-id="1623433384-5">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1623433384-6">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="1623433384-6">}</span><span class="p" data-group-id="1623433384-5">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1623433384-7">%</span><span class="nc" data-group-id="1623433384-7">Account.Operation</span><span class="p" data-group-id="1623433384-7">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:transfer_in</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1623433384-8">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">sender_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1623433384-8">}</span><span class="p" data-group-id="1623433384-7">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1623433384-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">transfer_in</span><span class="p" data-group-id="1623433384-9">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1623433384-10">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">sender_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1623433384-10">}</span><span class="p" data-group-id="1623433384-9">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="transfer_out/2">
+
+  <div class="detail-header">
+    <a href="#transfer_out/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">transfer_out(account, data)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L170" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>transfer_out(<a href="#t:t/0">t</a>(), %{
+  amount: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(),
+  currency: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(),
+  recipient_account_id: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()
+}) ::
+  {:ok, <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}
+  | {:denied, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}</pre>
+
+          <pre>transfer_out(<a href="#t:t/0">t</a>(), %{amount: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(), recipients_data: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()}) ::
+  {:ok, <a href="#t:t/0">t</a>(), [<a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()]}
+  | {:denied, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}</pre>
+
+      </div>
+
+<p>Register an event of transfer_out for each data received on the list and update the balance</p><ul><li>If suceeds, the split operation generates N :transfer_out operations on the account operation list</li><li>If it is denied, only one operation will be created on the operations lists</li><li>All the aditional data passed to data paramenter will be copied to each generated operation</li></ul><h2 id="transfer_out/2-examples" class="section-heading">
+  <a href="#transfer_out/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="3855612540-1">(</span><span class="p" data-group-id="3855612540-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="3855612540-3">}</span><span class="p" data-group-id="3855612540-2">}</span><span class="p" data-group-id="3855612540-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="3855612540-4">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="3855612540-5">%</span><span class="nc" data-group-id="3855612540-5">Account</span><span class="p" data-group-id="3855612540-5">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-6">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p" data-group-id="3855612540-6">}</span><span class="p" data-group-id="3855612540-5">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="3855612540-7">%</span><span class="nc" data-group-id="3855612540-7">Account.Operation</span><span class="p" data-group-id="3855612540-7">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:transfer_out</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-8">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="3855612540-8">}</span><span class="p" data-group-id="3855612540-7">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="3855612540-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">transfer_out</span><span class="p" data-group-id="3855612540-9">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3855612540-10">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="3855612540-10">}</span><span class="p" data-group-id="3855612540-9">)</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="3855612540-11">(</span><span class="p" data-group-id="3855612540-12">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-13">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p" data-group-id="3855612540-13">}</span><span class="p" data-group-id="3855612540-12">}</span><span class="p" data-group-id="3855612540-11">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="3855612540-14">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:denied</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="n">reason</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="3855612540-15">%</span><span class="nc" data-group-id="3855612540-15">Account</span><span class="p" data-group-id="3855612540-15">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-16">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p" data-group-id="3855612540-16">}</span><span class="p" data-group-id="3855612540-15">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="3855612540-17">%</span><span class="nc" data-group-id="3855612540-17">Account.Operation</span><span class="p" data-group-id="3855612540-17">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:transfer_out</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-18">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="3855612540-18">}</span><span class="p" data-group-id="3855612540-17">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="3855612540-14">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">transfer_out</span><span class="p" data-group-id="3855612540-19">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3855612540-20">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3855612540-20">}</span><span class="p" data-group-id="3855612540-19">)</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="3855612540-21">(</span><span class="p" data-group-id="3855612540-22">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-23">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">3000</span><span class="p" data-group-id="3855612540-23">}</span><span class="p" data-group-id="3855612540-22">}</span><span class="p" data-group-id="3855612540-21">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3855612540-24">%{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="ss">recipients_data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-25">[</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">   </span><span class="p" data-group-id="3855612540-26">%{</span><span class="ss">percentage</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3855612540-26">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">   </span><span class="p" data-group-id="3855612540-27">%{</span><span class="ss">percentage</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3855612540-27">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">   </span><span class="p" data-group-id="3855612540-28">%{</span><span class="ss">percentage</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="3855612540-28">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="3855612540-25">]</span><span class="p" data-group-id="3855612540-24">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="w"> </span><span class="p" data-group-id="3855612540-29">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="3855612540-30">%</span><span class="nc" data-group-id="3855612540-30">Account</span><span class="p" data-group-id="3855612540-30">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-31">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p" data-group-id="3855612540-31">}</span><span class="p" data-group-id="3855612540-30">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w"> </span><span class="p" data-group-id="3855612540-32">[</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">   </span><span class="p" data-group-id="3855612540-33">%</span><span class="nc" data-group-id="3855612540-33">Account.Operation</span><span class="p" data-group-id="3855612540-33">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-34">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="3855612540-34">}</span><span class="p" data-group-id="3855612540-33">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">   </span><span class="p" data-group-id="3855612540-35">%</span><span class="nc" data-group-id="3855612540-35">Account.Operation</span><span class="p" data-group-id="3855612540-35">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-36">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3855612540-36">}</span><span class="p" data-group-id="3855612540-35">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">   </span><span class="p" data-group-id="3855612540-37">%</span><span class="nc" data-group-id="3855612540-37">Account.Operation</span><span class="p" data-group-id="3855612540-37">{</span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3855612540-38">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p">,</span><span class="w"> </span><span class="ss">recipient_account_id</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3855612540-38">}</span><span class="p" data-group-id="3855612540-37">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="3855612540-32">]</span><span class="p" data-group-id="3855612540-29">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">transfer_out</span><span class="p" data-group-id="3855612540-39">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p" data-group-id="3855612540-39">)</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="withdraw/2">
+
+  <div class="detail-header">
+    <a href="#withdraw/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">withdraw(account, data)</h1>
+
+      <a href="https://github.com/oliveigah/banking-prototype/blob/master/lib/account/business/account.ex#L84" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>withdraw(<a href="#t:t/0">t</a>(), %{amount: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(), currency: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()}) ::
+  {:ok, <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}
+  | {:denied, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="#t:t/0">t</a>(), <a href="Account.Operation.html#t:t/0">Account.Operation.t</a>()}</pre>
+
+      </div>
+
+<p>Register an event of withdraw and update account's balance</p><h2 id="withdraw/2-examples" class="section-heading">
+  <a href="#withdraw/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="1619175687-1">(</span><span class="p" data-group-id="1619175687-2">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1619175687-3">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p" data-group-id="1619175687-3">}</span><span class="p" data-group-id="1619175687-2">}</span><span class="p" data-group-id="1619175687-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1619175687-4">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1619175687-5">%</span><span class="nc" data-group-id="1619175687-5">Account</span><span class="p" data-group-id="1619175687-5">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1619175687-6">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p" data-group-id="1619175687-6">}</span><span class="p" data-group-id="1619175687-5">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1619175687-7">%</span><span class="nc" data-group-id="1619175687-7">Account.Operation</span><span class="p" data-group-id="1619175687-7">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1619175687-8">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="1619175687-8">}</span><span class="p" data-group-id="1619175687-7">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1619175687-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">withdraw</span><span class="p" data-group-id="1619175687-9">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1619175687-10">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">700</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="1619175687-10">}</span><span class="p" data-group-id="1619175687-9">)</span><span class="w">
+
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">init_account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="1619175687-11">(</span><span class="p" data-group-id="1619175687-12">%{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1619175687-13">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p" data-group-id="1619175687-13">}</span><span class="p" data-group-id="1619175687-12">}</span><span class="p" data-group-id="1619175687-11">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1619175687-14">{</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="ss">:denied</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="n">reason</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1619175687-15">%</span><span class="nc" data-group-id="1619175687-15">Account</span><span class="p" data-group-id="1619175687-15">{</span><span class="ss">balances</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1619175687-16">%{</span><span class="ss">BRL</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p" data-group-id="1619175687-16">}</span><span class="p" data-group-id="1619175687-15">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1619175687-17">%</span><span class="nc" data-group-id="1619175687-17">Account.Operation</span><span class="p" data-group-id="1619175687-17">{</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:withdraw</span><span class="p">,</span><span class="w"> </span><span class="ss">data</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1619175687-18">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="1619175687-18">}</span><span class="p" data-group-id="1619175687-17">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="p" data-group-id="1619175687-14">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Account</span><span class="o">.</span><span class="n">withdraw</span><span class="p" data-group-id="1619175687-19">(</span><span class="n">init_account</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1619175687-20">%{</span><span class="ss">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="ss">:BRL</span><span class="p" data-group-id="1619175687-20">}</span><span class="p" data-group-id="1619175687-19">)</span></code></pre>
+  </section>
+</section>
+
+          </div>
+        </section>
+
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.2),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>

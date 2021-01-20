@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+  <%= for project <- @projects do%>
+    <div class="col-md-4">
+      <div class="d-flex justify-content-center align-items-center">
+        <span class="fa-stack fa-4x">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="<%= project.icon %> fa-stack-1x fa-inverse"></i>
+        </span>
+      </div>
+      </br>
+      <div>
+          <div class="d-flex justify-content-center align-items-center">
+            <h4> <%= project.name %></h4>
+          </div>
+
+          <div class="card-body">
+                  <p class="card-text" style="text-align: center; height: 100px"><%= project.description%></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a href="<%= Routes.static_path(@conn, project.docs_link) %>" type="button" class="btn btn-sm btn-outline-secondary">Docs</a>
+                      <a href="<%=project.code_link%>" type="button" class="btn btn-sm btn-outline-secondary">Github</a>
+                    </div>
+                    <small class="text-muted fas fa-eye"> <%=project.views%> </small>
+                  </div>
+          </div>
+      </div>
+      </br>
+    </div>
+  <% end %>
+  </div>
+</div>
