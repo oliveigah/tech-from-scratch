@@ -14,7 +14,8 @@ database_url =
 config :tech_from_scratch, TechFromScratch.Repo,
   # ssl: true,
   url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  port: System.get_env("DATABASE_PORT") || 5432
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
@@ -35,7 +36,7 @@ config :tech_from_scratch, TechFromScratchWeb.Endpoint,
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start each relevant endpoint:
 #
-#     config :tech_from_scratch, TechFromScratchWeb.Endpoint, server: true
+config :tech_from_scratch, TechFromScratchWeb.Endpoint, server: true
 #
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.

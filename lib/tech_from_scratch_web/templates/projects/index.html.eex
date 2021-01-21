@@ -15,7 +15,7 @@
           </div>
 
           <div class="card-body">
-                  <p class="card-text" style="text-align: center; height: 100px"><%= project.description%></p>
+                  <p class="card-text" style="text-align: center; min-height: 100px"><%= project.description%></p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <a href="<%= Routes.static_path(@conn, project.docs_link) %>" type="button" class="btn btn-sm btn-outline-secondary">Docs</a>

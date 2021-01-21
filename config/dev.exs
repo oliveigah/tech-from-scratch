@@ -17,6 +17,13 @@ config :tech_from_scratch, TechFromScratch.Repo,
 # with webpack to recompile .js and .css sources.
 config :tech_from_scratch, TechFromScratchWeb.Endpoint,
   http: [port: 4000],
+  https: [
+    port: 4001,
+    cipher_suite: :strong,
+    otp_app: :tech_from_scratch,
+    keyfile: "priv/cert/dev/selfsigned_key.pem",
+    certfile: "priv/cert/dev/selfsigned.pem"
+  ],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

@@ -10,7 +10,16 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :tech_from_scratch, TechFromScratchWeb.Endpoint,
-  url: [host: "example.com", port: 80],
+  url: [host: "techfromscratch.com.br", port: 80],
+  https: [
+    port: 443,
+    cipher_suite: :strong,
+    otp_app: :tech_from_scratch,
+    keyfile: "priv/cert/prod/techfromscratch.com.br_privatekey.key",
+    certfile: "priv/cert/prod/techfromscratch.com.br.pem",
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]]
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production

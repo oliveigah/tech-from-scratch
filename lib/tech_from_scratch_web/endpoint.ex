@@ -24,7 +24,7 @@ defmodule TechFromScratchWeb.Endpoint do
     at: "/",
     from: :tech_from_scratch,
     gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt annotations projects)
+    only: ~w(css fonts images js favicon.ico robots.txt annotations projects .well-known)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
