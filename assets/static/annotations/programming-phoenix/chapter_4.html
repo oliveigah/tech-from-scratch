@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.6">
+    <meta name="project" content="Programming Phoenix v0.1.0">
+
+    <title>4 - Ecto and Chagesets — Programming Phoenix v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
+
+    <script src="dist/sidebar_items-52e635c906.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-aaa6eb1824b11a32f32d.js"></script>
+
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix" class="sidebar-projectName">
+Programming Phoenix
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix">
+        <img src="assets/logo.png" alt="Programming Phoenix" class="sidebar-projectImage">
+      </a>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>4 - Ecto and Chagesets</h1><h2 id="4-1-understanding-ecto" class="section-heading">
+  <a href="#4-1-understanding-ecto" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.1 - Understanding Ecto
+</h2>
+<ul><li>Ecto is a framework to deal with relational databases in elixir</li><li>It has some abstractions that enable developers to build complex queries with functions that encapsulate SQL</li><li>One of the main features of Ecto is <code class="inline">changesets</code></li><li><code class="inline">changesets</code> holds all the process of change a database record and apply it on the database it self</li><li>The initial setup of a database can be automatically done by running <a href="https://hexdocs.pm/ecto/Mix.Tasks.Ecto.Create.html"><code class="inline">mix ecto.create</code></a></li></ul><h2 id="4-2-schema-and-migration" class="section-heading">
+  <a href="#4-2-schema-and-migration" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.2 - Schema and Migration
+</h2>
+<h3 id="4-2-1-schema" class="section-heading">
+  <a href="#4-2-1-schema" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.2.1 - Schema
+</h3>
+<ul><li>Ecto's schemas enable you to tie both, system's data representation and database data representation in a single structure</li><li>This is done by the <code class="inline">schema</code> macro that is built with pure elixir</li></ul><pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ProgrammingPhoenix.Accounts.User</span><span class="w"> </span><span class="k" data-group-id="5303921974-1">do</span><span class="w">
+  </span><span class="kn">use</span><span class="w"> </span><span class="nc">Ecto.Schema</span><span class="w">
+
+  </span><span class="n">schema</span><span class="w"> </span><span class="s">&quot;users&quot;</span><span class="w"> </span><span class="k" data-group-id="5303921974-2">do</span><span class="w">
+    </span><span class="n">field</span><span class="w"> </span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span><span class="w">
+    </span><span class="n">field</span><span class="w"> </span><span class="ss">:username</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span><span class="w">
+    </span><span class="n">timestamps</span><span class="p" data-group-id="5303921974-3">(</span><span class="p" data-group-id="5303921974-3">)</span><span class="w">
+  </span><span class="k" data-group-id="5303921974-2">end</span><span class="w">
+</span><span class="k" data-group-id="5303921974-1">end</span></code></pre><ul><li>By default the schema generate a primary key <code class="inline">:id</code> automatically</li></ul><h3 id="4-2-2-migration" class="section-heading">
+  <a href="#4-2-2-migration" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.2.2 - Migration
+</h3>
+<ul><li>Migrations are files that makes changes to your database</li><li>Migrations can be created using the <code class="inline">mix ecto.gen.migration ${migration_name}</code> command</li><li>It generates a file with a special timestamp to ensure order among all migrations</li><li>These files can now be executed to commit these changes on the database</li><li><a href="https://hexdocs.pm/ecto_sql/Ecto.Migration.html"><code class="inline">Ecto.Migration</code></a> API has severeal functions to interact with such changes (create, remove, change, etc)</li><li>The benefits of couple and automate code and database versioning are:<ul><li>Less synchronization required</li><li>Easiers rollbacks</li><li>Build a fresh development environment is easy</li></ul></li><li>To run the migrations you use <a href="https://hexdocs.pm/ecto_sql/Mix.Tasks.Ecto.Migrate.html"><code class="inline">mix ecto.migrate</code></a></li></ul><h2 id="4-3-using-ecto-repo" class="section-heading">
+  <a href="#4-3-using-ecto-repo" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.3 - Using Ecto.Repo
+</h2>
+<ul><li>Ecto runs a supervision tree providing multiple services to interact with a database, so you must start it on your application</li><li><a href="https://hexdocs.pm/ecto/Ecto.Repo.html"><code class="inline">Ecto.Repo</code></a> contains several abstractions out of the box for commom SQL tasks</li><li>These abstractions helps to keep persistance code well defined behind Ecto's API</li></ul><h2 id="4-4-building-forms" class="section-heading">
+  <a href="#4-4-building-forms" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.4 - Building Forms
+</h2>
+<ul><li>The <a href="https://hexdocs.pm/ecto/Ecto.Changeset.html"><code class="inline">Ecto.Changeset</code></a> module inject on your context some useful functions to work with forms</li><li><code class="inline">Changeset</code> is an Ecto structure capable of manage record changes, casts and validations</li><li>Usually the changeset lives inside the the model, this implies that not every business logic must live insided the context functions, although the context API is the only way to communicate with the bussiness logic, the logic it self may be spread among multiple modules which way is more suitable for the problem at hand</li></ul><h3 id="4-4-1-why-changesets" class="section-heading">
+  <a href="#4-4-1-why-changesets" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.4.1 - Why Changesets
+</h3>
+<ul><li>Different from others persistance frameworks Ecto do not define constraints and validations directly on the schema (only database validantions)</li><li>The problem with one size fits all validations is there you have a single update mechanism but multiple update policies</li><li>By decouple the upate from the schema that is being updated, Ecto enable you to easily manage this task</li><li>Changesets encapsulates every database change inside it structure</li></ul><h2 id="4-5-resources-routes" class="section-heading">
+  <a href="#4-5-resources-routes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.5 - Resources Routes
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="w">  </span><span class="n">scope</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb</span><span class="w"> </span><span class="k" data-group-id="9249970925-1">do</span><span class="w">
+    </span><span class="n">pipe_through</span><span class="w"> </span><span class="ss">:browser</span><span class="w">
+
+    </span><span class="n">resources</span><span class="w"> </span><span class="s">&quot;/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="nc">UserController</span><span class="p">,</span><span class="w"> </span><span class="ss">only</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9249970925-2">[</span><span class="ss">:index</span><span class="p">,</span><span class="w"> </span><span class="ss">:show</span><span class="p">,</span><span class="w"> </span><span class="ss">:new</span><span class="p">,</span><span class="w"> </span><span class="ss">:create</span><span class="p" data-group-id="9249970925-2">]</span><span class="w">
+  </span><span class="k" data-group-id="9249970925-1">end</span></code></pre><ul><li>Resources is a macro that automatically implements a commom set of actions (CRUD)</li><li>Resources relly on HTTP versb such as GET, POST, PUT, etc</li><li>Resources are more than a keystroke saver, they also enforce convention by code</li><li>Since with the usage of resources your router do not provide a clear view of all system's routes you can run <a href="https://hexdocs.pm/phoenix/Mix.Tasks.Phx.Routes.html"><code class="inline">mix phx.routes</code></a> to see them</li></ul><h2 id="4-6-form-templates" class="section-heading">
+  <a href="#4-6-form-templates" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4.6 - Form Templates
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="w"> </span><span class="nc">New</span><span class="w"> </span><span class="nc">User</span><span class="w"> </span><span class="o">&lt;</span><span class="o">/</span><span class="n">h1</span><span class="o">&gt;</span><span class="w">
+
+</span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">form_for</span><span class="w"> </span><span class="na">@changeset</span><span class="p">,</span><span class="w"> </span><span class="nc">Routes</span><span class="o">.</span><span class="n">user_path</span><span class="p" data-group-id="7693087809-1">(</span><span class="na">@conn</span><span class="p">,</span><span class="w"> </span><span class="ss">:create</span><span class="p" data-group-id="7693087809-1">)</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="7693087809-2">fn</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">text_input</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">placeholder</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Name&quot;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="o">/</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">text_input</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:username</span><span class="p">,</span><span class="w"> </span><span class="ss">placeholder</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Username&quot;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="o">/</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+</span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">submit</span><span class="w"> </span><span class="s">&quot;Create User&quot;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+
+</span><span class="o">&lt;</span><span class="p">%</span><span class="w"> </span><span class="k" data-group-id="7693087809-2">end</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span></code></pre><ul><li><p><code class="inline">form_for</code> macro is a helper function that enable build templates with forms</p></li><li><p>It expects to receive 3 arguments:
+1 - A module that implements the <a href="https://hexdocs.pm/phoenix_html/Phoenix.HTML.FormData.html"><code class="inline">Phoenix.HTML.FormData</code></a> protocol
+2 - A path to the submit action
+3 - An anonymous functions that receives the form data it self as parameter</p></li><li><p>The anonymous function is responsible for the render it self</p></li><li><p>Beyond the less type convenience, the <code class="inline">form_for</code> macro provides other useful features such as security (_csrf_token)</p></li><li><p>Forms can read data from the first parameter to update the user each time:</p></li></ul><pre><code class="nohighlight makeup elixir"><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="w"> </span><span class="nc">New</span><span class="w"> </span><span class="nc">User</span><span class="w"> </span><span class="o">&lt;</span><span class="o">/</span><span class="n">h1</span><span class="o">&gt;</span><span class="w">
+
+</span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="na">@changeset</span><span class="o">.</span><span class="n">action</span><span class="w"> </span><span class="k" data-group-id="3328113911-1">do</span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="n">div</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s">&quot;alert alert-danger&quot;</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="w"> </span><span class="nc">Oops</span><span class="p">,</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="n">went</span><span class="w"> </span><span class="n">wrong!</span><span class="w"> </span><span class="nc">Please</span><span class="w"> </span><span class="n">check</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="n">below</span><span class="o">.</span><span class="w"> </span><span class="o">&lt;</span><span class="o">/</span><span class="n">p</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="o">/</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+</span><span class="o">&lt;</span><span class="p">%</span><span class="w"> </span><span class="k" data-group-id="3328113911-1">end</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+
+</span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">form_for</span><span class="w"> </span><span class="na">@changeset</span><span class="p">,</span><span class="w"> </span><span class="nc">Routes</span><span class="o">.</span><span class="n">user_path</span><span class="p" data-group-id="3328113911-2">(</span><span class="na">@conn</span><span class="p">,</span><span class="w"> </span><span class="ss">:create</span><span class="p" data-group-id="3328113911-2">)</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="3328113911-3">fn</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">text_input</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">placeholder</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Name&quot;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">error_tag</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:name</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="o">/</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+    </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">text_input</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:username</span><span class="p">,</span><span class="w"> </span><span class="ss">placeholder</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Username&quot;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+     </span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">error_tag</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:username</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+  </span><span class="o">&lt;</span><span class="o">/</span><span class="n">div</span><span class="o">&gt;</span><span class="w">
+</span><span class="o">&lt;</span><span class="p">%</span><span class="o">=</span><span class="w"> </span><span class="n">submit</span><span class="w"> </span><span class="s">&quot;Create User&quot;</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span><span class="w">
+
+</span><span class="o">&lt;</span><span class="p">%</span><span class="w"> </span><span class="k" data-group-id="3328113911-3">end</span><span class="w"> </span><span class="p">%</span><span class="o">&gt;</span></code></pre>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.6) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>

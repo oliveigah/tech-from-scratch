@@ -15,11 +15,11 @@ config :tech_from_scratch, TechFromScratchWeb.Endpoint,
     port: 443,
     cipher_suite: :strong,
     otp_app: :tech_from_scratch,
-    keyfile: "priv/cert/prod/techfromscratch.com.br_privatekey.key",
+    keyfile: "priv/cert/prod/techfromscratch.com.br.key",
     certfile: "priv/cert/prod/techfromscratch.com.br.pem",
     transport_options: [socket_opts: [:inet6]]
   ],
-  force_ssl: [rewrite_on: [:x_forwarded_proto]]
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
