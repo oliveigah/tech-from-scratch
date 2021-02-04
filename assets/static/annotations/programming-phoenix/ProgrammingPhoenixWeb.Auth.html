@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.22.6">
     <meta name="project" content="Programming Phoenix v0.1.0">
 
-    <title>ProgrammingPhoenixWeb.LayoutView — Programming Phoenix v0.1.0</title>
+    <title>ProgrammingPhoenixWeb.Auth — Programming Phoenix v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
 
     <script src="dist/sidebar_items-13847ebadb.js"></script>
@@ -76,9 +76,9 @@ Programming Phoenix
     <div id="content" class="content-inner">
 
       <h1>
-ProgrammingPhoenixWeb.LayoutView <small class="app-vsn">(Programming Phoenix v0.1.0)</small>
+ProgrammingPhoenixWeb.Auth <small class="app-vsn">(Programming Phoenix v0.1.0)</small>
 
-          <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/views/layout_view.ex#L1" title="View Source" class="view-source" rel="help">
+          <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/controllers/auth.ex#L1" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
           </a>
@@ -102,31 +102,30 @@ ProgrammingPhoenixWeb.LayoutView <small class="app-vsn">(Programming Phoenix v0.
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#__resource__/0">__resource__()</a>
+    <a href="#call/2">call(conn, opts)</a>
 
   </div>
-
-    <div class="summary-synopsis"><p>The resource name, as an atom, for this view</p></div>
 
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#render/2">render(template, assigns \\ %{})</a>
+    <a href="#init/1">init(opts)</a>
 
   </div>
-
-    <div class="summary-synopsis"><p>Renders the given template locally.</p></div>
 
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#template_not_found/2">template_not_found(template, assigns)</a>
+    <a href="#login/2">login(conn, user)</a>
 
   </div>
 
-    <div class="summary-synopsis"><p>Callback invoked when no template is found.
-By default it raises but can be customized
-to render a particular template.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#logout/1">logout(conn)</a>
+
+  </div>
 
 </div>
 
@@ -144,16 +143,16 @@ to render a particular template.</p></div>
 Functions
           </h1>
           <div class="functions-list">
-<section class="detail" id="__resource__/0">
+<section class="detail" id="call/2">
 
   <div class="detail-header">
-    <a href="#__resource__/0" class="detail-link" title="Link to this function">
+    <a href="#call/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">__resource__()</h1>
+    <h1 class="signature">call(conn, opts)</h1>
 
-      <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/views/layout_view.ex#L2" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/controllers/auth.ex#L8" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -163,21 +162,19 @@ Functions
 
   <section class="docstring">
 
-<p>The resource name, as an atom, for this view</p>
+
   </section>
 </section>
-<section class="detail" id="render/2">
-
-    <span id="render/1"></span>
+<section class="detail" id="init/1">
 
   <div class="detail-header">
-    <a href="#render/2" class="detail-link" title="Link to this function">
+    <a href="#init/1" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">render(template, assigns \\ %{})</h1>
+    <h1 class="signature">init(opts)</h1>
 
-      <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/views/layout_view.ex#L2" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/controllers/auth.ex#L4" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -187,19 +184,19 @@ Functions
 
   <section class="docstring">
 
-<p>Renders the given template locally.</p>
+
   </section>
 </section>
-<section class="detail" id="template_not_found/2">
+<section class="detail" id="login/2">
 
   <div class="detail-header">
-    <a href="#template_not_found/2" class="detail-link" title="Link to this function">
+    <a href="#login/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">template_not_found(template, assigns)</h1>
+    <h1 class="signature">login(conn, user)</h1>
 
-      <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/views/layout_view.ex#L2" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/controllers/auth.ex#L14" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -209,16 +206,29 @@ Functions
 
   <section class="docstring">
 
-      <h2>Specs</h2>
-      <div class="specs">
 
-          <pre>template_not_found(<a href="https://hexdocs.pm/phoenix/Phoenix.Template.html#t:name/0">Phoenix.Template.name</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">no_return</a>()</pre>
+  </section>
+</section>
+<section class="detail" id="logout/1">
 
-      </div>
+  <div class="detail-header">
+    <a href="#logout/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">logout(conn)</h1>
 
-<p>Callback invoked when no template is found.
-By default it raises but can be customized
-to render a particular template.</p>
+      <a href="https://github.com/oliveigah/BN-programming-phoenix/blob/master/lib/programming_phoenix_web/controllers/auth.ex#L21" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+
   </section>
 </section>
 

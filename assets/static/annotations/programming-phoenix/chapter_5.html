@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.22.6">
+    <meta name="project" content="Programming Phoenix v0.1.0">
+
+    <title>5 - Authentication — Programming Phoenix v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-9f91ebe876dc01d67920.css" />
+
+    <script src="dist/sidebar_items-13847ebadb.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-aaa6eb1824b11a32f32d.js"></script>
+
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode') === 'true') document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" id="search-list" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix" class="sidebar-projectName">
+Programming Phoenix
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+      <a href="https://techfromscratch.com.br/book-notes/programming-phoenix">
+        <img src="assets/logo.png" alt="Programming Phoenix" class="sidebar-projectImage">
+      </a>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>5 - Authentication</h1><h2 id="5-1-managing-changesets" class="section-heading">
+  <a href="#5-1-managing-changesets" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.1 - Managing Changesets
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ProgrammingPhoenix.Accounts.User</span><span class="w"> </span><span class="k" data-group-id="4229815575-1">do</span><span class="w">
+  </span><span class="kn">use</span><span class="w"> </span><span class="nc">Ecto.Schema</span><span class="w">
+  </span><span class="kn">import</span><span class="w"> </span><span class="nc">Ecto.Changeset</span><span class="w">
+
+  </span><span class="n">schema</span><span class="w"> </span><span class="s">&quot;users&quot;</span><span class="w"> </span><span class="k" data-group-id="4229815575-2">do</span><span class="w">
+    </span><span class="n">field</span><span class="w"> </span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span><span class="w">
+    </span><span class="n">field</span><span class="w"> </span><span class="ss">:username</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span><span class="w">
+    </span><span class="n">field</span><span class="w"> </span><span class="ss">:password</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span><span class="p">,</span><span class="w"> </span><span class="ss">virtual</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="w">
+    </span><span class="n">field</span><span class="w"> </span><span class="ss">:password_hash</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span><span class="w">
+    </span><span class="n">timestamps</span><span class="p" data-group-id="4229815575-3">(</span><span class="p" data-group-id="4229815575-3">)</span><span class="w">
+  </span><span class="k" data-group-id="4229815575-2">end</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">base_changeset</span><span class="p" data-group-id="4229815575-4">(</span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="n">attrs</span><span class="p" data-group-id="4229815575-4">)</span><span class="w"> </span><span class="k" data-group-id="4229815575-5">do</span><span class="w">
+    </span><span class="n">user</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">cast</span><span class="p" data-group-id="4229815575-6">(</span><span class="n">attrs</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4229815575-7">[</span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:username</span><span class="p" data-group-id="4229815575-7">]</span><span class="p" data-group-id="4229815575-6">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">validate_required</span><span class="p" data-group-id="4229815575-8">(</span><span class="p" data-group-id="4229815575-9">[</span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:username</span><span class="p" data-group-id="4229815575-9">]</span><span class="p" data-group-id="4229815575-8">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">validate_length</span><span class="p" data-group-id="4229815575-10">(</span><span class="ss">:username</span><span class="p">,</span><span class="w"> </span><span class="ss">min</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">max</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p" data-group-id="4229815575-10">)</span><span class="w">
+  </span><span class="k" data-group-id="4229815575-5">end</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">registration_changeset</span><span class="p" data-group-id="4229815575-11">(</span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="n">attrs</span><span class="p" data-group-id="4229815575-11">)</span><span class="w"> </span><span class="k" data-group-id="4229815575-12">do</span><span class="w">
+    </span><span class="n">user</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">base_changeset</span><span class="p" data-group-id="4229815575-13">(</span><span class="n">attrs</span><span class="p" data-group-id="4229815575-13">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">cast</span><span class="p" data-group-id="4229815575-14">(</span><span class="n">attrs</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4229815575-15">[</span><span class="ss">:password</span><span class="p" data-group-id="4229815575-15">]</span><span class="p" data-group-id="4229815575-14">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">validate_required</span><span class="p" data-group-id="4229815575-16">(</span><span class="p" data-group-id="4229815575-17">[</span><span class="ss">:password</span><span class="p" data-group-id="4229815575-17">]</span><span class="p" data-group-id="4229815575-16">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">validate_length</span><span class="p" data-group-id="4229815575-18">(</span><span class="ss">:password</span><span class="p">,</span><span class="w"> </span><span class="ss">min</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="ss">max</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p" data-group-id="4229815575-18">)</span><span class="w">
+    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">put_pass_hash</span><span class="p" data-group-id="4229815575-19">(</span><span class="p" data-group-id="4229815575-19">)</span><span class="w">
+  </span><span class="k" data-group-id="4229815575-12">end</span><span class="w">
+
+  </span><span class="kd">defp</span><span class="w"> </span><span class="nf">put_pass_hash</span><span class="p" data-group-id="4229815575-20">(</span><span class="n">changeset</span><span class="p" data-group-id="4229815575-20">)</span><span class="w"> </span><span class="k" data-group-id="4229815575-21">do</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="n">changeset</span><span class="w"> </span><span class="k" data-group-id="4229815575-22">do</span><span class="w">
+      </span><span class="p" data-group-id="4229815575-23">%</span><span class="nc" data-group-id="4229815575-23">Ecto.Changeset</span><span class="p" data-group-id="4229815575-23">{</span><span class="ss">valid?</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="ss">changes</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4229815575-24">%{</span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="n">pass</span><span class="p" data-group-id="4229815575-24">}</span><span class="p" data-group-id="4229815575-23">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">put_change</span><span class="p" data-group-id="4229815575-25">(</span><span class="n">changeset</span><span class="p">,</span><span class="w"> </span><span class="ss">:password_hash</span><span class="p">,</span><span class="w"> </span><span class="nc">Pbkdf2</span><span class="o">.</span><span class="n">hash_pwd_salt</span><span class="p" data-group-id="4229815575-26">(</span><span class="n">pass</span><span class="p" data-group-id="4229815575-26">)</span><span class="p" data-group-id="4229815575-25">)</span><span class="w">
+
+      </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">changeset</span><span class="w">
+    </span><span class="k" data-group-id="4229815575-22">end</span><span class="w">
+  </span><span class="k" data-group-id="4229815575-21">end</span><span class="w">
+</span><span class="k" data-group-id="4229815575-1">end</span></code></pre><ul><li>You can use the option <code class="inline">virtual: true</code> on the schema to indentify a field that will be present on the struct only, not in the databasee</li><li>Changesets are highly composable, in this sense they are similar as plugs, multiple functions that modify the changeset</li><li>Since changesets implements the <code class="inline">form_for</code> protocol they are useful for both, manage forms and manage database</li><li>The changes inside the changeset are commited only when <code class="inline">Repo.Insert</code> is called, usually inside the context</li></ul><h2 id="5-2-anatomy-of-plug" class="section-heading">
+  <a href="#5-2-anatomy-of-plug" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.2 - Anatomy of Plug
+</h2>
+<ul><li>There are 2 kinds of plugs: Modules and functions</li><li>In both cases, at the end of the day they are just functions that modify the <a href="https://hexdocs.pm/plug/Plug.Conn.html"><code class="inline">Plug.Conn</code></a>, the module plug is useful to provide a set of initial configurations to the plug, and reuse it on multiple modules</li><li>Module plugs must implement 2 functions <code class="inline">init/1</code> and <code class="inline">call/2</code></li><li>The main work happens on <code class="inline">call</code> and the configuration stuff on <code class="inline">init</code> the result of <code class="inline">init</code> is forward to <code class="inline">call</code> as its second parameter, and may moodify the plug behaviour</li><li><code class="inline">init</code> is called at runtime while in development mode, on production it is called only once during compile time, this is why it is the perfect place to do the heavy lifting stuff without slow every request</li><li>Plugs are just elixir macros, for instance something like this:</li></ul><pre><code class="nohighlight makeup elixir"><span class="n">plug</span><span class="w"> </span><span class="ss">:one</span><span class="w">
+</span><span class="n">plug</span><span class="w"> </span><span class="nc">Two</span><span class="w">
+</span><span class="n">plug</span><span class="w"> </span><span class="ss">:three</span><span class="p">,</span><span class="w"> </span><span class="ss">some</span><span class="p">:</span><span class="w"> </span><span class="ss">:option</span></code></pre><p>after expansion will be:</p><pre><code class="nohighlight makeup elixir"><span class="k">case</span><span class="w"> </span><span class="n">one</span><span class="p" data-group-id="8647255050-1">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8647255050-2">[</span><span class="p" data-group-id="8647255050-2">]</span><span class="p" data-group-id="8647255050-1">)</span><span class="w"> </span><span class="k" data-group-id="8647255050-3">do</span><span class="w">
+  </span><span class="p" data-group-id="8647255050-4">%</span><span class="nc" data-group-id="8647255050-4">Plug.Conn</span><span class="p" data-group-id="8647255050-4">{</span><span class="ss">halted</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="8647255050-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">conn</span><span class="w">
+  </span><span class="n">conn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="nc">Two</span><span class="o">.</span><span class="n">call</span><span class="p" data-group-id="8647255050-5">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="nc">Two</span><span class="o">.</span><span class="n">init</span><span class="p" data-group-id="8647255050-6">(</span><span class="p" data-group-id="8647255050-7">[</span><span class="p" data-group-id="8647255050-7">]</span><span class="p" data-group-id="8647255050-6">)</span><span class="p" data-group-id="8647255050-5">)</span><span class="w"> </span><span class="k" data-group-id="8647255050-8">do</span><span class="w">
+      </span><span class="p" data-group-id="8647255050-9">%</span><span class="nc" data-group-id="8647255050-9">Plug.Conn</span><span class="p" data-group-id="8647255050-9">{</span><span class="ss">halted</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="8647255050-9">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">conn</span><span class="w">
+      </span><span class="n">conn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="k">case</span><span class="w"> </span><span class="n">three</span><span class="p" data-group-id="8647255050-10">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="ss">some</span><span class="p">:</span><span class="w"> </span><span class="ss">:option</span><span class="p" data-group-id="8647255050-10">)</span><span class="w"> </span><span class="k" data-group-id="8647255050-11">do</span><span class="w">
+          </span><span class="p" data-group-id="8647255050-12">%</span><span class="nc" data-group-id="8647255050-12">Plug.Conn</span><span class="p" data-group-id="8647255050-12">{</span><span class="ss">halted</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="8647255050-12">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">conn</span><span class="w">
+          </span><span class="n">conn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">conn</span><span class="w">
+        </span><span class="k" data-group-id="8647255050-11">end</span><span class="w">
+    </span><span class="k" data-group-id="8647255050-8">end</span><span class="w">
+</span><span class="k" data-group-id="8647255050-3">end</span></code></pre><h3 id="5-2-1-conn-fields" class="section-heading">
+  <a href="#5-2-1-conn-fields" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.2.1 - Conn Fields
+</h3>
+<ul><li><code class="inline">Conn</code> has a great online documentation where you can find every field in very detailed manner</li><li><code class="inline">Conn</code> contains all the web-related data that web application need to produce a proper response</li><li>There are some types of fields that live inside the <code class="inline">Conn</code></li><li>Request fields contains information about the incoming request such as host, method, path, headers. These fields are gathered and parsed by <code class="inline">Cowboy</code> webserver which is a lib used by phoenix</li><li>Fetchable fields are a bit more expensive to get so they are empty until explicity requested, some examaples are cookies, params</li><li>Process fields, are fields that are used to process the web request and keep some information about it. Some examples are assigns, halted</li><li>Response fields must contain all the data needed for deliver the proper responser to the client such as resp_body, resp_cookies, resp_headers, status</li><li>Private fields contains data about adapaters and used frameworks, this is useful if you want to change the default behaviour of phoenix</li><li><code class="inline">Conn</code> starts almost blank and is filled out along the plug pipeline</li><li><code class="inline">Conn</code> contains several useful functions that abstract this complex work to deal with these fields, such as manage cookies or send files</li></ul><h2 id="5-3-custom-plug" class="section-heading">
+  <a href="#5-3-custom-plug" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  5.3 - Custom Plug
+</h2>
+<pre><code class="nohighlight makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ProgrammingPhoenixWeb.Auth</span><span class="w"> </span><span class="k" data-group-id="0761738874-1">do</span><span class="w">
+  </span><span class="kn">import</span><span class="w"> </span><span class="nc">Plug.Conn</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">init</span><span class="p" data-group-id="0761738874-2">(</span><span class="n">opts</span><span class="p" data-group-id="0761738874-2">)</span><span class="w"> </span><span class="k" data-group-id="0761738874-3">do</span><span class="w">
+    </span><span class="n">opts</span><span class="w">
+  </span><span class="k" data-group-id="0761738874-3">end</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">call</span><span class="p" data-group-id="0761738874-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="c">_opts</span><span class="p" data-group-id="0761738874-4">)</span><span class="w"> </span><span class="k" data-group-id="0761738874-5">do</span><span class="w">
+    </span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_session</span><span class="p" data-group-id="0761738874-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="ss">:user_id</span><span class="p" data-group-id="0761738874-6">)</span><span class="w">
+    </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nc">ProgrammingPhoenix.Accounts</span><span class="o">.</span><span class="n">get_user</span><span class="p" data-group-id="0761738874-7">(</span><span class="n">user_id</span><span class="p" data-group-id="0761738874-7">)</span><span class="w">
+    </span><span class="n">assign</span><span class="p" data-group-id="0761738874-8">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="ss">:current_user</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p" data-group-id="0761738874-8">)</span><span class="w">
+  </span><span class="k" data-group-id="0761738874-5">end</span><span class="w">
+</span><span class="k" data-group-id="0761738874-1">end</span></code></pre><ul><li>You can write custom plugs that modify any of the conn fields and attach them to any of the pipelines</li><li>Usually if you want to add a custom data to conn you use the <code class="inline">assigns</code> field</li><li>Data inside <code class="inline">conn.assigns</code> is visible by controllers and views, since both have access to the conn</li><li>Like endpoints and routers, controllers also have their own plug pipeline, so you can plug directly on them</li></ul><pre><code class="nohighlight makeup elixir"><span class="w">  </span><span class="n">plug</span><span class="w"> </span><span class="ss">:authenticate</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="p" data-group-id="1736528314-1">[</span><span class="ss">:index</span><span class="p">,</span><span class="w"> </span><span class="ss">:show</span><span class="p" data-group-id="1736528314-1">]</span><span class="w">
+  </span><span class="kd">defp</span><span class="w"> </span><span class="nf">authenticate</span><span class="p" data-group-id="1736528314-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="c">_opts</span><span class="p" data-group-id="1736528314-2">)</span><span class="w"> </span><span class="k" data-group-id="1736528314-3">do</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="n">conn</span><span class="o">.</span><span class="n">assigns</span><span class="o">.</span><span class="n">current_user</span><span class="w"> </span><span class="k" data-group-id="1736528314-4">do</span><span class="w">
+      </span><span class="n">conn</span><span class="w">
+    </span><span class="k" data-group-id="1736528314-4">else</span><span class="w">
+      </span><span class="n">conn</span><span class="w">
+      </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">put_flash</span><span class="p" data-group-id="1736528314-5">(</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You must be logged in to access that page&quot;</span><span class="p" data-group-id="1736528314-5">)</span><span class="w">
+      </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">redirect</span><span class="p" data-group-id="1736528314-6">(</span><span class="ss">to</span><span class="p">:</span><span class="w"> </span><span class="nc">Routes</span><span class="o">.</span><span class="n">page_path</span><span class="p" data-group-id="1736528314-7">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="ss">:index</span><span class="p" data-group-id="1736528314-7">)</span><span class="p" data-group-id="1736528314-6">)</span><span class="w">
+      </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">halt</span><span class="p" data-group-id="1736528314-8">(</span><span class="p" data-group-id="1736528314-8">)</span><span class="w">
+    </span><span class="k" data-group-id="1736528314-4">end</span><span class="w">
+  </span><span class="k" data-group-id="1736528314-3">end</span></code></pre>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.22.6) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+  </body>
+</html>
